@@ -35,12 +35,12 @@ src/
 │   └── topics.ts              # TOPICS — реестр тем сценариев
 ├── content/
 │   ├── scenarios/smoke-next-car.json  # первый сценарий по format.md
-│   ├── courses.json            # курсы: { id, title, description, scenarioIds }
-│   ├── load-scenarios.ts       # loadScenarios — validateScenario на импорте, throw при ошибке
-│   ├── assert-courses.ts       # assertCourses — courses ссылаются только на загруженные сценарии
-│   ├── to-summary.ts           # toSummary — Definition → Scenario.Summary
-│   ├── index.ts                # барель: SCENARIOS, COURSES, CONTENT_WARNINGS, toSummary
-│   └── __tests__/               # index.spec.ts — загрузка, ошибки, snapshot предупреждений
+│   ├── courses.json           # курсы: { id, title, description, scenarioIds }
+│   ├── load-scenarios.ts      # loadScenarios — validateScenario на импорте, throw при ошибке
+│   ├── assert-courses.ts      # assertCourses — courses ссылаются только на загруженные сценарии
+│   ├── to-summary.ts          # toSummary — Definition → Scenario.Summary
+│   ├── index.ts               # барель: SCENARIOS, COURSES, CONTENT_WARNINGS, toSummary
+│   └── __tests__/             # index.spec.ts — загрузка, ошибки, snapshot предупреждений
 ├── containers/
 │   ├── layout/app-layout.tsx  # AppLayout — Header (имя + версия) + Main с <Outlet/>
 │   └── scenario-player/
@@ -69,7 +69,7 @@ src/
 │   │       ├── enter-node.ts  # enterNode — слияние stage, таймер узла, финал; finish
 │   │       ├── result.ts      # evaluateEnd, computeScore (specs/…/report.md)
 │   │       ├── conditions.ts  # holds, resolveNext
-│   │       ├── effects.ts     # applyEffect(s), meterBounds — границы шкалы по умолчанию
+│   │       ├── effects.ts     # applyEffect(s) — применение эффектов, meterBounds из @/utils
 │   │       ├── selectors.ts   # select* (state.md, specs/…/engine.md#селекторы)
 │   │       ├── index.ts       # барель папки: reducer, экшены, селекторы
 │   │       └── __tests__/     # fixture.ts + reducers*.spec.ts, result, conditions, effects, selectors
@@ -78,18 +78,18 @@ src/
 │   ├── theme.ts               # токены: colors, spacing, fontSizes, fontFamily, radii; тип AppTheme
 │   └── global-style.ts        # GlobalStyle — reset и стили body
 ├── types/
-│   ├── index.ts                # барель: re-export всех namespace
-│   ├── character.ts             # namespace Character — персонажи сценариев
-│   ├── scenario.ts               # namespace Scenario — формат сценария
-│   ├── course.ts                  # namespace Course — курс из сценариев
-│   ├── attempt.ts                  # namespace Attempt — сохранённая попытка
-│   ├── scenario-run.ts              # namespace ScenarioRun — состояние прохождения
-│   ├── api.ts                        # namespace Api — коды ошибок RTK Query
-│   └── validation.ts                  # namespace Validation — Code, Issue, Result, Registries
+│   ├── index.ts               # барель: re-export всех namespace
+│   ├── character.ts           # namespace Character — персонажи сценариев
+│   ├── scenario.ts            # namespace Scenario — формат сценария
+│   ├── course.ts              # namespace Course — курс из сценариев
+│   ├── attempt.ts             # namespace Attempt — сохранённая попытка
+│   ├── scenario-run.ts        # namespace ScenarioRun — состояние прохождения
+│   ├── api.ts                 # namespace Api — коды ошибок RTK Query
+│   └── validation.ts          # namespace Validation — Code, Issue, Result, Registries
 └── utils/
     ├── index.ts                # барель: re-export из scenario-engine
     └── scenario-engine/
-        ├── index.ts             # барель: validateScenario, compareAttempts
+        ├── index.ts             # барель: validateScenario, compareAttempts, meterBounds
         ├── validate.ts          # validateScenario — фаза 1, фаза 2, предупреждения (specs/…/validation.md)
         ├── compare-attempts.ts  # compareAttempts — правило лучшей попытки (scenario-engine.md)
         ├── validate-shape.ts    # фаза 1: схема Scenario.Definition, коды shape.*
@@ -99,8 +99,9 @@ src/
         ├── validate-limits.ts   # фаза 2: meter.range, outcome.*, time.nodeOverScenario
         ├── validate-warnings.ts # предупреждения: review.*, flag.*, самопетля, вариант без review
         ├── walk.ts              # обход сценария: узлы, варианты, next, условия, эффекты, персонажи с путями
-        ├── issue.ts             # issue(), построение путей, дефолты min/max шкалы
-        └── __tests__/           # fixtures.ts + validate*.spec.ts по файлу-источнику кодов, compare-attempts.spec.ts
+        ├── meter-bounds.ts      # meterBounds(meter) — границы шкалы по умолчанию (0/100)
+        ├── issue.ts             # issue(), построение путей
+        └── __tests__/           # fixtures.ts + validate*.spec.ts по файлу-источнику кодов, compare-attempts.spec.ts, meter-bounds.spec.ts
 ```
 
 Папка `components/` создаётся при появлении первого файла; назначение

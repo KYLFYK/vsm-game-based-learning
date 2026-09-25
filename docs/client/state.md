@@ -42,11 +42,7 @@ export const useAppSelector = useSelector.withTypes<RootState>();
 
 ### scenarioRun
 
-- `slice.ts` — `ScenarioRunState`, `initialState`, `createSlice`;
-  `reducers.ts` — шаги экшенов; `enter-node.ts` — вход в узел и
-  `finish`; `result.ts` — `evaluateEnd`, `computeScore`;
-  `conditions.ts`, `effects.ts` — условия, эффекты, `meterBounds`;
-  `selectors.ts` — селекторы.
+- Роль каждого файла папки — карта `src/` в [README.md](README.md).
 - Экшены (из `@/store`): `runStarted({ scenario, courseId? }, now?)`,
   `advanced(now?)`, `optionChosen(optionId, now?)`, `expired(now?)`,
   `runLeft()`.
@@ -66,34 +62,13 @@ export const useAppSelector = useSelector.withTypes<RootState>();
 
 ## Барель: store/index.ts
 
-[src/store/index.ts](../../src/store/index.ts):
+[src/store/index.ts](../../src/store/index.ts) реэкспортирует `api`,
+`store`, типизированные хуки, экшены и селекторы `scenarioRun`, а также
+через `export * from './apis/<entity>-api'` — хуки RTK Query каждого
+файла `store/apis/`.
 
-```ts
-export { api } from './api';
-export {
-  advanced,
-  expired,
-  optionChosen,
-  runLeft,
-  runStarted,
-  selectAttemptDraft,
-  selectCurrentNode,
-  selectDeadlines,
-  selectEnding,
-  selectMeterViews,
-  selectMetersVisible,
-  selectRunScenario,
-  selectRunStatus,
-  selectStage,
-  selectVisibleOptions,
-} from './slices/scenario-run';
-export type { Deadlines } from './slices/scenario-run';
-export { store, useAppDispatch, useAppSelector } from './store';
-export type { AppDispatch, RootState } from './store';
-```
-
-Компоненты импортируют всё из `@/store`, не из подпапок. Хуки RTK Query
-новых endpoints тоже ре-экспортируются отсюда.
+Компоненты импортируют всё из `@/store`, не из подпапок. Новый slice или
+API-хук добавляется сюда же.
 
 ## Селекторы и dispatch
 

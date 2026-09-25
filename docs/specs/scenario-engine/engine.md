@@ -62,8 +62,9 @@ Action creators с `prepare`: второй аргумент `now` необяза
 - `applyEffect(effect, state)`: шкала —
   `clamp(meters[id] + delta, min ?? 0, max ?? 100)`; флаг — присвоить.
   Шкала, которой нет в `scenario.meters`, игнорируется. Границы по
-  умолчанию даёт `meterBounds(meter)` из `effects.ts` — единственное
-  место с 0 и 100 в слайсе; его же использует проверка истощения.
+  умолчанию даёт `meterBounds(meter)` из `utils/scenario-engine/` —
+  общая точка с 0 и 100 для слайса и валидатора; проверку истощения
+  использует та же функция.
 - `checkDeadlines(state, node, now)` (`node` — текущий узел, нужен для
   запасной реплики): истёк, если `scenarioDeadlineAt !== null
   && now >= scenarioDeadlineAt` или то же для `nodeDeadlineAt`. При

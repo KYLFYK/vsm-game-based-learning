@@ -36,6 +36,11 @@ vsm-game-based-learning/
 Аутентификации пока нет: заголовки и refresh-логика добавляются в
 `baseQuery` при появлении API ([client/api.md](client/api.md)).
 
+Сценарии, курсы и попытки (MVP0 игрового движка) пока не ходят по HTTP:
+данные читаются из бандла (`src/content/`) и `localStorage` через
+`queryFn` вместо `query` у тех же RTK Query endpoints — источники и
+переезд на HTTP описаны в [client/api.md](client/api.md#queryfn-вместо-query).
+
 ## Переменные окружения
 
 Единственный env-файл — корневой `.env` (пример — [.env.example](../.env.example)).

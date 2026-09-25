@@ -24,20 +24,9 @@
 | `store/slices/scenario-run/` | Слайс `scenarioRun`: состояние попытки, редьюсеры, селекторы |
 | `utils/scenario-engine/` | Чистые функции без React и без состояния попытки: `validateScenario`, `compareAttempts` |
 
-### `store/slices/scenario-run/`
-
-| Файл | Содержимое |
-|------|------------|
-| `slice.ts` | `ScenarioRunState`, `initialState`, `createSlice`, экшены с `prepare` |
-| `reducers.ts` | Шаги `runStarted`, `advanced`, `optionChosen`, `expired`: проверка предусловий и дедлайнов |
-| `enter-node.ts` | `enterNode` — слияние сцены, таймер узла, переход в `finished` на узле-финале; `finish` |
-| `result.ts` | `evaluateEnd`, `computeScore` — правила из [../specs/scenario-engine/report.md](../specs/scenario-engine/report.md) |
-| `conditions.ts` | `holds`, `resolveNext` — условия видимости варианта и разрешение перехода |
-| `effects.ts` | `applyEffect(s)`, `meterBounds` — применение эффектов и границы шкалы по умолчанию |
-| `selectors.ts` | `select*` — производные данные для UI |
-| `index.ts` | Барель папки: реэкспорт для `store/index.ts` |
-
-Полное состояние, алгоритмы узла и разрешения `next` — спецификация
+Роль каждого файла `store/slices/scenario-run/` — карта `src/` в
+[README.md](README.md). Полное состояние, алгоритмы узла и разрешения
+`next` — спецификация
 [../specs/scenario-engine/engine.md](../specs/scenario-engine/engine.md).
 
 ## Жизненный цикл попытки
@@ -66,9 +55,9 @@ runStarted → (advanced | optionChosen | expired)* → finished → runLeft
 - `runLeft()` сбрасывает слайс в `idle`; диспатчится при уходе с
   сохранённым или потерянным результатом.
 
-Экшен, пришедший при невыполненном предусловии (попытка не `running`,
-текущий узел не того типа, вариант скрыт условием `if`), возвращает то
-же состояние без изменений.
+Экшен, пришедший при невыполненном предусловии, состояние не меняет —
+правило и таблица предусловий каждого экшена в
+[../specs/scenario-engine/engine.md](../specs/scenario-engine/engine.md).
 
 ## Чистота редьюсеров
 
@@ -102,14 +91,8 @@ creators подставляют его через `prepare` (по умолчан
 
 `compareAttempts(a, b): number` в
 [`utils/scenario-engine/compare-attempts.ts`](../../src/utils/scenario-engine/compare-attempts.ts)
-— компаратор для `Array.prototype.sort`, лучшая попытка первой
-(отрицательное значение — `a` лучше):
-
-1. `Attempt.Status.Passed` раньше `Failed`.
-2. Больший `score`; `null` ниже любого числа, два `null` равны.
-3. Меньшая длительность (`finishedAt - startedAt`).
-4. Более поздний `finishedAt` — стабильность сортировки при полном
-   совпадении остального.
+— компаратор для `Array.prototype.sort`, лучшая попытка первой; порядок
+правил сравнения — [../specs/scenario-engine/report.md](../specs/scenario-engine/report.md#лучшая-попытка).
 
 Выбор лучшей попытки среди списка (`bestAttempt`) и статус сценария по
 списку попыток — селектор этапа 6.1, ещё не реализован.
