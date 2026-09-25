@@ -1,7 +1,13 @@
 import { Validation } from '@/types';
 
 import { validateScenario } from '../validate';
-import { choiceOf, broken, errorsOf, transitionsOf } from './fixtures';
+import {
+  broken,
+  choiceOf,
+  errorsOf,
+  registries,
+  transitionsOf,
+} from './fixtures';
 
 import type { Mutation } from './fixtures';
 
@@ -141,5 +147,35 @@ describe(validateScenario.name, () => {
         { code: Validation.Code.ShapeNumber, path },
       ]);
     });
+  });
+
+  test.each<[string, unknown, string]>([
+    ['a root array', [], ''],
+    ['a root string', 'scenario', ''],
+    [
+      'a null node',
+      broken((s) => Object.assign(s, { nodes: { a: null } })),
+      'nodes.a',
+    ],
+    [
+      'a null option',
+      broken((s) => Object.assign(choiceOf(s), { options: [null] })),
+      'nodes.q1.options[0]',
+    ],
+    [
+      'a null condition',
+      broken((s) => Object.assign(choiceOf(s).options[1], { if: [null] })),
+      'nodes.q1.options[1].if[0]',
+    ],
+    [
+      'effects as a string',
+      broken((s) => Object.assign(choiceOf(s).options[0], { effects: 'x' })),
+      'nodes.q1.options[0].effects',
+    ],
+  ])('rejects %s without throwing', (_name, input, path) => {
+    expect(() => validateScenario(input, registries)).not.toThrow();
+    expect(errorsOf(input)).toEqual([
+      { code: Validation.Code.ShapeType, path },
+    ]);
   });
 });

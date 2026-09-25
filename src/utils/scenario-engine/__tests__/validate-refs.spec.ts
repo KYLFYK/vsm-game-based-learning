@@ -84,6 +84,18 @@ describe(validateScenario.name, () => {
     ]);
   });
 
+  test(`reports ${Validation.Code.RefTopic} in a review`, () => {
+    const scenario = createScenario();
+    choiceOf(scenario).options[0].review!.topic = 'ghost';
+
+    expect(errorsOf(scenario)).toEqual([
+      {
+        code: Validation.Code.RefTopic,
+        path: 'nodes.q1.options[0].review.topic',
+      },
+    ]);
+  });
+
   test.each<[string, Mutation]>([
     [
       'nodes.q1.options[0].effects[0].meter',

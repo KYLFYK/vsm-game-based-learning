@@ -2,7 +2,13 @@ import type { Scenario } from '@/types';
 import { Validation } from '@/types';
 
 import { has, index, issue, key } from './issue';
-import { allConditions, allEffects, characterUsages, nodesOf } from './walk';
+import {
+  allConditions,
+  allEffects,
+  allOptions,
+  characterUsages,
+  nodesOf,
+} from './walk';
 
 import type { At } from './walk';
 
@@ -59,18 +65,22 @@ const checkBackgrounds = (
 const checkTopics = (
   scenario: Scenario.Definition,
   registries: Validation.Registries
-): Validation.Issue[] =>
-  scenario.topics.flatMap((topic, position) =>
-    has(registries.topics, topic)
+): Validation.Issue[] => {
+  const declared = scenario.topics.map((value, position) => ({
+    value,
+    path: index('topics', position),
+  }));
+  const reviewed = allOptions(scenario).flatMap(({ value, path }) =>
+    value.review?.topic === undefined
       ? []
-      : [
-          issue(
-            Validation.Code.RefTopic,
-            index('topics', position),
-            `Темы «${topic}» нет в реестре`
-          ),
-        ]
+      : [{ value: value.review.topic, path: key(path, 'review.topic') }]
   );
+  return [...declared, ...reviewed]
+    .filter(({ value }) => !has(registries.topics, value))
+    .map(({ value, path }) =>
+      issue(Validation.Code.RefTopic, path, `Темы «${value}» нет в реестре`)
+    );
+};
 
 const meterUsages = (scenario: Scenario.Definition): At<Scenario.MeterId>[] => {
   const tagged = [...allEffects(scenario), ...allConditions(scenario)];

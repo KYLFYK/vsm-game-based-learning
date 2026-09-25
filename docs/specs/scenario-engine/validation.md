@@ -43,7 +43,7 @@ enum `Validation.Code` — в [types-runtime.md](types-runtime.md). Коды в
 | `ref.character` | `speaker`, слот `stage` или элемент `characters` не в реестре |
 | `ref.characterNotListed` | Персонаж используется, но не перечислен в `characters` |
 | `ref.background` | Фон не в реестре |
-| `ref.topic` | Тема из `topics` не в реестре |
+| `ref.topic` | Тема из `topics` или `review.topic` варианта не в реестре |
 | `ref.meter` | Шкала из `effects`, условия, `passCriteria`, `outcomes` не в `meters` |
 | `meter.range` | `min >= max`, `initial` вне `[min, max]`, порог `passCriteria` вне `[min, max]` |
 | `outcome.timeoutMissing` | Есть `timeLimitSec` у сценария или любого узла, а `outcomes.timeout` нет |
@@ -77,8 +77,8 @@ enum `Validation.Code` — в [types-runtime.md](types-runtime.md). Коды в
   Пороги — значения `passCriteria.meters` и сравнения `gte`, `gt`, `lte`,
   `lt` в условиях.
 - Условие и эффект различаются по полю `flag`, иначе `meter`; нет ни
-  одного — `shape.type` на самом объекте. Лишнее поле при этом —
-  `shape.unknownField`.
+  одного — только `shape.type` на самом объекте. `shape.unknownField`
+  проверяется после выбора варианта (`flag` или `meter`) по его схеме.
 - `nodes` пуст — только `graph.emptyNodes`, остальные проверки графа
   не выполняются. `startNodeId` не найден — `graph.unreachable` и
   `graph.noEnd` не проверяются. Идентификаторы ищутся только среди
@@ -88,6 +88,9 @@ enum `Validation.Code` — в [types-runtime.md](types-runtime.md). Коды в
 - `ref.character` и `ref.characterNotListed` сообщаются в каждом месте
   использования: `speaker` узлов, слоты `stage`, реплики `outcomes`.
   Персонаж вне реестра и вне `characters` даёт обе ошибки.
+- `review.topic` вне реестра — ошибка `ref.topic` (отчёт берёт подпись
+  темы из реестра); в реестре, но не в `topics` сценария — предупреждение
+  `review.topicNotDeclared`.
 - `meter.range` при `min >= max` — путь `meters.<id>`, остальные проверки
   этой шкалы пропускаются.
 - `flag.neverSet` и `flag.neverRead` — по одному предупреждению на флаг,
