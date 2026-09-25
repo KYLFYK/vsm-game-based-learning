@@ -1,8 +1,10 @@
 # Игровой движок сценариев
 
 Механизм прохождения игрового сценария: домен, слайс `scenarioRun` и
-чистые помощники вокруг него. Формат самого сценария — в спецификации
-[../specs/scenario-engine/format.md](../specs/scenario-engine/format.md).
+чистые помощники вокруг него. Схема формата сценария — в спецификации
+[../specs/scenario-engine/types.md](../specs/scenario-engine/types.md);
+аннотированный пример JSON — в плане
+[../plans/scenario-engine/format.md](../plans/scenario-engine/format.md).
 
 ## Назначение
 
@@ -18,7 +20,7 @@
 |-------|------------|
 | `types/` | `Scenario`, `Course`, `Character`, `Attempt`, `ScenarioRun` — домен и состояние прохождения |
 | `constants/` | Реестры `CHARACTERS`, `BACKGROUNDS`, `TOPICS` — типизированные `id`, на них ссылается контент |
-| `content/` | JSON сценариев и курсов; `index.ts` валидирует каждый сценарий через `validateScenario` при импорте бандла и бросает исключение при ошибке — несовместимый контент не должен запускать dev-сервер или тесты |
+| `content/` | JSON сценариев и курсов; `load-scenarios.ts` валидирует каждый сценарий через `validateScenario` (вызывается из `index.ts` при импорте бандла) и бросает исключение при ошибке — несовместимый контент не должен запускать dev-сервер или тесты |
 | `store/slices/scenario-run/` | Слайс `scenarioRun`: состояние попытки, редьюсеры, селекторы |
 | `utils/scenario-engine/` | Чистые функции без React и без состояния попытки: `validateScenario`, `compareAttempts` |
 
@@ -117,7 +119,9 @@ creators подставляют его через `prepare` (по умолчан
   полная спецификация состояния и алгоритмов слайса.
 - [../specs/scenario-engine/report.md](../specs/scenario-engine/report.md) —
   таблицы результата, балла и сравнения попыток.
-- [../specs/scenario-engine/format.md](../specs/scenario-engine/format.md) —
-  формат JSON сценария.
+- [../specs/scenario-engine/types.md](../specs/scenario-engine/types.md) —
+  схема `Scenario`, `Course`, `Character`, `Attempt`, `ScenarioRun`.
+- [../plans/scenario-engine/format.md](../plans/scenario-engine/format.md) —
+  аннотированный пример JSON сценария.
 - [../specs/scenario-engine/validation.md](../specs/scenario-engine/validation.md) —
   проверки `validateScenario`.
