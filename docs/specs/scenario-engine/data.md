@@ -18,11 +18,17 @@ src/content/
   ([validation.md](validation.md)). Любая ошибка → `throw new Error` с
   перечнем `code path message`, чтобы dev-сервер и тесты падали сразу.
 - Экспорт: `SCENARIOS: Record<Scenario.Id, Scenario.Definition>`,
-  `COURSES: Course.Definition[]`, `toSummary(definition): Scenario.Summary`.
+  `COURSES: Course.Definition[]`, `toSummary(definition): Scenario.Summary`,
+  `CONTENT_WARNINGS: Record<Scenario.Id, Validation.Issue[]>` — предупреждения
+  валидатора по каждому сценарию, для snapshot-теста контента.
+- Курс ссылается только на существующие сценарии: throw при загрузке
+  бандла, если `scenarioIds` содержит id вне `SCENARIOS`.
+- Throw-логика вынесена в чистые функции (`load-scenarios.ts`,
+  `assert-courses.ts`), чтобы `__tests__/index.spec.ts` мог проверить путь
+  ошибки на сфабрикованном сценарии, а не только успешную загрузку бандла.
 - Тест `__tests__/index.spec.ts`: модуль загружается без исключения,
   предупреждения валидатора выводятся в snapshot, чтобы их рост был виден
   в ревью.
-- Курс ссылается только на существующие сценарии: проверяется там же.
 
 ## RTK Query
 

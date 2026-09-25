@@ -31,6 +31,14 @@ src/
 │   ├── characters.ts          # CHARACTERS — реестр персонажей сценариев
 │   ├── backgrounds.ts         # BACKGROUNDS — реестр фонов сцены
 │   └── topics.ts              # TOPICS — реестр тем сценариев
+├── content/
+│   ├── scenarios/smoke-next-car.json  # первый сценарий по format.md
+│   ├── courses.json            # курсы: { id, title, description, scenarioIds }
+│   ├── load-scenarios.ts       # loadScenarios — validateScenario на импорте, throw при ошибке
+│   ├── assert-courses.ts       # assertCourses — courses ссылаются только на загруженные сценарии
+│   ├── to-summary.ts           # toSummary — Definition → Scenario.Summary
+│   ├── index.ts                # барель: SCENARIOS, COURSES, CONTENT_WARNINGS, toSummary
+│   └── __tests__/               # index.spec.ts — загрузка, ошибки, snapshot предупреждений
 ├── containers/
 │   └── layout/app-layout.tsx  # AppLayout — Header (имя + версия) + Main с <Outlet/>
 ├── hooks/

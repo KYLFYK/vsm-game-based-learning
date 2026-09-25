@@ -14,7 +14,7 @@
   пассажира, автор), `backgrounds.ts`, `topics.ts` с подписями.
   Ассеты пока заглушки в `public/`.
   Docs: client/README.md.
-- [ ] **1.3 Контент**: папка `src/content/` с первым сценарием (пример из
+- [x] **1.3 Контент**: папка `src/content/` с первым сценарием (пример из
   format.md, доведённый до полноты) и одним курсом.
   Docs: папка в client/architecture.md и client/README.md.
 - [x] **1.4 Валидатор**: `utils/scenario-engine/validate.ts` по
