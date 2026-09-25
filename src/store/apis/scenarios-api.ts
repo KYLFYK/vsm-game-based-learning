@@ -13,12 +13,19 @@ export const scenariosApi = api.injectEndpoints({
     }),
     getScenario: builder.query<Scenario.Definition, Scenario.Id>({
       queryFn: (id) => {
-        const scenario = SCENARIOS[id];
+        // Object.hasOwn — id вроде `constructor` не должен находиться через прототип
+        const scenario = Object.hasOwn(SCENARIOS, id)
+          ? SCENARIOS[id]
+          : undefined;
         return scenario
           ? { data: scenario }
           : { error: apiError(Api.ErrorCode.NotFound) };
       },
-      providesTags: (_result, _error, id) => [{ type: 'Scenarios', id }],
+      // Тег только на успех: RTK Query индексирует `draft.tags[type][id]` как
+      // обычный объект, и `id` вроде `constructor` иначе резолвится через
+      // прототип и ломает инвалидацию
+      providesTags: (result, _error, id) =>
+        result ? [{ type: 'Scenarios', id }] : [],
     }),
   }),
 });

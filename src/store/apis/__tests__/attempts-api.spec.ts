@@ -63,6 +63,18 @@ describe('attemptsApi', () => {
     expect(localStorage.getItem(STORAGE_KEY)).toBe('not-json{');
   });
 
+  test('getAttempts returns [] when a stored element is not an object', async () => {
+    const raw = JSON.stringify([null]);
+    localStorage.setItem(STORAGE_KEY, raw);
+
+    const result = await store.dispatch(
+      attemptsApi.endpoints.getAttempts.initiate({})
+    );
+
+    expect(result.data).toEqual([]);
+    expect(localStorage.getItem(STORAGE_KEY)).toBe(raw);
+  });
+
   test('getAttempts filters by scenarioId', async () => {
     localStorage.setItem(
       STORAGE_KEY,

@@ -10,9 +10,12 @@ type Outcome<T> = { data: T } | { error: Api.Error };
 
 // без своего предиката пришлось бы сужать через `as`: Array.isArray() из
 // lib.es5 даёт `arg is any[]`, а `any[] as Attempt.Item[]` — небезопасное
-// сужение; форма попадающих в хранилище записей гарантируется writeAttempts
+// сужение; форма попадающих в хранилище записей гарантируется writeAttempts.
+// Элемент не объект (например `null`) делает всё значение сломанным — как
+// и невалидный JSON, а не только пропускается сам по себе
 const isAttemptItemArray = (value: unknown): value is Attempt.Item[] =>
-  Array.isArray(value);
+  Array.isArray(value) &&
+  value.every((item) => typeof item === 'object' && item !== null);
 
 /**
  * Приватно для этого файла: доступ к localStorage только здесь, чтобы

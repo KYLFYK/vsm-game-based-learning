@@ -81,4 +81,15 @@ describe('scenariosApi', () => {
       error: 'not-found',
     });
   });
+
+  test('getScenario returns a NotFound error for a prototype key', async () => {
+    const result = await store.dispatch(
+      scenariosApi.endpoints.getScenario.initiate('constructor')
+    );
+
+    expect(result.error).toEqual({
+      status: 'CUSTOM_ERROR',
+      error: 'not-found',
+    });
+  });
 });
