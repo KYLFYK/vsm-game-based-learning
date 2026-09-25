@@ -47,19 +47,33 @@ src/
 ├── styles/
 │   ├── theme.ts               # токены: colors, spacing, fontSizes, fontFamily, radii; тип AppTheme
 │   └── global-style.ts        # GlobalStyle — reset и стили body
-└── types/
-    ├── index.ts                # барель: re-export всех namespace
-    ├── character.ts             # namespace Character — персонажи сценариев
-    ├── scenario.ts               # namespace Scenario — формат сценария
-    ├── course.ts                  # namespace Course — курс из сценариев
-    ├── attempt.ts                  # namespace Attempt — сохранённая попытка
-    ├── scenario-run.ts              # namespace ScenarioRun — состояние прохождения
-    ├── api.ts                        # namespace Api — коды ошибок RTK Query
-    └── validation.ts                  # namespace Validation — Code, Issue, Result, Registries
+├── types/
+│   ├── index.ts                # барель: re-export всех namespace
+│   ├── character.ts             # namespace Character — персонажи сценариев
+│   ├── scenario.ts               # namespace Scenario — формат сценария
+│   ├── course.ts                  # namespace Course — курс из сценариев
+│   ├── attempt.ts                  # namespace Attempt — сохранённая попытка
+│   ├── scenario-run.ts              # namespace ScenarioRun — состояние прохождения
+│   ├── api.ts                        # namespace Api — коды ошибок RTK Query
+│   └── validation.ts                  # namespace Validation — Code, Issue, Result, Registries
+└── utils/
+    ├── index.ts                # барель: re-export из scenario-engine
+    └── scenario-engine/
+        ├── index.ts             # барель: validateScenario
+        ├── validate.ts          # validateScenario — фаза 1, фаза 2, предупреждения (specs/…/validation.md)
+        ├── validate-shape.ts    # фаза 1: схема Scenario.Definition, коды shape.*
+        ├── shape-schema.ts      # декларативные проверки формы: objectOf, arrayOf, recordOf, variantBy
+        ├── validate-graph.ts    # фаза 2: коды graph.* (старт, ссылки, переходы, варианты, достижимость)
+        ├── validate-refs.ts     # фаза 2: коды ref.* (реестры, characters, шкалы)
+        ├── validate-limits.ts   # фаза 2: meter.range, outcome.*, time.nodeOverScenario
+        ├── validate-warnings.ts # предупреждения: review.*, flag.*, самопетля, вариант без review
+        ├── walk.ts              # обход сценария: узлы, варианты, next, условия, эффекты, персонажи с путями
+        ├── issue.ts             # issue(), построение путей, дефолты min/max шкалы
+        └── __tests__/           # fixtures.ts + validate*.spec.ts по файлу-источнику кодов
 ```
 
-Папки `components/`, `utils/` создаются при появлении первого файла; их
-назначение — [architecture.md](architecture.md#папки-и-их-назначение).
+Папка `components/` создаётся при появлении первого файла; назначение
+папок — [architecture.md](architecture.md#папки-и-их-назначение).
 Статика вне `src/` — `public/`, отдаётся от корня сайта: `favicon.svg`,
 `characters/*.svg` (заглушки портретов, один SVG на персонажа, кроме
 автора) и `backgrounds/*.svg` (заглушки фонов), пути на них — в

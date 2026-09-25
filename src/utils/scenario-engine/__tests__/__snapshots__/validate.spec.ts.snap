@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`validateScenario describes every issue with a message 1`] = `
+{
+  "errors": [
+    {
+      "code": "ref.topic",
+      "message": "Темы «ghost» нет в реестре",
+      "path": "topics[0]",
+    },
+  ],
+  "ok": false,
+  "warnings": [
+    {
+      "code": "review.topicNotDeclared",
+      "message": "Тема «calm» не входит в topics сценария",
+      "path": "nodes.q1.options[0].review.topic",
+    },
+    {
+      "code": "review.topicNotDeclared",
+      "message": "Тема «calm» не входит в topics сценария",
+      "path": "nodes.q1.options[1].review.topic",
+    },
+  ],
+}
+`;

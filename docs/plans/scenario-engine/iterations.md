@@ -17,7 +17,7 @@
 - [ ] **1.3 Контент**: папка `src/content/` с первым сценарием (пример из
   format.md, доведённый до полноты) и одним курсом.
   Docs: папка в client/architecture.md и client/README.md.
-- [ ] **1.4 Валидатор**: `utils/scenario-engine/validate.ts` по
+- [x] **1.4 Валидатор**: `utils/scenario-engine/validate.ts` по
   [engine.md](engine.md), тест прогоняет все JSON из `content/`.
   Docs: client/README.md.
 

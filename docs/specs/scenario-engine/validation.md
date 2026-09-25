@@ -64,12 +64,46 @@ enum `Validation.Code` — в [types-runtime.md](types-runtime.md). Коды в
 | `graph.selfLoopWithoutChoice` | `line` ведёт сам в себя |
 | `option.noReviewWithEffects` | Вариант меняет шкалы, но без `review` |
 
+## Уточнения
+
+Решения, принятые при реализации, где таблицы выше допускали трактовки:
+
+- Фаза 1 собирает все ошибки формы, а не первую. Поле со значением
+  `undefined` считается отсутствующим, `null` допустим только в
+  `stage.left` и `stage.right`. Корень не объект — `shape.type` с
+  `path: ''`.
+- Нечисловое значение числового поля — `shape.type`; `NaN`, `Infinity` и
+  неположительные `timeLimitSec`, `estimatedMinutes` — `shape.number`.
+  Пороги — значения `passCriteria.meters` и сравнения `gte`, `gt`, `lte`,
+  `lt` в условиях.
+- Условие и эффект различаются по полю `flag`, иначе `meter`; нет ни
+  одного — `shape.type` на самом объекте. Лишнее поле при этом —
+  `shape.unknownField`.
+- `nodes` пуст — только `graph.emptyNodes`, остальные проверки графа
+  не выполняются. `startNodeId` не найден — `graph.unreachable` и
+  `graph.noEnd` не проверяются. Идентификаторы ищутся только среди
+  собственных ключей `nodes` (не через прототип).
+- Пустой список переходов — `graph.noFallback` с путём до `next`;
+  последний элемент с `if` — путь до этого элемента (`next[1]`).
+- `ref.character` и `ref.characterNotListed` сообщаются в каждом месте
+  использования: `speaker` узлов, слоты `stage`, реплики `outcomes`.
+  Персонаж вне реестра и вне `characters` даёт обе ошибки.
+- `meter.range` при `min >= max` — путь `meters.<id>`, остальные проверки
+  этой шкалы пропускаются.
+- `flag.neverSet` и `flag.neverRead` — по одному предупреждению на флаг,
+  путь первого упоминания (условия узлов, затем `passCriteria.flags`).
+- `graph.selfLoopWithoutChoice` — любой `next` или `to` узла `line` на
+  себя. `option.noReviewWithEffects` — только эффекты шкал, флаги не
+  считаются. При ошибке фазы 1 `warnings` пуст.
+
 ## Тесты
 
 `__tests__/validate.spec.ts`: корректный сценарий даёт `ok: true` без
 ошибок; на каждый код — минимальный сценарий, который его вызывает;
 `path` проверяется точно. Реестры в тестах — локальные фикстуры, не
-настоящие `CHARACTERS`.
+настоящие `CHARACTERS`. Кейсы кодов разнесены по
+`validate-<файл>.spec.ts` по файлу, который их выдаёт; общая фикстура —
+`__tests__/fixtures.ts`.
 
 ## См. также
 
