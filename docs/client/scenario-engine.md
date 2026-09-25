@@ -60,8 +60,9 @@ runStarted → (advanced | optionChosen | expired)* → finished → runLeft
   (переход в узел `end`, истечение времени, истощение шкалы) —
   подробный порядок проверок в
   [../specs/scenario-engine/engine.md](../specs/scenario-engine/engine.md).
-- После `finished` UI берёт `selectAttemptDraft` и сохраняет попытку
-  через `attemptsApi` (этап 3.1) — это ещё не реализовано.
+- После `finished` UI берёт `selectAttemptDraft` и сохраняет попытку через
+  `useSaveAttemptMutation` из [api.md](api.md#реестр-endpoints) — вызов из
+  экрана сценария появится на этапе 4.
 - `runLeft()` сбрасывает слайс в `idle`; диспатчится при уходе с
   сохранённым или потерянным результатом.
 

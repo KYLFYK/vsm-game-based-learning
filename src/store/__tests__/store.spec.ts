@@ -9,7 +9,15 @@ describe('store', () => {
     expect(store.getState()).toHaveProperty('scenarioRun');
   });
 
-  test('has no endpoints until injected', () => {
-    expect(Object.keys(api.endpoints)).toHaveLength(0);
+  test('registers exactly the endpoints injected by store/apis', () => {
+    expect(Object.keys(api.endpoints).sort()).toEqual([
+      'getAttempt',
+      'getAttempts',
+      'getCourse',
+      'getCourses',
+      'getScenario',
+      'getScenarios',
+      'saveAttempt',
+    ]);
   });
 });

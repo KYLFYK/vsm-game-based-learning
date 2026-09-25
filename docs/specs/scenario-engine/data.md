@@ -53,7 +53,7 @@ src/content/
 
 | Хук | Аргумент | Результат | Теги |
 |-----|----------|-----------|------|
-| `useGetAttemptsQuery` | `{ scenarioId?: Scenario.Id }` | `Attempt.Item[]`, новые первыми | `Attempts` |
+| `useGetAttemptsQuery` | `{ scenarioId?: Scenario.Id }` | `Attempt.Item[]`, новые первыми (сортировка по убыванию `finishedAt`) | `Attempts` |
 | `useGetAttemptQuery` | `Attempt.Id` | `Attempt.Item` | `{ type: 'Attempts', id }`; нет → `ErrorCode.NotFound` |
 | `useSaveAttemptMutation` | `Attempt.Item` | тот же `Attempt.Item` | инвалидирует `Attempts` |
 

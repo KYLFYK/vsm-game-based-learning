@@ -1,4 +1,7 @@
 export { api } from './api';
+export * from './apis/attempts-api';
+export * from './apis/courses-api';
+export * from './apis/scenarios-api';
 export {
   advanced,
   expired,

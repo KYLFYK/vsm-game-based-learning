@@ -50,9 +50,15 @@ src/
 ├── pages/
 │   └── home/                  # HomePage — единственная страница, маршрут /
 ├── store/
-│   ├── api.ts                 # createApi + fetchBaseQuery(env.apiUrl), endpoints пустые (api.md)
+│   ├── api.ts                 # createApi + fetchBaseQuery(env.apiUrl), tagTypes (api.md)
 │   ├── store.ts               # configureStore, RootState, AppDispatch, useAppDispatch/Selector (state.md)
-│   ├── index.ts               # барель: store, api, хуки, типы, экшены scenarioRun
+│   ├── index.ts               # барель: store, api, хуки apis/*, типы, экшены scenarioRun
+│   ├── apis/
+│   │   ├── scenarios-api.ts   # getScenarios, getScenario — queryFn поверх @/content (api.md)
+│   │   ├── courses-api.ts     # getCourses, getCourse — queryFn поверх @/content
+│   │   ├── attempts-api.ts    # getAttempts, getAttempt, saveAttempt — queryFn поверх localStorage
+│   │   ├── api-error.ts       # apiError(code) — сборка Api.Error, приватно для store/apis
+│   │   └── __tests__/         # по одному spec на файл, свежий store на тест
 │   ├── slices/
 │   │   └── scenario-run/      # слайс scenarioRun (state.md, specs/…/engine.md)
 │   │       ├── slice.ts       # ScenarioRunState, initialState, createSlice, экшены с prepare(now)
