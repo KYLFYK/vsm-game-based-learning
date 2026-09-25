@@ -50,6 +50,17 @@ describe(loadScenarios.name, () => {
       /^broken\.json: shape\.missing /m
     );
   });
+
+  test('throws when two files declare the same scenario id', () => {
+    const scenario = content.SCENARIOS['smoke-next-car'];
+
+    expect(() =>
+      loadScenarios(
+        { 'a.json': scenario, 'b.json': { ...scenario } },
+        registries
+      )
+    ).toThrow(/^b\.json: scenario\.duplicateId smoke-next-car .*a\.json/m);
+  });
 });
 
 describe(assertCourses.name, () => {
@@ -91,5 +102,21 @@ describe(toSummary.name, () => {
     const summary = toSummary(content.SCENARIOS['smoke-next-car']);
 
     expect(summary).toMatchSnapshot();
+  });
+
+  test('omits timeLimitSec rather than setting it to undefined, when absent', () => {
+    const { timeLimitSec: _timeLimitSec, ...definition } =
+      content.SCENARIOS['smoke-next-car'];
+
+    expect(toSummary(definition)).not.toHaveProperty('timeLimitSec');
+  });
+
+  test('hasMeters is false for a scenario with an empty meters object', () => {
+    const definition = {
+      ...content.SCENARIOS['smoke-next-car'],
+      meters: {},
+    };
+
+    expect(toSummary(definition).hasMeters).toBe(false);
   });
 });

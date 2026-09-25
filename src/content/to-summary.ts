@@ -10,6 +10,8 @@ export const toSummary = (
   description: definition.description,
   topics: definition.topics,
   estimatedMinutes: definition.estimatedMinutes,
-  timeLimitSec: definition.timeLimitSec,
-  hasMeters: definition.meters !== undefined,
+  ...(definition.timeLimitSec === undefined
+    ? {}
+    : { timeLimitSec: definition.timeLimitSec }),
+  hasMeters: Object.keys(definition.meters ?? {}).length > 0,
 });
