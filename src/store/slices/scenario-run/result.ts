@@ -28,7 +28,7 @@ const findUnmet = (
   flags: (criteria.flags ?? []).filter((flag) => !ctx.flags[flag]),
 });
 
-/** Timeout and meter depletion are resolved by the reducers before this call */
+/** Таймаут и истощение шкалы уже разрешены редьюсерами до этого вызова */
 export const evaluateEnd = (
   ctx: ResultContext,
   forced?: Attempt.Status

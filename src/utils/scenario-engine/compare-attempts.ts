@@ -1,6 +1,6 @@
 import { Attempt } from '@/types';
 
-/** `null` score sorts below any number; two `null` scores are equal */
+/** `null` в score ниже любого числа; два `null` равны между собой */
 const compareScore = (a: number | null, b: number | null): number => {
   if (a === b) return 0;
   if (a === null) return 1;
@@ -11,7 +11,7 @@ const compareScore = (a: number | null, b: number | null): number => {
 const duration = (attempt: Attempt.Item): number =>
   attempt.finishedAt - attempt.startedAt;
 
-/** Best-first comparator for `Array.prototype.sort`: negative when `a` is better */
+/** Компаратор «лучшая попытка первой» для `Array.prototype.sort`: отрицательное значение — `a` лучше */
 export const compareAttempts = (a: Attempt.Item, b: Attempt.Item): number => {
   if (a.status !== b.status) {
     return a.status === Attempt.Status.Passed ? -1 : 1;

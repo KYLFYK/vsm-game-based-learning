@@ -23,7 +23,7 @@ const meterHolds = (
   );
 };
 
-// No `kind` discriminant on Condition: FlagCondition carries `flag`, MeterCondition carries `meter`
+// У Condition нет дискриминанта `kind`: FlagCondition несёт `flag`, MeterCondition — `meter`
 const holdsOne = (
   condition: Scenario.Condition,
   ctx: ConditionContext
@@ -44,7 +44,7 @@ export const resolveNext = (
   ctx: ConditionContext
 ): Scenario.NodeId => {
   if (typeof next === 'string') return next;
-  // The validator guarantees the last transition has no `if`, so it is a safe fallback
+  // Валидатор гарантирует, что последний переход без `if` — безопасный запасной вариант
   const matched =
     next.find((transition) => holds(transition.if, ctx)) ??
     next[next.length - 1];

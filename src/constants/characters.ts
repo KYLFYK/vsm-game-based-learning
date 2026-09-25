@@ -1,6 +1,6 @@
 import { Character } from '@/types';
 
-/** R12: у заглушек все настроения персонажа ведут на один и тот же SVG */
+/** Заглушки: одна SVG на персонажа; портреты по настроениям — план, шаг 7.2 */
 const portraitsOf = (asset: string): Record<Character.Mood, string> => ({
   [Character.Mood.Neutral]: asset,
   [Character.Mood.Happy]: asset,
