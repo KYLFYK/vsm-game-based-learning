@@ -27,7 +27,10 @@ src/
 │   └── __tests__/             # read-env.spec.ts
 ├── constants/
 │   ├── routes.ts              # ROUTES — единственный источник путей (routing.md)
-│   └── app.ts                 # APP_NAME
+│   ├── app.ts                 # APP_NAME
+│   ├── characters.ts          # CHARACTERS — реестр персонажей сценариев
+│   ├── backgrounds.ts         # BACKGROUNDS — реестр фонов сцены
+│   └── topics.ts              # TOPICS — реестр тем сценариев
 ├── containers/
 │   └── layout/app-layout.tsx  # AppLayout — Header (имя + версия) + Main с <Outlet/>
 ├── hooks/
@@ -57,7 +60,10 @@ src/
 
 Папки `components/`, `utils/` создаются при появлении первого файла; их
 назначение — [architecture.md](architecture.md#папки-и-их-назначение).
-Статика вне `src/` — `public/` (favicon), отдаётся от корня сайта.
+Статика вне `src/` — `public/`, отдаётся от корня сайта: `favicon.svg`,
+`characters/*.svg` (заглушки портретов, один SVG на персонажа, кроме
+автора) и `backgrounds/*.svg` (заглушки фонов), пути на них — в
+`CHARACTERS` и `BACKGROUNDS`.
 
 ## Конвенции (короткая выжимка)
 

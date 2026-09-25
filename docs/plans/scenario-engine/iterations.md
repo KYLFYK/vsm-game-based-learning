@@ -10,7 +10,7 @@
 - [x] **1.1 Типы**: `src/types/scenario.ts`, `course.ts`, `character.ts`,
   `attempt.ts`, `index.ts` по [format.md](format.md).
   Docs: карта `src/` в client/README.md.
-- [ ] **1.2 Реестры**: `constants/characters.ts` (1–2 наставника, 3–4
+- [x] **1.2 Реестры**: `constants/characters.ts` (1–2 наставника, 3–4
   пассажира, автор), `backgrounds.ts`, `topics.ts` с подписями.
   Ассеты пока заглушки в `public/`.
   Docs: client/README.md.
