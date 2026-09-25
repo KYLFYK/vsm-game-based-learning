@@ -1,1 +1,1 @@
-export { validateScenario } from './scenario-engine';
+export { compareAttempts, validateScenario } from './scenario-engine';
