@@ -1,8 +1,5 @@
 import type { Validation } from '@/types';
 
-export const DEFAULT_METER_MIN = 0;
-export const DEFAULT_METER_MAX = 100;
-
 export const issue = (
   code: Validation.Code,
   path: string,

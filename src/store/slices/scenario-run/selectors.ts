@@ -2,13 +2,13 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import type { Attempt } from '@/types';
 import { Scenario, ScenarioRun } from '@/types';
+import { meterBounds } from '@/utils';
 
 import { holds } from './conditions';
-import { meterBounds } from './effects';
 
-// Relative, not `@/store`: the barrel re-exports this file, so importing
-// from the barrel here would be a self-reference. Type-only, so it does
-// not create a runtime import cycle.
+// Относительный импорт, не `@/store`: барель реэкспортирует этот файл,
+// поэтому импорт из барреля здесь был бы самоссылкой. Только типы, поэтому
+// он не создаёт цикл импорта в рантайме.
 import type { RootState } from '../../store';
 import type { ScenarioRunState } from './slice';
 
@@ -52,7 +52,9 @@ export const selectMeterViews = createSelector(
   [selectRunScenario, (state: RootState) => state.scenarioRun.meters],
   (scenario, meters): ScenarioRun.MeterView[] => {
     const definitions = scenario?.meters;
-    if (definitions === undefined) return EMPTY_METER_VIEWS;
+    if (definitions === undefined || Object.keys(definitions).length === 0) {
+      return EMPTY_METER_VIEWS;
+    }
     const thresholds = scenario?.passCriteria?.meters;
     return Object.entries(definitions).map(([id, meter]) => {
       const { min, max } = meterBounds(meter);

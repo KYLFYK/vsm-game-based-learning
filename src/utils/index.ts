@@ -1,1 +1,5 @@
-export { compareAttempts, validateScenario } from './scenario-engine';
+export {
+  compareAttempts,
+  meterBounds,
+  validateScenario,
+} from './scenario-engine';

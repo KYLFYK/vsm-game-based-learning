@@ -1,8 +1,9 @@
 import { Attempt, Scenario, ScenarioRun } from '@/types';
 import type { Course } from '@/types';
+import { meterBounds } from '@/utils';
 
 import { holds, resolveNext } from './conditions';
-import { applyEffects, meterBounds } from './effects';
+import { applyEffects } from './effects';
 import { enterNode, finish, lineOf } from './enter-node';
 
 import type { ScenarioRunState } from './slice';
@@ -43,7 +44,7 @@ const runningNode = (state: ScenarioRunState): CurrentNode | null => {
 const isPast = (deadline: number | null, now: number): boolean =>
   deadline !== null && now >= deadline;
 
-/** `node` is the current node: its line stands in for a missing `outcomes.timeout` */
+/** `node` — текущий узел: его реплика подменяет отсутствующий `outcomes.timeout` */
 const checkDeadlines = (
   state: ScenarioRunState,
   node: Scenario.Node,

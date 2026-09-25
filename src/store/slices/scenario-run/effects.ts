@@ -1,20 +1,11 @@
 import type { Scenario } from '@/types';
+import { meterBounds } from '@/utils';
 
 export interface EffectContext {
   scenario: Pick<Scenario.Definition, 'meters'> | null;
   meters: Record<Scenario.MeterId, number>;
   flags: Record<Scenario.FlagId, boolean>;
 }
-
-const DEFAULT_METER_MIN = 0;
-const DEFAULT_METER_MAX = 100;
-
-export const meterBounds = (
-  definition: Scenario.Meter
-): { min: number; max: number } => ({
-  min: definition.min ?? DEFAULT_METER_MIN,
-  max: definition.max ?? DEFAULT_METER_MAX,
-});
 
 const clamp = (value: number, min: number, max: number): number =>
   Math.min(Math.max(value, min), max);
@@ -33,7 +24,7 @@ const applyMeterEffect = (
   );
 };
 
-// No `kind` discriminant on Effect: FlagEffect carries `flag`, MeterEffect carries `meter`
+// У Effect нет дискриминанта `kind`: FlagEffect несёт `flag`, MeterEffect — `meter`
 export const applyEffect = (
   effect: Scenario.Effect,
   ctx: EffectContext

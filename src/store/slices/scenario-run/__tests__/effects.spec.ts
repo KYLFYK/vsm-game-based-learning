@@ -1,6 +1,6 @@
 import type { Scenario } from '@/types';
 
-import { applyEffect, applyEffects, meterBounds } from '../effects';
+import { applyEffect, applyEffects } from '../effects';
 
 import type { EffectContext } from '../effects';
 
@@ -89,20 +89,5 @@ describe(applyEffects.name, () => {
     applyEffects(effects, state);
     expect(state.meters.trust).toBe(60);
     expect(state.flags.seen).toBe(true);
-  });
-});
-
-describe(meterBounds.name, () => {
-  test('defaults to 0 and 100', () => {
-    expect(meterBounds({ label: 'Trust', initial: 50 })).toEqual({
-      min: 0,
-      max: 100,
-    });
-  });
-
-  test('keeps custom bounds', () => {
-    expect(
-      meterBounds({ label: 'Trust', initial: 0, min: -10, max: 10 })
-    ).toEqual({ min: -10, max: 10 });
   });
 });

@@ -1,12 +1,12 @@
 import { Scenario, Validation } from '@/types';
 
-import { DEFAULT_METER_MAX, DEFAULT_METER_MIN, has, issue, key } from './issue';
+import { has, issue, key } from './issue';
+import { meterBounds } from './meter-bounds';
 import { nodesOf } from './walk';
 
 const checkMeterRanges = (scenario: Scenario.Definition): Validation.Issue[] =>
   Object.entries(scenario.meters ?? {}).flatMap(([id, meter]) => {
-    const min = meter.min ?? DEFAULT_METER_MIN;
-    const max = meter.max ?? DEFAULT_METER_MAX;
+    const { min, max } = meterBounds(meter);
     const path = key('meters', id);
     if (min >= max) {
       return [

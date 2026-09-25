@@ -182,6 +182,17 @@ describe('selectMeterViews', () => {
     const state = reduce([runStarted({ scenario }, T0)]);
     expect(selectMeterViews(rootState(state))).toEqual([]);
   });
+
+  test('an empty meters object shares the empty-list reference with no meters at all', () => {
+    const { meters: _meters, ...scenario } = createFixture();
+    const withoutMeters = reduce([runStarted({ scenario }, T0)]);
+    const withEmptyMeters = reduce([
+      runStarted({ scenario: { ...scenario, meters: {} } }, T0),
+    ]);
+    expect(selectMeterViews(rootState(withEmptyMeters))).toBe(
+      selectMeterViews(rootState(withoutMeters))
+    );
+  });
 });
 
 describe('selectMetersVisible', () => {
