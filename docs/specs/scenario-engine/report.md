@@ -94,7 +94,8 @@ interface Report {
 
 ## Тесты
 
-- `result.spec.ts`: каждая строка таблицы результата, `unmetCriteria` с
+- `result.spec.ts`: каждая строка таблицы результата, доступная
+  `evaluateEnd` (3–5; строки 1–2 — в тестах редьюсера), `unmetCriteria` с
   несколькими шкалами и флагами, `computeScore` на пустом журнале, на
   повторном узле, округление.
 - `compare-attempts.spec.ts`: каждый уровень сравнения, `null` балл.

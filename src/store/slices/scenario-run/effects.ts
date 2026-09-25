@@ -9,6 +9,13 @@ export interface EffectContext {
 const DEFAULT_METER_MIN = 0;
 const DEFAULT_METER_MAX = 100;
 
+export const meterBounds = (
+  definition: Scenario.Meter
+): { min: number; max: number } => ({
+  min: definition.min ?? DEFAULT_METER_MIN,
+  max: definition.max ?? DEFAULT_METER_MAX,
+});
+
 const clamp = (value: number, min: number, max: number): number =>
   Math.min(Math.max(value, min), max);
 
@@ -18,8 +25,7 @@ const applyMeterEffect = (
 ): void => {
   const definition = ctx.scenario?.meters?.[effect.meter];
   if (definition === undefined) return;
-  const min = definition.min ?? DEFAULT_METER_MIN;
-  const max = definition.max ?? DEFAULT_METER_MAX;
+  const { min, max } = meterBounds(definition);
   ctx.meters[effect.meter] = clamp(
     ctx.meters[effect.meter] + effect.delta,
     min,

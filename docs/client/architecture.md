@@ -46,7 +46,7 @@ index.tsx → <Provider store> → <App>
   обновить [routing.md](routing.md) и карту в [README.md](README.md).
 - Новый endpoint → файл в `store/apis/`, ре-экспорт из `store/index.ts`;
   обновить [api.md](api.md).
-- Новый slice → файл в `store/slices/`, регистрация в `store.ts`; обновить
+- Новый slice → папка в `store/slices/`, регистрация в `store.ts`; обновить
   [state.md](state.md).
 - Новый токен темы → `styles/theme.ts`; обновить [styling.md](styling.md).
 

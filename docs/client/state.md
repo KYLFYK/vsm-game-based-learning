@@ -10,6 +10,7 @@
 export const store = configureStore({
   reducer: {
     [api.reducerPath]: api.reducer, // 'api'
+    scenarioRun: scenarioRunReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(api.middleware),
@@ -27,12 +28,35 @@ export const useAppSelector = useSelector.withTypes<RootState>();
 
 ## Слайсы
 
-Слайсов пока нет. Новый slice:
+| Ключ | Папка | Назначение |
+|------|-------|------------|
+| `scenarioRun` | `store/slices/scenario-run/` | Прохождение одного сценария: узел, сцена, шкалы, флаги, таймеры, журнал решений, финал |
 
-1. `store/slices/<name>-slice.ts` с `createSlice`.
+Новый slice:
+
+1. Папка `store/slices/<name>/`: `slice.ts` с `createSlice`, логика — в
+   соседних файлах, `index.ts` — барель папки.
 2. Регистрация в `reducer` в `store.ts`.
 3. Публичные экшены и селекторы — в барель `store/index.ts`.
 4. Описание здесь.
+
+### scenarioRun
+
+- `slice.ts` — `ScenarioRunState`, `initialState`, `createSlice`;
+  `reducers.ts` — шаги экшенов; `enter-node.ts` — вход в узел и
+  `finish`; `result.ts` — `evaluateEnd`, `computeScore`;
+  `conditions.ts`, `effects.ts` — условия, эффекты, `meterBounds`.
+- Экшены (из `@/store`): `runStarted({ scenario, courseId? }, now?)`,
+  `advanced(now?)`, `optionChosen(optionId, now?)`, `expired(now?)`,
+  `runLeft()`.
+- Редьюсеры чистые: время приходит в payload. `now` подставляет
+  `prepare` (по умолчанию `Date.now()`), `attemptId` для `runStarted` —
+  `crypto.randomUUID()` там же. Тесты передают `now` явно.
+- Экшен с невыполненным предусловием (не `Running`, узел не того типа,
+  скрытый вариант) возвращает то же состояние.
+- Состояние, алгоритмы и обязательные тесты — спецификация
+  [engine.md](../specs/scenario-engine/engine.md); результат и балл —
+  [report.md](../specs/scenario-engine/report.md).
 
 ## Барель: store/index.ts
 
@@ -40,6 +64,13 @@ export const useAppSelector = useSelector.withTypes<RootState>();
 
 ```ts
 export { api } from './api';
+export {
+  advanced,
+  expired,
+  optionChosen,
+  runLeft,
+  runStarted,
+} from './slices/scenario-run';
 export { store, useAppDispatch, useAppSelector } from './store';
 export type { AppDispatch, RootState } from './store';
 ```

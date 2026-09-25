@@ -50,7 +50,17 @@ src/
 ├── store/
 │   ├── api.ts                 # createApi + fetchBaseQuery(env.apiUrl), endpoints пустые (api.md)
 │   ├── store.ts               # configureStore, RootState, AppDispatch, useAppDispatch/Selector (state.md)
-│   ├── index.ts               # барель: store, api, хуки, типы
+│   ├── index.ts               # барель: store, api, хуки, типы, экшены scenarioRun
+│   ├── slices/
+│   │   └── scenario-run/      # слайс scenarioRun (state.md, specs/…/engine.md)
+│   │       ├── slice.ts       # ScenarioRunState, initialState, createSlice, экшены с prepare(now)
+│   │       ├── reducers.ts    # шаги runStarted, advanced, optionChosen, expired; проверка дедлайнов
+│   │       ├── enter-node.ts  # enterNode — слияние stage, таймер узла, финал; finish
+│   │       ├── result.ts      # evaluateEnd, computeScore (specs/…/report.md)
+│   │       ├── conditions.ts  # holds, resolveNext
+│   │       ├── effects.ts     # applyEffect(s), meterBounds — границы шкалы по умолчанию
+│   │       ├── index.ts       # барель папки: reducer и экшены
+│   │       └── __tests__/     # fixture.ts + reducers*.spec.ts, result, conditions, effects
 │   └── __tests__/             # store.spec.ts
 ├── styles/
 │   ├── theme.ts               # токены: colors, spacing, fontSizes, fontFamily, radii; тип AppTheme
