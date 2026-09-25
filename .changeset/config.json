@@ -1,0 +1,23 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@4.0.1/schema.json",
+  "changelog": [
+    "@changesets/changelog-github",
+    { "repo": "KYLFYK/vsm-game-based-learning" }
+  ],
+  "commit": false,
+  "fixed": [],
+  "linked": [],
+  "access": "restricted",
+  "baseBranch": "main",
+  "updateInternalDependencies": "patch",
+  "privatePackages": { "version": true, "tag": true },
+  "ignore": [],
+  "changedFilePatterns": [
+    "src/**",
+    "public/**",
+    "index.html",
+    "Dockerfile",
+    "nginx.conf",
+    "package.json"
+  ]
+}

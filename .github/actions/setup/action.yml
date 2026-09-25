@@ -1,0 +1,17 @@
+name: Setup
+description: Node 24 + Yarn 4 из репозитория, установка зависимостей
+
+runs:
+  using: composite
+  steps:
+    # corepack не нужен: Yarn 1 из образа раннера по yarnPath в .yarnrc.yml
+    # передаёт управление закоммиченному Yarn 4 (им же пользуется кеш setup-node)
+    - name: Setup Node
+      uses: actions/setup-node@v7
+      with:
+        node-version: 24
+        cache: yarn
+
+    - name: Install dependencies
+      shell: bash
+      run: yarn install --immutable

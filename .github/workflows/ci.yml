@@ -1,0 +1,111 @@
+# Проверки на каждый PR; при push в main — версия из changesets, коммит и тег.
+# Описание пайплайна — docs/ci.md, версионирование — docs/versioning.md.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# Устаревшие прогоны PR отменяются новым push'ем; на main прогоны выстраиваются
+# в очередь, чтобы Version всегда доходил до конца
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+# Токен job'ов по умолчанию только читает репозиторий, независимо от настроек
+# репозитория; права на запись выдаются точечно (job Version)
+permissions:
+  contents: read
+
+jobs:
+  changeset:
+    name: Changeset
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/setup
+      # Падает, если код приложения изменён, а changeset в PR нет
+      - run: yarn changeset status --since=origin/${{ github.base_ref }}
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - run: yarn lint
+      - run: yarn format:check
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - run: yarn test
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - run: yarn build
+
+  version:
+    name: Version
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [lint, test, build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: read
+    steps:
+      # Полная история нужна changelog-github: он ищет коммит и PR каждого changeset
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/setup
+
+      - name: Apply changesets
+        id: bump
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # changesets v3 завершает version с кодом 1, если changeset'ов нет,
+          # а push без них (правки docs/ или .github/) не должен ронять job
+          if ! find .changeset -name '*.md' ! -name README.md | grep -q .; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          before=$(node -p "require('./package.json').version")
+          yarn changeset version
+          after=$(node -p "require('./package.json').version")
+          echo "version=$after" >> "$GITHUB_OUTPUT"
+          # Одни пустые changeset'ы (--empty) версию не меняют: без этой проверки
+          # job повторно поставил бы уже существующий тег
+          if [ "$before" = "$after" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Push по GITHUB_TOKEN не запускает workflow повторно — цикла нет.
+      # Тег ставится вручную (vX.Y.Z), а не через changeset tag, чтобы не
+      # получить имя вида vsm-game-based-learning@X.Y.Z
+      - name: Commit, tag and push
+        if: steps.bump.outputs.changed == 'true'
+        env:
+          VERSION: ${{ steps.bump.outputs.version }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "chore(release): v$VERSION"
+          git tag "v$VERSION"
+          git push origin HEAD:main
+          git push origin "v$VERSION"

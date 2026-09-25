@@ -1,0 +1,28 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 80,
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": true,
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "sortPackageJson": false,
+  "sortImports": {
+    "newlinesBetween": true,
+    "customGroups": [
+      {
+        "groupName": "react",
+        "elementNamePattern": ["react", "react/**", "react-*", "react-*/**"]
+      },
+      { "groupName": "alias", "elementNamePattern": ["@/**"] }
+    ],
+    "groups": [
+      "react",
+      ["value-builtin", "value-external"],
+      "alias",
+      ["value-parent", "value-sibling", "value-index"],
+      "unknown"
+    ]
+  },
+  "ignorePatterns": [".yarn/**", "**/*.md"]
+}

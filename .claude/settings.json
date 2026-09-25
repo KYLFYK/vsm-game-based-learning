@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(yarn lint:*)",
+      "Bash(yarn test:*)",
+      "Bash(yarn build:*)",
+      "Bash(yarn format:*)",
+      "Bash(yarn changeset:*)"
+    ]
+  },
+  "enabledPlugins": {
+    "typescript-lsp@claude-plugins-official": true,
+    "playwright@claude-plugins-official": true,
+    "context7@claude-plugins-official": true
+  },
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  }
+}

@@ -1,0 +1,52 @@
+# Маршрутизация client
+
+Используется **react-router 8** в декларативном режиме. Все импорты — из
+`'react-router'`; пакета `react-router-dom` больше нет, `react-router/dom`
+нужен только data-режиму (`RouterProvider`).
+
+## Дерево маршрутов
+
+Определяется в [src/app.tsx](../../src/app.tsx):
+
+```
+BrowserRouter
+└── Routes
+    └── /            → AppLayout (Header + Main)
+        └── index    → HomePage
+```
+
+`AppLayout` ([containers/layout/app-layout.tsx](../../src/containers/layout/app-layout.tsx))
+— шапка с `APP_NAME` и версией `__APP_VERSION__`, под ней `<Outlet />`.
+
+## ROUTES — единственный источник истины
+
+[src/constants/routes.ts](../../src/constants/routes.ts):
+
+```ts
+export const ROUTES = {
+  HOME: '/',
+} as const;
+```
+
+Никогда не пиши пути строками в компонентах — только `ROUTES.XXX`. Это
+нужно для безопасной правки путей и перекрёстных ссылок в `navigate` /
+`Link`.
+
+## Как добавить маршрут
+
+1. Ключ в `ROUTES`: `ORDERS: '/orders'`.
+2. Папка страницы в `pages/<name>/` с `index.ts`.
+3. Маршрут в `app.tsx` внутри `<Route path={ROUTES.HOME} element={<AppLayout />}>`:
+   `<Route path={ROUTES.ORDERS} element={<OrdersPage />} />`.
+4. Пункт навигации в `AppLayout`, если он нужен.
+5. Обновить этот файл, карту в [README.md](README.md) и
+   [features/](features/README.md), если фича пользовательская.
+
+Приватная зона (guard по авторизации) пока не реализована: при
+появлении API она добавляется контейнером-обёрткой между `AppLayout` и
+страницами, по образцу `<Route element={<AuthGuard />}>`.
+
+## См. также
+
+- [architecture.md](architecture.md) — слои.
+- [requirements/client.md](../requirements/client.md#маршруты) — правило `ROUTES`.

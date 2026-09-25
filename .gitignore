@@ -1,0 +1,37 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+.yarn/*
+!.yarn/releases
+
+# Env: единственный env-файл проекта — корневой .env, в git только пример
+.env*
+!.env.example
+
+# Build
+dist
+coverage
+
+# Logs
+*.log
+
+# OS / IDE
+.DS_Store
+.idea
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# AI: локальные файлы агентов не версионируются, общие настройки — да
+.claude/*
+!.claude/settings.json
+.context
+
+# Local docs
+docs/local
+docs/tmp
+
+# Temp
+.tmp
+*.local

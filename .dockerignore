@@ -1,0 +1,16 @@
+node_modules
+dist
+coverage
+.git
+.github
+.context
+.claude
+.conductor
+.vscode
+docs
+.yarn/*
+!.yarn/releases
+.env
+.env.*
+!.env.example
+*.log
