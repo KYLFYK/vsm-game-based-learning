@@ -45,10 +45,18 @@ export const useAppSelector = useSelector.withTypes<RootState>();
 - `slice.ts` — `ScenarioRunState`, `initialState`, `createSlice`;
   `reducers.ts` — шаги экшенов; `enter-node.ts` — вход в узел и
   `finish`; `result.ts` — `evaluateEnd`, `computeScore`;
-  `conditions.ts`, `effects.ts` — условия, эффекты, `meterBounds`.
+  `conditions.ts`, `effects.ts` — условия, эффекты, `meterBounds`;
+  `selectors.ts` — селекторы.
 - Экшены (из `@/store`): `runStarted({ scenario, courseId? }, now?)`,
   `advanced(now?)`, `optionChosen(optionId, now?)`, `expired(now?)`,
   `runLeft()`.
+- Селекторы (из `@/store`): `selectRunStatus`, `selectRunScenario`,
+  `selectCurrentNode`, `selectVisibleOptions`, `selectStage`,
+  `selectMeterViews`, `selectMetersVisible`, `selectDeadlines`,
+  `selectEnding`, `selectAttemptDraft` — правило каждого в таблице
+  [engine.md](../specs/scenario-engine/engine.md#селекторы). Производные
+  селекторы — через `createSelector`, стабильны по ссылке при одном и том
+  же состоянии; пустые списки — общая константа-ссылка.
 - Редьюсеры чистые: время приходит в payload. `now` подставляет
   `prepare` (по умолчанию `Date.now()`), `attemptId` для `runStarted` —
   `crypto.randomUUID()` там же. Тесты передают `now` явно.
@@ -70,7 +78,18 @@ export {
   optionChosen,
   runLeft,
   runStarted,
+  selectAttemptDraft,
+  selectCurrentNode,
+  selectDeadlines,
+  selectEnding,
+  selectMeterViews,
+  selectMetersVisible,
+  selectRunScenario,
+  selectRunStatus,
+  selectStage,
+  selectVisibleOptions,
 } from './slices/scenario-run';
+export type { Deadlines } from './slices/scenario-run';
 export { store, useAppDispatch, useAppSelector } from './store';
 export type { AppDispatch, RootState } from './store';
 ```
@@ -82,7 +101,7 @@ export type { AppDispatch, RootState } from './store';
 
 ```ts
 const dispatch = useAppDispatch();
-const value = useAppSelector((state) => state.api.queries);
+const status = useAppSelector(selectRunStatus);
 ```
 
 Прямой `useDispatch` / `useSelector` из `react-redux` в компонентах

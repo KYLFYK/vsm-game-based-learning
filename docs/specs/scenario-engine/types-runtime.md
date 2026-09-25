@@ -114,6 +114,15 @@ export namespace ScenarioRun {
     failedMeterId?: Scenario.MeterId;
     unmetCriteria?: Attempt.UnmetCriteria;
   }
+
+  export interface MeterView {
+    id: Scenario.MeterId;
+    label: string;
+    value: number;
+    min: number;
+    max: number;
+    threshold?: number;
+  }
 }
 ```
 

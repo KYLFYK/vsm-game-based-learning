@@ -31,7 +31,7 @@
   Тесты через `reducer(state, action)`: ветвление, возврат к узлу,
   истощение шкалы, таймауты, экшены на завершённой попытке.
   Docs: client/state.md, регистрация в `store.ts` и бареле.
-- [ ] **2.3 Селекторы**: список из [engine.md](engine.md), тесты на
+- [x] **2.3 Селекторы**: список из [engine.md](engine.md), тесты на
   видимые варианты и `selectAttemptDraft`.
 - [ ] **2.4 Результат и балл**: правила из [feedback.md](feedback.md)
   внутри слайса и `compareAttempts` в `utils/scenario-engine/`, тесты на

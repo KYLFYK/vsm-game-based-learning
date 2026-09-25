@@ -29,4 +29,14 @@ export namespace ScenarioRun {
     failedMeterId?: Scenario.MeterId;
     unmetCriteria?: Attempt.UnmetCriteria;
   }
+
+  /** Проекция шкалы для UI: значение и границы, порог — если задан в passCriteria */
+  export interface MeterView {
+    id: Scenario.MeterId;
+    label: string;
+    value: number;
+    min: number;
+    max: number;
+    threshold?: number;
+  }
 }

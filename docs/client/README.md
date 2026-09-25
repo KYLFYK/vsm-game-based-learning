@@ -59,8 +59,9 @@ src/
 │   │       ├── result.ts      # evaluateEnd, computeScore (specs/…/report.md)
 │   │       ├── conditions.ts  # holds, resolveNext
 │   │       ├── effects.ts     # applyEffect(s), meterBounds — границы шкалы по умолчанию
-│   │       ├── index.ts       # барель папки: reducer и экшены
-│   │       └── __tests__/     # fixture.ts + reducers*.spec.ts, result, conditions, effects
+│   │       ├── selectors.ts   # select* (state.md, specs/…/engine.md#селекторы)
+│   │       ├── index.ts       # барель папки: reducer, экшены, селекторы
+│   │       └── __tests__/     # fixture.ts + reducers*.spec.ts, result, conditions, effects, selectors
 │   └── __tests__/             # store.spec.ts
 ├── styles/
 │   ├── theme.ts               # токены: colors, spacing, fontSizes, fontFamily, radii; тип AppTheme

@@ -107,7 +107,7 @@ Action creators с `prepare`: второй аргумент `now` необяза
 | `selectCurrentNode` | `Scenario.Node \| null` | `scenario.nodes[currentNodeId]` |
 | `selectVisibleOptions` | `Scenario.Option[]` | Узел `NodeType.Choice` → варианты с `holds(if)` в порядке сценария; иначе `[]` |
 | `selectStage` | `ScenarioRun.Stage` | |
-| `selectMeterViews` | `MeterView[]` | По порядку ключей `scenario.meters`: `{ id, label, value, min, max, threshold?: passCriteria.meters[id] }`; `[]` без шкал |
+| `selectMeterViews` | `ScenarioRun.MeterView[]` | По порядку ключей `scenario.meters`: `{ id, label, value, min, max, threshold?: passCriteria.meters[id] }`; ключ `threshold` отсутствует, если порога нет; `[]` без шкал |
 | `selectMetersVisible` | `boolean` | Есть шкалы и `stage.metersVisible` |
 | `selectDeadlines` | `{ scenarioDeadlineAt, nodeDeadlineAt }` | |
 | `selectEnding` | `ScenarioRun.Ending \| null` | |
