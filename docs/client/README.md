@@ -10,6 +10,8 @@ React 19 SPA на Vite 8. Точка входа — [src/index.tsx](../../src/in
 - [Состояние](state.md) — `configureStore`, типизированные хуки, барель.
 - [API-слой](api.md) — RTK Query, `injectEndpoints`, теги, `VITE_API_URL`.
 - [Стилизация](styling.md) — тема, `GlobalStyle`, паттерны styled-components.
+- [Игровой движок сценариев](scenario-engine.md) — жизненный цикл
+  попытки, где что лежит, таймеры, результат, лучшая попытка.
 - [Фичи и флоу](features/README.md) — пошаговые описания (пока пусто).
 
 ## Карта `src/`
@@ -78,8 +80,9 @@ src/
 └── utils/
     ├── index.ts                # барель: re-export из scenario-engine
     └── scenario-engine/
-        ├── index.ts             # барель: validateScenario
+        ├── index.ts             # барель: validateScenario, compareAttempts
         ├── validate.ts          # validateScenario — фаза 1, фаза 2, предупреждения (specs/…/validation.md)
+        ├── compare-attempts.ts  # compareAttempts — правило лучшей попытки (scenario-engine.md)
         ├── validate-shape.ts    # фаза 1: схема Scenario.Definition, коды shape.*
         ├── shape-schema.ts      # декларативные проверки формы: objectOf, arrayOf, recordOf, variantBy
         ├── validate-graph.ts    # фаза 2: коды graph.* (старт, ссылки, переходы, варианты, достижимость)
@@ -88,7 +91,7 @@ src/
         ├── validate-warnings.ts # предупреждения: review.*, flag.*, самопетля, вариант без review
         ├── walk.ts              # обход сценария: узлы, варианты, next, условия, эффекты, персонажи с путями
         ├── issue.ts             # issue(), построение путей, дефолты min/max шкалы
-        └── __tests__/           # fixtures.ts + validate*.spec.ts по файлу-источнику кодов
+        └── __tests__/           # fixtures.ts + validate*.spec.ts по файлу-источнику кодов, compare-attempts.spec.ts
 ```
 
 Папка `components/` создаётся при появлении первого файла; назначение

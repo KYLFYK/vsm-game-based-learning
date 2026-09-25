@@ -33,7 +33,7 @@
   Docs: client/state.md, регистрация в `store.ts` и бареле.
 - [x] **2.3 Селекторы**: список из [engine.md](engine.md), тесты на
   видимые варианты и `selectAttemptDraft`.
-- [ ] **2.4 Результат и балл**: правила из [feedback.md](feedback.md)
+- [x] **2.4 Результат и балл**: правила из [feedback.md](feedback.md)
   внутри слайса и `compareAttempts` в `utils/scenario-engine/`, тесты на
   каждую строку таблицы результата.
   Docs: новый файл `docs/client/scenario-engine.md` с описанием механизма

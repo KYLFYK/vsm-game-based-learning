@@ -57,11 +57,9 @@ export const useAppSelector = useSelector.withTypes<RootState>();
   [engine.md](../specs/scenario-engine/engine.md#селекторы). Производные
   селекторы — через `createSelector`, стабильны по ссылке при одном и том
   же состоянии; пустые списки — общая константа-ссылка.
-- Редьюсеры чистые: время приходит в payload. `now` подставляет
-  `prepare` (по умолчанию `Date.now()`), `attemptId` для `runStarted` —
-  `crypto.randomUUID()` там же. Тесты передают `now` явно.
-- Экшен с невыполненным предусловием (не `Running`, узел не того типа,
-  скрытый вариант) возвращает то же состояние.
+- Жизненный цикл попытки, чистота редьюсеров (`now` из `prepare`) и
+  поведение экшена с невыполненным предусловием —
+  [scenario-engine.md](scenario-engine.md).
 - Состояние, алгоритмы и обязательные тесты — спецификация
   [engine.md](../specs/scenario-engine/engine.md); результат и балл —
   [report.md](../specs/scenario-engine/report.md).
@@ -110,4 +108,5 @@ const status = useAppSelector(selectRunStatus);
 ## См. также
 
 - [api.md](api.md) — RTK Query и endpoints.
+- [scenario-engine.md](scenario-engine.md) — механизм слайса `scenarioRun`.
 - [requirements/client.md](../requirements/client.md#store) — правило барреля.
