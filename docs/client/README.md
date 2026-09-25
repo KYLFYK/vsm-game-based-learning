@@ -42,7 +42,10 @@ src/
 │   ├── index.ts                # барель: SCENARIOS, COURSES, CONTENT_WARNINGS, toSummary
 │   └── __tests__/               # index.spec.ts — загрузка, ошибки, snapshot предупреждений
 ├── containers/
-│   └── layout/app-layout.tsx  # AppLayout — Header (имя + версия) + Main с <Outlet/>
+│   ├── layout/app-layout.tsx  # AppLayout — Header (имя + версия) + Main с <Outlet/>
+│   └── scenario-player/
+│       ├── use-run-timers.ts  # useRunTimers — остаток времени сценария/узла, тик 250 мс, expired() (scenario-engine.md)
+│       └── __tests__/          # use-run-timers.spec.ts — renderHook с моком @/store, jest.useFakeTimers
 ├── hooks/
 │   ├── index.ts               # барель
 │   ├── use-document-title.ts  # useDocumentTitle — заголовок вкладки на время жизни компонента

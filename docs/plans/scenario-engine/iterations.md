@@ -44,7 +44,7 @@
 - [x] **3.1 Endpoints**: `scenariosApi`, `coursesApi` на `queryFn` из
   бандла; `attemptsApi` на `queryFn` поверх `localStorage` с тегами.
   Docs: client/api.md реестр endpoints.
-- [ ] **3.2 Хук таймеров**: `containers/scenario-player/use-run-timers.ts`
+- [x] **3.2 Хук таймеров**: `containers/scenario-player/use-run-timers.ts`
   читает `selectDeadlines`, тикает, диспатчит `expired`; тест на
   `renderHook` с моком store.
 
