@@ -111,6 +111,7 @@ docker compose down
 | [docs/stack.md](docs/stack.md) | Версии и что не установлено |
 | [docs/client/](docs/client/README.md) | Карта `src/`, роутинг, состояние, API, стили, фичи |
 | [docs/plans/](docs/plans/README.md) | Многозадачные планы фич |
+| [docs/specs/](docs/specs/README.md) | Спецификации подсистем до реализации |
 | [docs/ai.md](docs/ai.md) | Что настроено для ИИ-агентов |
 
 ---
