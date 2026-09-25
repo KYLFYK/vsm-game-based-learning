@@ -151,6 +151,12 @@ export namespace Validation {
   export type Result =
     | { ok: true; scenario: Scenario.Definition; warnings: Issue[] }
     | { ok: false; errors: Issue[]; warnings: Issue[] };
+
+  export interface Registries {
+    characters: Record<Character.Id, Character.Definition>;
+    backgrounds: Record<Scenario.BackgroundId, { label: string; asset: string }>;
+    topics: Record<Scenario.TopicId, { label: string }>;
+  }
 }
 ```
 
@@ -166,8 +172,9 @@ export namespace Validation {
 | `backgrounds.ts` | `BACKGROUNDS` | `Record<Scenario.BackgroundId, { label: string; asset: string }>` |
 | `topics.ts` | `TOPICS` | `Record<Scenario.TopicId, { label: string }>` |
 
-`asset` и `portraits` — пути от корня сайта в `public/`. Тип `Registries`
-для валидатора: `{ characters, backgrounds, topics }`.
+`asset` и `portraits` — пути от корня сайта в `public/`. Тип для
+валидатора — `Validation.Registries` в `src/types/validation.ts`:
+`{ characters, backgrounds, topics }`, форма как у трёх реестров выше.
 
 ## См. также
 

@@ -7,7 +7,7 @@
 
 ## Этап 1 — Домен и формат
 
-- [ ] **1.1 Типы**: `src/types/scenario.ts`, `course.ts`, `character.ts`,
+- [x] **1.1 Типы**: `src/types/scenario.ts`, `course.ts`, `character.ts`,
   `attempt.ts`, `index.ts` по [format.md](format.md).
   Docs: карта `src/` в client/README.md.
 - [ ] **1.2 Реестры**: `constants/characters.ts` (1–2 наставника, 3–4

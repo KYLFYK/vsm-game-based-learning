@@ -41,13 +41,22 @@ src/
 │   ├── store.ts               # configureStore, RootState, AppDispatch, useAppDispatch/Selector (state.md)
 │   ├── index.ts               # барель: store, api, хуки, типы
 │   └── __tests__/             # store.spec.ts
-└── styles/
-    ├── theme.ts               # токены: colors, spacing, fontSizes, fontFamily, radii; тип AppTheme
-    └── global-style.ts        # GlobalStyle — reset и стили body
+├── styles/
+│   ├── theme.ts               # токены: colors, spacing, fontSizes, fontFamily, radii; тип AppTheme
+│   └── global-style.ts        # GlobalStyle — reset и стили body
+└── types/
+    ├── index.ts                # барель: re-export всех namespace
+    ├── character.ts             # namespace Character — персонажи сценариев
+    ├── scenario.ts               # namespace Scenario — формат сценария
+    ├── course.ts                  # namespace Course — курс из сценариев
+    ├── attempt.ts                  # namespace Attempt — сохранённая попытка
+    ├── scenario-run.ts              # namespace ScenarioRun — состояние прохождения
+    ├── api.ts                        # namespace Api — коды ошибок RTK Query
+    └── validation.ts                  # namespace Validation — Code, Issue, Result, Registries
 ```
 
-Папки `components/`, `utils/`, `types/` создаются при появлении первого
-файла; их назначение — [architecture.md](architecture.md#папки-и-их-назначение).
+Папки `components/`, `utils/` создаются при появлении первого файла; их
+назначение — [architecture.md](architecture.md#папки-и-их-назначение).
 Статика вне `src/` — `public/` (favicon), отдаётся от корня сайта.
 
 ## Конвенции (короткая выжимка)

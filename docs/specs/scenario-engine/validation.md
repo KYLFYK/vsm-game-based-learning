@@ -3,11 +3,12 @@
 `src/utils/scenario-engine/validate.ts`:
 
 ```ts
-validateScenario(input: unknown, registries: Registries): Validation.Result
+validateScenario(input: unknown, registries: Validation.Registries): Validation.Result
 ```
 
-Типы `Validation.Result`, `Validation.Issue`, enum `Validation.Code` — в
-[types-runtime.md](types-runtime.md). Коды в таблицах ниже — строковые
+Типы `Validation.Result`, `Validation.Issue`, `Validation.Registries`,
+enum `Validation.Code` — в [types-runtime.md](types-runtime.md). Коды в
+таблицах ниже — строковые
 значения членов enum. `path` — путь в формате `nodes.q1.options[0].next`.
 Без внешних библиотек: проверки написаны руками, одна функция на фазу.
 
