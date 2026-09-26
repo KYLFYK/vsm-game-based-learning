@@ -11,8 +11,11 @@
 Сценарий — граф узлов (реплика, выбор, финал) с шкалами и флагами.
 Игрок проходит его в реальном времени: движок хранит текущий узел,
 накопленную сцену, значения шкал и журнал решений, считает результат и
-балл по завершении. UI (этап 4) только читает состояние через селекторы
-и диспатчит экшены — граф и правила перехода он не разбирает сам.
+балл по завершении. UI (контейнер
+[`scenario-player`](../specs/scenario-engine/ui.md#контейнер-scenario-player),
+флоу — [features/scenario-run.md](features/scenario-run.md)) только
+читает состояние через селекторы и диспатчит экшены — граф и правила
+перехода он не разбирает сам.
 
 ## Где что лежит
 
@@ -50,8 +53,8 @@ runStarted → (advanced | optionChosen | expired)* → finished → runLeft
   подробный порядок проверок в
   [../specs/scenario-engine/engine.md](../specs/scenario-engine/engine.md).
 - После `finished` UI берёт `selectAttemptDraft` и сохраняет попытку через
-  `useSaveAttemptMutation` из [api.md](api.md#реестр-endpoints) — вызов из
-  экрана сценария появится на этапе 4.
+  `useSaveAttemptMutation` из [api.md](api.md#реестр-endpoints) — вызывает
+  финал сценария (`finale.tsx`).
 - `runLeft()` сбрасывает слайс в `idle`; диспатчится при уходе с
   сохранённым или потерянным результатом.
 

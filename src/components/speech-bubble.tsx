@@ -8,7 +8,10 @@ type CharacterSide = BubbleSide.Left | BubbleSide.Right;
 
 const Bubble = styled.div<{ $side: CharacterSide }>`
   position: relative;
-  padding: ${({ theme }) => `${theme.spacing.md} ${theme.spacing.lg}`};
+  /* Снизу запас под именную плашку: она заходит на облако и не должна
+     перекрывать текст */
+  padding: ${({ theme }) =>
+    `${theme.spacing.md} ${theme.spacing.lg} ${theme.spacing.xl}`};
   font-size: ${({ theme }) => theme.gameFontSizes.text};
   line-height: 1.4;
   color: ${({ theme }) => theme.colors.bubbleText};

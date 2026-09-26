@@ -1,14 +1,41 @@
 import { useEffect } from 'react';
-import { Link, useParams } from 'react-router';
+import { useNavigate, useParams, useSearchParams } from 'react-router';
 
+import {
+  BackdropVariant,
+  ButtonLink,
+  ButtonSize,
+  ButtonVariant,
+  ComicBackdrop,
+} from '@/components';
 import { ROUTES } from '@/constants/routes';
 import { useDocumentTitle } from '@/hooks';
-import { runLeft, useAppDispatch, useGetScenarioQuery } from '@/store';
+import {
+  runLeft,
+  runStarted,
+  selectRunStatus,
+  useAppDispatch,
+  useAppSelector,
+  useGetScenarioQuery,
+} from '@/store';
+import { ScenarioRun } from '@/types';
+
+import { Hud } from './hud';
+import { Intro } from './intro';
+import { Message, Screen } from './scenario-player.styles';
+import { Scene } from './scene';
+import { useRunTimers } from './use-run-timers';
+
+const EXIT_CONFIRM = 'Попытка не сохранится. Выйти?';
 
 export const ScenarioPlayer = () => {
   const { scenarioId = '' } = useParams();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const status = useAppSelector(selectRunStatus);
   const { data: scenario, isLoading } = useGetScenarioQuery(scenarioId);
+  const { scenarioRemainingMs, nodeRemainingMs } = useRunTimers();
 
   useDocumentTitle(scenario?.title ?? 'Сценарий');
 
@@ -20,13 +47,52 @@ export const ScenarioPlayer = () => {
     [dispatch, scenarioId]
   );
 
-  if (isLoading) return <p>Загрузка…</p>;
-  if (scenario === undefined) {
+  if (isLoading || scenario === undefined) {
     return (
-      <p>
-        Сценарий не найден. <Link to={ROUTES.HOME}>К сценариям</Link>
-      </p>
+      <Screen>
+        <ComicBackdrop variant={BackdropVariant.Intro} />
+        <Message>
+          {isLoading ? (
+            'Загрузка…'
+          ) : (
+            <>
+              Сценарий не найден
+              <ButtonLink
+                to={ROUTES.HOME}
+                variant={ButtonVariant.Secondary}
+                size={ButtonSize.Md}
+              >
+                К сценариям
+              </ButtonLink>
+            </>
+          )}
+        </Message>
+      </Screen>
     );
   }
-  return <h1>{scenario.title}</h1>;
+
+  if (status === ScenarioRun.Status.Idle) {
+    const start = () => {
+      dispatch(
+        runStarted({
+          scenario,
+          courseId: searchParams.get('course') ?? undefined,
+        })
+      );
+    };
+    return <Intro scenario={scenario} onStart={start} />;
+  }
+
+  // Курсы появятся на этапе 6; до них выход ведёт в каталог на главной
+  const exit = () => {
+    if (!window.confirm(EXIT_CONFIRM)) return;
+    void navigate(ROUTES.HOME);
+  };
+
+  return (
+    <Screen>
+      <Scene nodeRemainingMs={nodeRemainingMs} />
+      <Hud scenarioRemainingMs={scenarioRemainingMs} onExit={exit} />
+    </Screen>
+  );
 };

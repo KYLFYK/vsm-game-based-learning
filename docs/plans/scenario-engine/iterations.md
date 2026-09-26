@@ -58,14 +58,13 @@
   `ButtonLink`, `MeterBar`, `Countdown`, `SpeechBubble`,
   `CharacterPortrait`, `ChoiceList`, `Stamp`, `ComicBackdrop` в
   `components/`. Docs: client/README.md, client/styling.md.
-- [ ] **4.3 Сцена**: `containers/scenario-player/` по
-  [ui.md](../../specs/scenario-engine/ui.md): раскладка во всё окно, фон,
-  слоты, реплики, варианты, HUD, клавиатура, «Во весь экран», «Выйти» с
-  подтверждением.
-- [ ] **4.4 Заставка, финал, каталог**: заставка до старта, финал со
-  штампом, сохранение попытки и переход к отчёту; каталог сценариев на
-  главной. Docs: `docs/client/features/scenario-run.md`, ссылка из
-  product flow.
+- [x] **4.3 Заставка и сцена**: `containers/scenario-player/` по
+  [ui.md](../../specs/scenario-engine/ui.md): заставка, раскладка во всё
+  окно, фон, слоты, реплики, варианты, HUD, клавиатура, «Во весь экран»,
+  «Выйти» с подтверждением.
+- [ ] **4.4 Финал и каталог**: финал со штампом, сохранение попытки и
+  переход к отчёту; каталог сценариев на главной. Docs:
+  `docs/client/features/scenario-run.md`, ссылка из product flow.
 
 ## Этап 5 — Отчёт
 

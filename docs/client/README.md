@@ -61,6 +61,10 @@ src/
 │   └── scenario-player/
 │       ├── scenario-player.tsx # ScenarioPlayer — экран сценария, сброс попытки при уходе (routing.md)
 │       ├── index.ts            # барель: ScenarioPlayer
+│       ├── scenario-player.styles.ts # Screen, Zone, слоты и якоря реплики, вариантов, штампа, действий
+│       ├── intro.tsx          # Intro — заставка: тема, название, описание, чипы лимита и порогов, «Начать»
+│       ├── scene.tsx          # Scene — фон, слоты, реплика, варианты, «Далее»; children — внутри зоны 16:9
+│       ├── hud.tsx            # Hud — «Выйти», название, шкалы, таймер сценария, «Во весь экран»
 │       ├── use-run-timers.ts  # useRunTimers — остаток времени сценария/узла, тик 250 мс, expired() (scenario-engine.md)
 │       ├── speaker-layout.ts  # speakerLayout — слот и сторона реплики для говорящего
 │       ├── meter-thresholds.ts # meterThresholds — пороги зачёта шкал с подписями
