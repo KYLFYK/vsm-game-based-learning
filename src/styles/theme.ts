@@ -148,6 +148,8 @@ export const stage = {
   actionsBottom: '9cqh',
   hudInset: '16px',
   iconButton: '36px',
+  iconSize: '18px',
+  iconStroke: '2.5px',
   meterTrackWidth: '110px',
   meterTrackHeight: '12px',
   thresholdWidth: '3px',

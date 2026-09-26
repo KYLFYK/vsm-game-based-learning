@@ -100,6 +100,41 @@ export const HintAnchor = styled.div`
   z-index: ${({ theme }) => theme.zIndices.choices};
 `;
 
+/** Подсказка «Далее»: чёрная плашка с красной тенью, не вариант `Button` */
+export const Hint = styled.button`
+  height: ${({ theme }) => theme.stage.iconButton};
+  padding: 0 ${({ theme }) => theme.spacing.md};
+  font-family: ${({ theme }) => theme.fontFamilyDisplay};
+  font-size: ${({ theme }) => theme.gameFontSizes.buttonSm};
+  font-weight: 900;
+  line-height: 1;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.onAccent};
+  background: ${({ theme }) => theme.colors.ink};
+  border: ${({ theme }) => theme.borders.ink};
+  border-radius: 0;
+  box-shadow: ${({ theme }) => theme.shadows.redSm};
+  cursor: pointer;
+  transition:
+    transform ${({ theme }) => theme.durations.press}ms,
+    box-shadow ${({ theme }) => theme.durations.press}ms;
+
+  &:hover {
+    box-shadow: ${({ theme }) => theme.shadows.redMd};
+    transform: ${({ theme }) => theme.offsets.lift};
+  }
+
+  &:active {
+    box-shadow: none;
+    transform: ${({ theme }) => theme.offsets.press};
+  }
+
+  &:focus-visible {
+    outline: ${({ theme }) => theme.borders.focus};
+    outline-offset: ${({ theme }) => theme.offsets.focus};
+  }
+`;
+
 export const StampAnchor = styled.div`
   position: absolute;
   bottom: ${({ theme }) => theme.stage.stampBottom};

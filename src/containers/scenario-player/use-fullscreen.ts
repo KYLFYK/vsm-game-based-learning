@@ -16,7 +16,8 @@ const ignore = (promise: Promise<void>): void => {
 
 /** Полноэкранный режим документа; снимается при размонтировании. */
 export const useFullscreen = (): FullscreenControl => {
-  const supported = document.fullscreenEnabled;
+  // Тип — boolean, но где нет API без префикса (iPhone Safari), тут undefined
+  const supported = Boolean(document.fullscreenEnabled as boolean | undefined);
   const [active, setActive] = useState(isActive);
 
   useEffect(() => {

@@ -56,7 +56,9 @@ Routes
 | `SpeechBubble` | `side: BubbleSide`, `name?`, `text` | Реплика персонажа (`Left`, `Right`) или автора (`Top`); `enum BubbleSide { Left, Right, Top }` |
 | `CharacterPortrait` | `src`, `name`, `side: Character.Side`, `active` | Портрет, притушен при `active: false`; `Side.Left` отзеркален |
 | `ChoiceList` | `options: { id, text }[]`, `onChoose(id)`, `remainingMs?` | Нумерованные кнопки 1–4, таймер узла над списком |
-| `Stamp` | `status: Attempt.Status` | Штамп «ЗАЧТЕНО» / «НЕ ЗАЧТЕНО» |
+| `Stamp` | `status: Attempt.Status` | Штамп «ЗАЧТЕНО» / «НЕ ЗАЧТЕНО» (`STAMP_LABELS`); `aria-hidden` |
+| `VisuallyHidden` | `children` | Текст только для скринридеров (sr-only) |
+| `FullscreenEnterIcon`, `FullscreenExitIcon` | — | SVG-иконки кнопки «Во весь экран», `aria-hidden` |
 | `ComicBackdrop` | `variant: BackdropVariant` | Декоративный слой: лучи и полутон; `enum BackdropVariant { Intro, Scene }` |
 
 Компоненты не знают про store и типы сценария глубже пропсов. Enum
@@ -97,7 +99,8 @@ Routes
   его стороны; `Role.Author` → облако `Top`, оба слота неактивны;
   говорящего нет на сцене → облако `Top` с именем.
 - Узел `NodeType.Line`: клик по сцене, `Enter`, `Space` или кнопка
-  «Далее» → `advanced`.
+  «Далее» → `advanced`. Клик с `event.detail > 1` игнорируется: второй
+  клик двойного клика по «Начать» или варианту пропустил бы реплику.
 - `NodeType.Choice`: реплика узла и `ChoiceList`; клавиши `1`–`4` →
   `optionChosen` видимого варианта с этим номером. Клик по сцене ничего
   не делает.
@@ -125,11 +128,13 @@ Routes
 ### Полноэкранный режим
 
 `use-fullscreen.ts` возвращает `{ supported, active, toggle }`:
-`supported` — `document.fullscreenEnabled`; `toggle` вызывает
-`document.documentElement.requestFullscreen()` или
-`document.exitFullscreen()`; `active` обновляется по `fullscreenchange`.
+`supported` — `Boolean(document.fullscreenEnabled)` (в iPhone Safari
+`undefined`); `toggle` — `document.documentElement.requestFullscreen()`
+или `document.exitFullscreen()`; `active` — по `fullscreenchange`.
 При размонтировании плеера полноэкранный режим снимается. Кнопка
 скрыта при `supported: false`. Ошибка `requestFullscreen` игнорируется.
+`aria-label` и `title` кнопки — «Во весь экран», в полноэкранном
+режиме — «Выйти из полноэкранного режима»; `aria-pressed` — `active`.
 
 ### Финал
 
@@ -139,6 +144,8 @@ Routes
 `saveAttempt(selectAttemptDraft)` → успех: переход на
 `SCENARIO_ATTEMPT` (`runLeft` отработает при размонтировании страницы);
 ошибка: текст «Не удалось сохранить попытку» и кнопка «Повторить».
+`Enter` / `Space` нажимают её, пока сохранение не идёт (`usePlayerKeys`
+в `finale.tsx`); автофокуса нет — `keyup` пробела нажал бы кнопку.
 
 ### Раскладка
 
@@ -179,7 +186,11 @@ Routes
   `aria-keyshortcuts`, «Во весь экран» — `aria-pressed`.
 - `MeterBar` — `role="meter"` с `aria-valuenow/min/max` и `aria-label`.
 - Реплика — `aria-live="polite"`, таймеры без `aria-live`, чтобы не
-  зачитывались каждую секунду.
+  зачитывались каждую секунду. В облаке `Left`/`Right` имя читается до
+  текста (`VisuallyHidden`), видимая плашка — `aria-hidden`.
+- Итог — постоянная `role="status"` в `scene.tsx`: пуста до `Finished`,
+  затем `STAMP_LABELS[ending.status]` (область, смонтированную с текстом,
+  скринридер может пропустить).
 - Анимации выключаются при `prefers-reduced-motion: reduce`.
 
 ## См. также

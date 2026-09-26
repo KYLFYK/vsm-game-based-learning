@@ -3,6 +3,7 @@ import { styled } from 'styled-components';
 import { popIn } from '@/styles/animations';
 
 import { BubbleSide } from './speech-bubble.enums';
+import { VisuallyHidden } from './visually-hidden';
 
 type CharacterSide = BubbleSide.Left | BubbleSide.Right;
 
@@ -87,8 +88,13 @@ export const SpeechBubble = ({ side, name, text }: SpeechBubbleProps) => {
   }
   return (
     <Bubble $side={side}>
+      {name !== undefined && <VisuallyHidden>{name}: </VisuallyHidden>}
       {text}
-      {name !== undefined && <NamePlate $side={side}>{name}</NamePlate>}
+      {name !== undefined && (
+        <NamePlate aria-hidden="true" $side={side}>
+          {name}
+        </NamePlate>
+      )}
     </Bubble>
   );
 };

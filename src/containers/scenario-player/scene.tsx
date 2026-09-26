@@ -4,13 +4,12 @@ import type { MouseEvent, ReactNode } from 'react';
 import {
   BackdropVariant,
   BubbleSide,
-  Button,
-  ButtonSize,
-  ButtonVariant,
   CharacterPortrait,
   ChoiceList,
   ComicBackdrop,
   SpeechBubble,
+  STAMP_LABELS,
+  VisuallyHidden,
 } from '@/components';
 import { BACKGROUNDS } from '@/constants/backgrounds';
 import { CHARACTERS } from '@/constants/characters';
@@ -32,6 +31,7 @@ import {
   BubbleAnchor,
   CaptionAnchor,
   ChoicesAnchor,
+  Hint,
   HintAnchor,
   LiveRegion,
   Slot,
@@ -80,6 +80,13 @@ export const Scene = ({ nodeRemainingMs, children }: SceneProps) => {
       : undefined,
   });
 
+  // Второй клик двойного клика после «Начать» или варианта попадает в уже
+  // кликабельную зону и пропустил бы следующую реплику
+  const onZoneClick = (event: MouseEvent) => {
+    if (event.detail > 1) return;
+    advance();
+  };
+
   // Клик по подсказке не должен всплыть в зону и продвинуть сцену дважды
   const onHintClick = (event: MouseEvent) => {
     event.stopPropagation();
@@ -97,7 +104,10 @@ export const Scene = ({ nodeRemainingMs, children }: SceneProps) => {
     <>
       {background !== undefined && <Background src={background.asset} alt="" />}
       <ComicBackdrop variant={BackdropVariant.Scene} />
-      <Zone $clickable={isLine} onClick={isLine ? advance : undefined}>
+      <VisuallyHidden role="status">
+        {finished && ending !== null ? STAMP_LABELS[ending.status] : ''}
+      </VisuallyHidden>
+      <Zone $clickable={isLine} onClick={isLine ? onZoneClick : undefined}>
         {slots.map(({ side, slot }) => {
           const src =
             slot === null
@@ -154,14 +164,9 @@ export const Scene = ({ nodeRemainingMs, children }: SceneProps) => {
         )}
         {isLine && (
           <HintAnchor>
-            <Button
-              variant={ButtonVariant.Secondary}
-              size={ButtonSize.Sm}
-              aria-keyshortcuts="Enter"
-              onClick={onHintClick}
-            >
+            <Hint type="button" aria-keyshortcuts="Enter" onClick={onHintClick}>
               Далее ▸ Enter
-            </Button>
+            </Hint>
           </HintAnchor>
         )}
         {children}

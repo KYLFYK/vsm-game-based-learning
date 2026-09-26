@@ -17,6 +17,7 @@ import {
 } from '@/store';
 
 import { ActionsAnchor, StampAnchor } from './scenario-player.styles';
+import { usePlayerKeys } from './use-player-keys';
 
 // Под кнопкой, вне потока: кнопка не сдвигается вверх и не уходит под штамп
 const SaveError = styled.p`
@@ -56,6 +57,14 @@ export const Finale = () => {
         : { pathname, search: createSearchParams({ course }).toString() }
     );
   };
+
+  // Без автофокуса на кнопке: keyup пробела нажал бы только что
+  // сфокусированную кнопку; Enter/Space ловит сам плеер
+  usePlayerKeys(true, {
+    onAdvance: () => {
+      if (!isLoading) void toReport();
+    },
+  });
 
   if (ending === null) return null;
 

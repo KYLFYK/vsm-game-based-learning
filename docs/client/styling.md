@@ -86,6 +86,7 @@ export const MyBlock = () => <Wrapper>…</Wrapper>;
 | Сбросы, `*`-селекторы, `body` | `global-style.ts` |
 | Тёмная тема | Второй объект темы того же типа `AppTheme` и переключение в `ThemeProvider` |
 | Анимация | keyframes в `styles/animations.ts`, длительность из `theme.durations` |
+| Текст только для скринридеров | `VisuallyHidden` из `@/components` (sr-only; единственное место с литералами `1px`/`-1px`/`0`) |
 
 ## См. также
 

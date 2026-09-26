@@ -71,6 +71,7 @@
 |---------|-----|
 | Кнопка `Primary` | Красная, белый текст Unbounded, контур `ink`, тень `navyMd`; наведение — сдвиг `-2px` и тень больше; нажатие — сдвиг к тени и тень меньше |
 | Кнопка `Secondary` | Белая, текст `ink`, тень `navySm`; `Sm` — квадратная иконка (выйти, во весь экран) |
+| Иконки HUD | «Во весь экран» — SVG (`components/icons.tsx`): уголки наружу / внутрь, `currentColor`, размер `stage.iconSize`, толщина `stage.iconStroke`; глифы `⤢`/`⤡` не используются — в Unbounded их нет, фолбэк рисует их мелко |
 | Название в HUD | Красная плашка, наклон `-tilts.md`, тень `navyMd` |
 | `MeterBar` | Белая панель, тень `navyMd`; полоса с контуром, заливка `accentRed`, риска порога `accentNavy`; дельта — наклонный чип над правым краем, `+n` на `accentNavy`, `−n` на `accentRed` |
 | `Countdown` | Синяя плашка, наклон `tilts.md`, тень `redMd`; «горящее» — красный фон, тень `navyMd`, пульсация |
@@ -78,10 +79,10 @@
 | `SpeechBubble` `Top` | Подпись автора: синяя полоса, белый текст по центру, тень `redMd`, наклон `-tilts.sm` |
 | `ChoiceList` | Белые кнопки с контуром, тень `navyMd`, на наведении `redMd`; номер — синий квадрат с наклоном `-tilts.lg`; таймер узла справа над списком |
 | `CharacterPortrait` | Неактивный — `filters.dimmed`; смена — без анимации |
-| `Stamp` | Текст `accentRed` на `paper`, рамка 5 px `accentRed`, тень `inkLg`, наклон `-7deg` |
+| `Stamp` | Текст `accentRed` на `paper`, рамка 5 px `accentRed`, тень `inkLg`, наклон `-7deg`; для скринридеров декоративен (`aria-hidden`) |
 | `ComicBackdrop` `Intro` | Лучи `raysLight` из-под низа экрана и полутон `halftone` по диагонали на `accentNavy` |
 | `ComicBackdrop` `Scene` | Только лучи поверх фона сцены, приглушённые |
-| Подсказка «Далее» | Чёрная плашка, белый текст Unbounded, тень `redSm` |
+| Подсказка «Далее» | Чёрная плашка (`ink`), белый текст Unbounded `buttonSm`, контур `ink`, тень `redSm`; наведение — сдвиг и `redMd`, нажатие — сдвиг к тени. Отдельный `Hint` в `scenario-player.styles.ts`, не вариант `Button` |
 | Карточка каталога | Белая, контур `ink`, тень `navyLg`; темы — чипы с контуром; «Играть» — `Primary` |
 
 ## Экраны

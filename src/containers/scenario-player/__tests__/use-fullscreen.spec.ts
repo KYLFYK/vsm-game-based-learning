@@ -29,6 +29,14 @@ describe(useFullscreen.name, () => {
     expect(result.current.supported).toBe(false);
   });
 
+  test('reports unsupported when the API is missing', () => {
+    define(document, 'fullscreenEnabled', undefined);
+
+    const { result } = renderHook(() => useFullscreen());
+
+    expect(result.current.supported).toBe(false);
+  });
+
   test('requests fullscreen on the document element when inactive', () => {
     const { result } = renderHook(() => useFullscreen());
 

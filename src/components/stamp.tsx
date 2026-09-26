@@ -1,12 +1,9 @@
 import { styled } from 'styled-components';
 
 import { stampHit } from '@/styles/animations';
-import { Attempt } from '@/types';
+import type { Attempt } from '@/types';
 
-const LABELS: Record<Attempt.Status, string> = {
-  [Attempt.Status.Passed]: 'Зачтено',
-  [Attempt.Status.Failed]: 'Не зачтено',
-};
+import { STAMP_LABELS } from './stamp.enums';
 
 const Root = styled.div`
   display: inline-block;
@@ -25,6 +22,7 @@ const Root = styled.div`
   animation: ${stampHit} ${({ theme }) => theme.durations.stamp}ms ease-in;
 `;
 
+// Декоративен для скринридеров: итог объявляет постоянная status-область сцены
 export const Stamp = ({ status }: { status: Attempt.Status }) => (
-  <Root role="status">{LABELS[status]}</Root>
+  <Root aria-hidden="true">{STAMP_LABELS[status]}</Root>
 );

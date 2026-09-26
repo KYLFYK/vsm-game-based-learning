@@ -35,7 +35,9 @@ export const ScenarioPlayer = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const status = useAppSelector(selectRunStatus);
-  const { data: scenario, isLoading } = useGetScenarioQuery(scenarioId);
+  // currentData, а не data: при смене scenarioId data держит прошлый сценарий
+  const { currentData: scenario, isFetching } = useGetScenarioQuery(scenarioId);
+  const isLoading = scenario === undefined && isFetching;
   const { scenarioRemainingMs, nodeRemainingMs } = useRunTimers();
 
   useDocumentTitle(scenario?.title ?? 'Сценарий');

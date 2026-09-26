@@ -32,11 +32,14 @@ src/
 │   ├── comic-backdrop.tsx      # ComicBackdrop — декоративный слой лучей и полутона
 │   ├── countdown.enums.ts      # CountdownSize
 │   ├── countdown.tsx           # Countdown — мм:сс, «горящее» состояние
+│   ├── icons.tsx               # FullscreenEnterIcon, FullscreenExitIcon — SVG-иконки HUD
 │   ├── index.ts                # барель: компоненты и их enum пропсов
 │   ├── meter-bar.tsx           # MeterBar — шкала, риска порога, всплывающая дельта (useValueDelta)
 │   ├── speech-bubble.enums.ts  # BubbleSide
 │   ├── speech-bubble.tsx       # SpeechBubble — реплика персонажа или автора
-│   └── stamp.tsx               # Stamp — штамп «Зачтено» / «Не зачтено»
+│   ├── stamp.enums.ts          # STAMP_LABELS — подписи штампа по Attempt.Status
+│   ├── stamp.tsx               # Stamp — штамп «Зачтено» / «Не зачтено», aria-hidden
+│   └── visually-hidden.tsx     # VisuallyHidden — текст только для скринридеров
 ├── config/
 │   ├── env.ts                 # env = readEnv(import.meta.env) — единственная точка чтения env
 │   ├── read-env.ts            # readEnv: типизация и проверка обязательных переменных

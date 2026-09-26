@@ -1,3 +1,5 @@
+import type { MouseEvent } from 'react';
+
 import { styled } from 'styled-components';
 
 import {
@@ -6,6 +8,8 @@ import {
   ButtonVariant,
   Countdown,
   CountdownSize,
+  FullscreenEnterIcon,
+  FullscreenExitIcon,
   MeterBar,
 } from '@/components';
 import {
@@ -54,6 +58,14 @@ const Title = styled.h1`
   transform: rotate(-${({ theme }) => theme.tilts.md});
 `;
 
+// После клика мышью кнопка снимает с себя фокус: иначе следующий
+// Enter/Space нажал бы её снова вместо перехода по сцене (use-player-keys)
+const blurThen =
+  (action: () => void) => (event: MouseEvent<HTMLButtonElement>) => {
+    event.currentTarget.blur();
+    action();
+  };
+
 interface HudProps {
   scenarioRemainingMs: number | null;
   onExit: () => void;
@@ -64,9 +76,9 @@ export const Hud = ({ scenarioRemainingMs, onExit }: HudProps) => {
   const meters = useAppSelector(selectMeterViews);
   const metersVisible = useAppSelector(selectMetersVisible);
   const fullscreen = useFullscreen();
-
-  // После клика мышью кнопки снимают с себя фокус: иначе следующий
-  // Enter/Space нажал бы их снова вместо перехода по сцене (use-player-keys)
+  const fullscreenLabel = fullscreen.active
+    ? 'Выйти из полноэкранного режима'
+    : 'Во весь экран';
 
   return (
     <Root>
@@ -75,10 +87,7 @@ export const Hud = ({ scenarioRemainingMs, onExit }: HudProps) => {
           variant={ButtonVariant.Secondary}
           size={ButtonSize.Sm}
           aria-label="Выйти"
-          onClick={(event) => {
-            event.currentTarget.blur();
-            onExit();
-          }}
+          onClick={blurThen(onExit)}
         >
           ✕
         </Button>
@@ -106,14 +115,16 @@ export const Hud = ({ scenarioRemainingMs, onExit }: HudProps) => {
           <Button
             variant={ButtonVariant.Secondary}
             size={ButtonSize.Sm}
-            aria-label="Во весь экран"
+            aria-label={fullscreenLabel}
+            title={fullscreenLabel}
             aria-pressed={fullscreen.active}
-            onClick={(event) => {
-              event.currentTarget.blur();
-              fullscreen.toggle();
-            }}
+            onClick={blurThen(fullscreen.toggle)}
           >
-            {fullscreen.active ? '⤡' : '⤢'}
+            {fullscreen.active ? (
+              <FullscreenExitIcon />
+            ) : (
+              <FullscreenEnterIcon />
+            )}
           </Button>
         )}
       </Group>
