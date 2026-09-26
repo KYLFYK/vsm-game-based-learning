@@ -57,15 +57,13 @@
 
 ## Шрифты
 
-- **Unbounded** (OFL) — вариативный шрифт, один файл на подмножество
-  (cyrillic, latin) покрывает диапазон начертаний 800–900; файлы `woff2`
-  в `public/fonts/` вместе с `OFL.txt`. `@font-face` с
-  `font-display: swap` — в `global-style.ts`, `preload` подмножества
-  cyrillic — в `index.html`.
+- **Unbounded** (OFL) — вариативный шрифт, диапазон начертаний 800–900.
 - Unbounded — заголовки, HUD, номера вариантов, кнопки, штамп, имена;
   верхний регистр.
 - Текст реплик, описаний и вариантов — системный `fontFamily`: длинный
   текст читается легче.
+- Файлы шрифта, `@font-face` и preload —
+  [../../client/styling.md](../../client/styling.md#шрифты).
 
 ## Элементы
 
