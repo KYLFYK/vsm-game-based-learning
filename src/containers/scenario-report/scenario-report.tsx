@@ -1,9 +1,10 @@
 import { useMemo } from 'react';
-import { useParams, useSearchParams } from 'react-router';
+import { useParams } from 'react-router';
 
-import { ButtonLink, ButtonSize, ButtonVariant } from '@/components/button';
-import { ROUTES } from '@/constants/routes';
-import { useDocumentTitle } from '@/hooks';
+import { LoadingText } from '@/components/muted-text';
+import { NotFound } from '@/components/not-found';
+import { Page, PageHeader } from '@/components/page';
+import { useCourseParam, useDocumentTitle } from '@/hooks';
 import {
   useGetAttemptQuery,
   useGetAttemptsQuery,
@@ -11,20 +12,18 @@ import {
   useGetScenarioQuery,
   useGetScenariosQuery,
 } from '@/store';
-import { buildReport } from '@/utils';
+import { backLink, buildReport, isAwaitingData } from '@/utils';
 
 import { DecisionsSection } from './decisions-section';
 import { MetersSection } from './meters-section';
 import { OutcomeSection } from './outcome-section';
 import { RecommendationsSection } from './recommendations-section';
 import { ReportActions } from './report-actions';
-import { Header, Kicker, Muted, Root, Title } from './scenario-report.styles';
 import { TopicsSection } from './topics-section';
 
 export const ScenarioReport = () => {
   const { scenarioId = '', attemptId = '' } = useParams();
-  const [searchParams] = useSearchParams();
-  const courseId = searchParams.get('course');
+  const courseId = useCourseParam();
 
   const attemptQuery = useGetAttemptQuery(attemptId);
   const scenarioQuery = useGetScenarioQuery(scenarioId);
@@ -60,40 +59,29 @@ export const ScenarioReport = () => {
     scenario === undefined ? 'Отчёт о попытке' : `Отчёт: ${scenario.title}`
   );
 
-  const isLoading = [
+  const isLoading = isAwaitingData([
     attemptQuery,
     scenarioQuery,
     catalogQuery,
     attemptsQuery,
     courseQuery,
-  ].some((query) => query.isFetching && query.currentData === undefined);
+  ]);
 
-  if (isLoading) return <Muted>Загрузка…</Muted>;
+  if (isLoading) return <LoadingText />;
 
   if (report === null || attempt === undefined || scenario === undefined) {
     return (
-      <Root>
-        <Title>Попытка не найдена</Title>
-        <Muted>
-          Возможно, она сохранена в другом браузере или история была очищена.
-        </Muted>
-        <ButtonLink
-          to={ROUTES.HOME}
-          variant={ButtonVariant.Secondary}
-          size={ButtonSize.Md}
-        >
-          К сценариям
-        </ButtonLink>
-      </Root>
+      <NotFound
+        title="Попытка не найдена"
+        text="Возможно, она сохранена в другом браузере или история была очищена."
+        back={backLink()}
+      />
     );
   }
 
   return (
-    <Root>
-      <Header>
-        <Kicker>Отчёт о попытке</Kicker>
-        <Title>{scenario.title}</Title>
-      </Header>
+    <Page>
+      <PageHeader kicker="Отчёт о попытке" title={scenario.title} />
       <OutcomeSection report={report} attempt={attempt} />
       <MetersSection meters={report.meters} />
       <DecisionsSection
@@ -109,6 +97,6 @@ export const ScenarioReport = () => {
         courseId={courseId}
         course={course}
       />
-    </Root>
+    </Page>
   );
 };

@@ -3,9 +3,15 @@ import { Link } from 'react-router';
 import { styled } from 'styled-components';
 
 import { STAMP_LABELS } from '@/components/stamp';
+import { Tag } from '@/components/tag';
 import { Attempt } from '@/types';
 import type { Course } from '@/types';
-import { attemptLink, formatDateTime, formatRemaining } from '@/utils';
+import {
+  attemptDuration,
+  attemptLink,
+  formatDateTime,
+  formatRemaining,
+} from '@/utils';
 
 const Details = styled.details`
   padding-top: ${({ theme }) => theme.spacing.md};
@@ -47,14 +53,6 @@ const Result = styled.td<{ $passed: boolean }>`
     $passed ? theme.colors.accentNavy : theme.colors.accentRed};
 `;
 
-const Best = styled.span`
-  padding: 0 ${({ theme }) => theme.spacing.sm};
-  font-size: ${({ theme }) => theme.gameFontSizes.tag};
-  font-weight: 700;
-  background: ${({ theme }) => theme.colors.chipBg};
-  border: ${({ theme }) => theme.borders.inkThin};
-`;
-
 const ReportLink = styled(Link)`
   font-weight: 700;
   color: ${({ theme }) => theme.colors.ink};
@@ -91,13 +89,13 @@ export const AttemptHistory = ({
             <tr key={attempt.id}>
               <td>
                 {formatDateTime(attempt.finishedAt)}{' '}
-                {attempt.id === bestId && <Best>Лучшая</Best>}
+                {attempt.id === bestId && <Tag>Лучшая</Tag>}
               </td>
               <Result $passed={attempt.status === Attempt.Status.Passed}>
                 {STAMP_LABELS[attempt.status]}
               </Result>
               <td>{attempt.score ?? '—'}</td>
-              <td>{formatRemaining(attempt.finishedAt - attempt.startedAt)}</td>
+              <td>{formatRemaining(attemptDuration(attempt))}</td>
               <td>
                 <ReportLink
                   to={attemptLink(attempt.scenarioId, attempt.id, courseId)}

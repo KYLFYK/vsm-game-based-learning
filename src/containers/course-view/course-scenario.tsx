@@ -1,21 +1,31 @@
 import { ButtonLink, ButtonVariant } from '@/components/button';
+import { MutedText } from '@/components/muted-text';
 import type { Attempt, Course, Scenario } from '@/types';
-import { bestAttempt, formatRemaining, scenarioLink } from '@/utils';
+import {
+  attemptDuration,
+  bestAttempt,
+  formatEstimate,
+  formatRemaining,
+  scenarioLink,
+} from '@/utils';
 
 import { AttemptHistory } from './attempt-history';
-import { playLabel, SCENARIO_STATUS_LABELS } from './course-view-model';
 import {
-  Badge,
+  playLabel,
+  SCENARIO_STATUS_LABELS,
+  SCENARIO_STATUS_TONES,
+} from './course-view-model';
+import {
   Footer,
   Item,
   ItemHeader,
   ItemTitle,
   Meta,
-  Muted,
+  StatusBadge,
 } from './course-view.styles';
 
 const bestSummary = (best: Attempt.Item): string => {
-  const time = formatRemaining(best.finishedAt - best.startedAt);
+  const time = formatRemaining(attemptDuration(best));
   return best.score === null
     ? `Лучшая попытка: ${time}`
     : `Лучшая попытка: балл ${best.score} · ${time}`;
@@ -46,12 +56,14 @@ export const CourseScenario = ({
         <ItemTitle>
           {position}. {scenario.title}
         </ItemTitle>
-        <Badge $status={status}>{SCENARIO_STATUS_LABELS[status]}</Badge>
+        <StatusBadge $tone={SCENARIO_STATUS_TONES[status]}>
+          {SCENARIO_STATUS_LABELS[status]}
+        </StatusBadge>
       </ItemHeader>
-      <Muted>{scenario.description}</Muted>
+      <MutedText>{scenario.description}</MutedText>
       <Footer>
         <Meta>
-          ~{scenario.estimatedMinutes} мин
+          {formatEstimate(scenario.estimatedMinutes)}
           {best !== null && ` · ${bestSummary(best)}`}
         </Meta>
         <ButtonLink

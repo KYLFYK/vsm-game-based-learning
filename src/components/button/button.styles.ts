@@ -1,5 +1,7 @@
 import { css } from 'styled-components';
 
+import { pressableStyles } from '@/styles/mixins';
+
 import { ButtonSize, ButtonVariant } from './button.enums';
 
 export interface ButtonStyleProps {
@@ -57,27 +59,10 @@ export const buttonStyles = css<ButtonStyleProps>`
   text-decoration: none;
   border: ${({ theme }) => theme.borders.ink};
   border-radius: 0;
-  cursor: pointer;
-  transition:
-    transform ${({ theme }) => theme.durations.press}ms,
-    box-shadow ${({ theme }) => theme.durations.press}ms;
 
   ${({ $size }) => sizes[$size]}
   ${({ $variant }) => variants[$variant]}
-
-  &:hover:not(:disabled) {
-    transform: ${({ theme }) => theme.offsets.lift};
-  }
-
-  &:active:not(:disabled) {
-    transform: ${({ theme }) => theme.offsets.press};
-    box-shadow: none;
-  }
-
-  &:focus-visible {
-    outline: ${({ theme }) => theme.borders.focus};
-    outline-offset: ${({ theme }) => theme.offsets.focus};
-  }
+  ${pressableStyles}
 
   &:disabled {
     cursor: default;

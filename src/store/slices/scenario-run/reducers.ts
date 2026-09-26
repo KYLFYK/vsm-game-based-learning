@@ -4,7 +4,7 @@ import { meterBounds } from '@/utils';
 
 import { holds, resolveNext } from './conditions';
 import { applyEffects } from './effects';
-import { enterNode, finish, lineOf } from './enter-node';
+import { deadlineAt, enterNode, finish, lineOf } from './enter-node';
 
 import type { ScenarioRunState } from './slice';
 
@@ -96,10 +96,7 @@ export const startRun = (
     flags: {},
     log: [],
     startedAt: now,
-    scenarioDeadlineAt:
-      scenario.timeLimitSec === undefined
-        ? null
-        : now + scenario.timeLimitSec * 1000,
+    scenarioDeadlineAt: deadlineAt(now, scenario.timeLimitSec),
   };
   enterNode(state, scenario.startNodeId, now);
   return state;

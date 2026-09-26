@@ -1,16 +1,15 @@
 import { createSearchParams, generatePath } from 'react-router';
 import type { Path } from 'react-router';
 
-import { ROUTES } from '@/constants/routes';
+import { COURSE_SEARCH_PARAM, ROUTES } from '@/constants/routes';
 import type { Attempt, Course, Scenario } from '@/types';
 
 type Link = Pick<Path, 'pathname' | 'search'>;
 
-// Контекст курса едет search-параметром `course`: из курса в сценарий и из сценария в отчёт
 const courseSearch = (courseId?: Course.Id | null): string =>
   courseId === undefined || courseId === null
     ? ''
-    : `?${createSearchParams({ course: courseId }).toString()}`;
+    : `?${createSearchParams({ [COURSE_SEARCH_PARAM]: courseId }).toString()}`;
 
 export const scenarioLink = (
   scenarioId: Scenario.Id,
@@ -31,3 +30,14 @@ export const attemptLink = (
 
 export const courseLink = (courseId: Course.Id): string =>
   generatePath(ROUTES.COURSE, { courseId });
+
+export interface BackLink {
+  to: string;
+  label: string;
+}
+
+/** Куда вернуться из сценария или отчёта: на курс, если он задан, иначе к сценариям */
+export const backLink = (courseId?: Course.Id | null): BackLink =>
+  courseId === undefined || courseId === null
+    ? { to: ROUTES.HOME, label: 'К сценариям' }
+    : { to: courseLink(courseId), label: 'К курсу' };

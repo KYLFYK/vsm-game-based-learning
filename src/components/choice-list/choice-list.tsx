@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
 
 import { Countdown, CountdownSize } from '@/components/countdown';
+import { listReset, pressableStyles } from '@/styles/mixins';
 
 const Root = styled.div`
   display: flex;
@@ -14,12 +15,10 @@ const TimerRow = styled.div`
 `;
 
 const List = styled.ol`
+  ${listReset}
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.sm};
-  margin: 0;
-  padding: 0;
-  list-style: none;
 `;
 
 const Option = styled.button`
@@ -36,25 +35,12 @@ const Option = styled.button`
   background: ${({ theme }) => theme.colors.bgBase};
   border: ${({ theme }) => theme.borders.ink};
   box-shadow: ${({ theme }) => theme.shadows.navyMd};
-  cursor: pointer;
-  transition:
-    transform ${({ theme }) => theme.durations.press}ms,
-    box-shadow ${({ theme }) => theme.durations.press}ms;
 
   &:hover {
-    transform: ${({ theme }) => theme.offsets.lift};
     box-shadow: ${({ theme }) => theme.shadows.redMd};
   }
 
-  &:active {
-    transform: ${({ theme }) => theme.offsets.press};
-    box-shadow: none;
-  }
-
-  &:focus-visible {
-    outline: ${({ theme }) => theme.borders.focus};
-    outline-offset: ${({ theme }) => theme.offsets.focus};
-  }
+  ${pressableStyles}
 `;
 
 const Index = styled.span`

@@ -1,9 +1,10 @@
-import { useNavigate, useSearchParams } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import { styled } from 'styled-components';
 
 import { Button, ButtonSize } from '@/components/button';
 import { Stamp } from '@/components/stamp';
+import { useCourseParam } from '@/hooks';
 import {
   selectAttemptDraft,
   selectEnding,
@@ -31,7 +32,7 @@ const SaveError = styled.p`
 
 export const Finale = () => {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const courseId = useCourseParam();
   const ending = useAppSelector(selectEnding);
   const draft = useAppSelector(selectAttemptDraft);
   const [saveAttempt, { isLoading, isError }] = useSaveAttemptMutation();
@@ -42,9 +43,7 @@ export const Finale = () => {
     if ('error' in result) return;
     // runLeft отработает при размонтировании плеера: сброс до перехода
     // на мгновение показал бы заставку
-    await navigate(
-      attemptLink(draft.scenarioId, draft.id, searchParams.get('course'))
-    );
+    await navigate(attemptLink(draft.scenarioId, draft.id, courseId));
   };
 
   // Без автофокуса на кнопке: keyup пробела нажал бы только что

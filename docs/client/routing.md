@@ -43,8 +43,10 @@ export const ROUTES = {
 значения через `generatePath` из `react-router`, а не шаблонной строкой.
 Ссылки с контекстом курса собирают `scenarioLink`, `attemptLink` и
 `courseLink` из [utils/route-links.ts](../../src/utils/route-links.ts):
-курс едет search-параметром `course` из курса в сценарий и из сценария
-в отчёт.
+курс едет search-параметром `course` (`COURSE_SEARCH_PARAM` из
+`constants/routes.ts`) из курса в сценарий и из сценария в отчёт.
+Читает его хук `useCourseParam` (`@/hooks`); кнопку «назад» — «К курсу»
+или «К сценариям» — даёт `backLink(courseId)`.
 
 ## Маршруты вне лейаута
 

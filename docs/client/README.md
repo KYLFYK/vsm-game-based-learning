@@ -25,14 +25,19 @@ src/
 ├── styled.d.ts                # DefaultTheme styled-components = AppTheme
 ├── components/                # папка на компонент: <name>.tsx, enum/стили рядом, index.ts; импорт @/components/<name>
 │   ├── button/                 # Button, ButtonLink; button.enums.ts (ButtonVariant, ButtonSize), button.styles.ts (buttonStyles)
+│   ├── catalog-card/           # CatalogGrid, CatalogCard — карточка курса или сценария в сетке; CardTitle
 │   ├── character-portrait/     # CharacterPortrait — портрет персонажа, зеркалится и притушивается
 │   ├── choice-list/            # ChoiceList — пронумерованные варианты и таймер узла
 │   ├── comic-backdrop/         # ComicBackdrop — лучи и полутон; comic-backdrop.enums.ts (BackdropVariant)
 │   ├── countdown/              # Countdown — мм:сс, «горящее» состояние; countdown.enums.ts (CountdownSize)
 │   ├── icons/                  # FullscreenEnterIcon, FullscreenExitIcon — SVG-иконки HUD
 │   ├── meter-bar/              # MeterBar — шкала, риска порога, всплывающая дельта (useValueDelta)
+│   ├── muted-text/             # MutedText — второстепенный абзац; LoadingText — «Загрузка…»
+│   ├── not-found/              # NotFound — «не найдено» на странице: заголовок, пояснение, кнопка назад
+│   ├── page/                   # Page, PageHeader (плашка + h1), PageTitle, PageList, PageActions — страница курса и отчёта
 │   ├── speech-bubble/          # SpeechBubble — реплика персонажа или автора; speech-bubble.enums.ts (BubbleSide)
 │   ├── stamp/                  # Stamp — штамп итога, aria-hidden; stamp.enums.ts (STAMP_LABELS)
+│   ├── tag/                    # Tag, Badge, TagList — метки; tag.enums.ts (TagTone), tag.styles.ts (toneStyles)
 │   └── visually-hidden/        # VisuallyHidden — текст только для скринридеров
 ├── config/
 │   ├── env.ts                 # env = readEnv(import.meta.env) — единственная точка чтения env
@@ -40,7 +45,7 @@ src/
 │   ├── __mocks__/env.ts       # подстановка для Jest (moduleNameMapper)
 │   └── __tests__/             # read-env.spec.ts
 ├── constants/
-│   ├── routes.ts              # ROUTES — единственный источник путей (routing.md)
+│   ├── routes.ts              # ROUTES — единственный источник путей; COURSE_SEARCH_PARAM (routing.md)
 │   ├── app.ts                 # APP_NAME
 │   ├── characters.ts          # CHARACTERS — реестр персонажей сценариев
 │   ├── backgrounds.ts         # BACKGROUNDS — реестр фонов сцены
@@ -60,14 +65,14 @@ src/
 │   │   ├── course-view.tsx     # данные, courseProgress, загрузка и «Курс не найден», список
 │   │   ├── course-scenario.tsx # CourseScenario — карточка сценария: метка статуса, лучшая попытка, «Играть»
 │   │   ├── attempt-history.tsx # AttemptHistory — таблица попыток в <details>, ссылки на отчёт
-│   │   ├── course-view-model.ts # SCENARIO_STATUS_LABELS, playLabel, nextToPlay
-│   │   ├── course-view.styles.ts # Root, заголовки, карточка сценария, Badge по статусу
+│   │   ├── course-view-model.ts # SCENARIO_STATUS_LABELS, SCENARIO_STATUS_TONES, playLabel, nextToPlay
+│   │   ├── course-view.styles.ts # Progress, карточка сценария, StatusBadge
 │   │   └── __tests__/          # course-view-model.spec.ts
 │   ├── scenario-catalog/      # ScenarioCatalog — карточки сценариев на главной, «Играть»
 │   ├── scenario-report/       # ScenarioReport — отчёт о попытке (specs/…/ui-report.md)
 │   │   ├── scenario-report.tsx # данные, buildReport, загрузка и «не найдено», порядок блоков
 │   │   ├── index.ts            # барель: ScenarioReport
-│   │   ├── scenario-report.styles.ts # Root, заголовки, cardStyles, списки, теги, Actions
+│   │   ├── scenario-report.styles.ts # Section, SectionTitle
 │   │   ├── outcome-section.tsx # Итог: штамп, причина, балл, время
 │   │   ├── meters-section.tsx  # Шкалы: плитки с итогом и порогом
 │   │   ├── meter-chart.tsx     # MeterChart — SVG-график шкалы по решениям
@@ -75,7 +80,7 @@ src/
 │   │   ├── topics-section.tsx  # Темы: счётчики оценок, слабые и сильные
 │   │   ├── recommendations-section.tsx # Рекомендации: до трёх сценариев
 │   │   ├── report-actions.tsx  # «Пройти ещё раз», «Следующий сценарий», «К курсу» или «К сценариям»
-│   │   ├── report-view.ts      # VERDICT_LABELS, isRetryPrimary, meterEffectLabels, speakerName
+│   │   ├── report-view.ts      # VERDICT_LABELS, VERDICT_TONES, isRetryPrimary, meterEffectLabels, speakerName
 │   │   ├── sparkline.ts        # sparklinePoints, sparklineY — координаты графика
 │   │   └── __tests__/          # sparkline.spec.ts, report-view.spec.ts
 │   └── scenario-player/
@@ -96,9 +101,10 @@ src/
 │                                 use-player-keys.spec.ts, use-fullscreen.spec.ts
 ├── hooks/
 │   ├── index.ts               # барель
+│   ├── use-course-param.ts    # useCourseParam — курс из search-параметра COURSE_SEARCH_PARAM или null
 │   ├── use-document-title.ts  # useDocumentTitle — заголовок вкладки на время жизни компонента
 │   ├── use-value-delta.ts     # useValueDelta — разница с предыдущим значением за время
-│   └── __tests__/             # use-document-title.spec.ts, use-value-delta.spec.ts
+│   └── __tests__/             # spec на каждый хук
 ├── pages/
 │   ├── home/                  # HomePage — главная, маршрут /, ссылка на курсы, каталог сценариев
 │   ├── courses/               # CoursesPage — /courses, список курсов
@@ -113,24 +119,25 @@ src/
 │   │   ├── scenarios-api.ts   # getScenarios, getScenario — queryFn поверх @/content (api.md)
 │   │   ├── courses-api.ts     # getCourses, getCourse — queryFn поверх @/content
 │   │   ├── attempts-api.ts    # getAttempts, getAttempt, saveAttempt — queryFn поверх localStorage
-│   │   ├── api-error.ts       # apiError(code) — сборка Api.Error, приватно для store/apis
+│   │   ├── api-error.ts       # apiError(code), orNotFound(value), тип Outcome — приватно для store/apis
 │   │   └── __tests__/         # по одному spec на файл, свежий store на тест
 │   ├── slices/
 │   │   └── scenario-run/      # слайс scenarioRun (state.md, specs/…/engine.md)
 │   │       ├── slice.ts       # ScenarioRunState, initialState, createSlice, экшены с prepare(now)
 │   │       ├── reducers.ts    # шаги runStarted, advanced, optionChosen, expired; проверка дедлайнов
-│   │       ├── enter-node.ts  # enterNode — слияние stage, таймер узла, финал; finish
+│   │       ├── enter-node.ts  # enterNode — слияние stage, таймер узла, финал; finish, deadlineAt
 │   │       ├── result.ts      # evaluateEnd, computeScore (specs/…/report.md)
 │   │       ├── conditions.ts  # holds, resolveNext
 │   │       ├── effects.ts     # applyEffect(s) — применение эффектов, meterBounds из @/utils
 │   │       ├── selectors.ts   # select* (state.md, specs/…/engine.md#селекторы)
 │   │       ├── index.ts       # барель папки: reducer, экшены, селекторы
-│   │       └── __tests__/     # fixture.ts + reducers*.spec.ts, result, conditions, effects, selectors
+│   │       └── __tests__/     # fixture.ts + reducers*.spec.ts, result, conditions, effects, selectors, enter-node
 │   └── __tests__/             # store.spec.ts
 ├── styles/
 │   ├── theme.ts               # токены: colors, spacing, fontSizes, fontFamily, radii и др.; тип AppTheme
 │   ├── global-style.ts        # GlobalStyle — reset, @font-face, стили body, prefers-reduced-motion
-│   └── animations.ts          # keyframes: popIn, floatUp, stampHit, pulse (styling.md#анимации)
+│   ├── animations.ts          # keyframes: popIn, floatUp, stampHit, pulse (styling.md#анимации)
+│   └── mixins.ts              # css-миксины: listReset, cardStyles, pressableStyles (styling.md#миксины)
 ├── types/
 │   ├── index.ts               # барель: re-export всех namespace
 │   ├── character.ts           # namespace Character — персонажи сценариев
@@ -143,17 +150,19 @@ src/
 │   └── validation.ts          # namespace Validation — Code, Issue, Result, Registries
 └── utils/
     ├── index.ts                # барель: formatting, route-links, scenario-engine
-    ├── format-remaining.ts     # formatRemaining — остаток времени мм:сс
-    ├── format-delta.ts         # formatDelta — дельта со знаком (+ или −)
+    ├── format-*.ts             # formatRemaining (мм:сс), formatTimeLimit (секунды → мм:сс), formatDelta (+/−),
+    │                             formatDateTime (`дд.мм.гггг, чч:мм`), formatEstimate (`~N мин`)
     ├── meter-percent.ts        # meterPercent — нормализация значения в проценты [0, 100]
-    ├── format-date-time.ts     # formatDateTime — дата и время `дд.мм.гггг, чч:мм`
-    ├── route-links.ts          # scenarioLink, attemptLink (search-параметр course), courseLink
+    ├── route-links.ts          # scenarioLink, attemptLink (search-параметр course), courseLink, backLink
+    ├── is-awaiting-data.ts     # isAwaitingData — запрос грузится без currentData («Загрузка…»)
+    ├── own-value.ts            # ownValue — значение по собственному ключу, без прототипа
+    ├── topic-label.ts          # topicLabel — подпись темы из TOPICS или её id
     ├── scenario-engine/
-    │   ├── index.ts             # барель: validateScenario, compareAttempts, bestAttempt, courseProgress, buildReport, meterBounds
+    │   ├── index.ts             # барель: validateScenario, compareAttempts, bestAttempt, courseProgress, buildReport, meterBounds, …
     │   ├── build-report.ts      # buildReport — отчёт о попытке (specs/…/report.md)
     │   ├── recommend.ts         # recommendScenarios, MAX_RECOMMENDATIONS — рекомендации по слабым темам
     │   ├── validate.ts          # validateScenario — фаза 1, фаза 2, предупреждения (specs/…/validation.md)
-    │   ├── compare-attempts.ts  # compareAttempts — правило лучшей попытки (scenario-engine.md)
+    │   ├── compare-attempts.ts  # compareAttempts — правило лучшей попытки (scenario-engine.md); attemptDuration
     │   ├── best-attempt.ts      # bestAttempt, scenarioStatus, attemptsOf — лучшая попытка и статус сценария
     │   ├── course-progress.ts   # courseProgress — статусы сценариев курса, зачтено, курс пройден
     │   ├── validate-shape.ts    # фаза 1: схема Scenario.Definition, коды shape.*
@@ -163,12 +172,12 @@ src/
     │   ├── validate-limits.ts   # фаза 2: meter.range, outcome.*, time.nodeOverScenario
     │   ├── validate-warnings.ts # предупреждения: review.*, flag.*, самопетля, вариант без review
     │   ├── walk.ts              # обход сценария: узлы, варианты, next, условия, эффекты, персонажи с путями
-    │   ├── meter-bounds.ts      # meterBounds(meter) — границы шкалы по умолчанию (0/100)
+    │   ├── meter-bounds.ts      # meterBounds(meter) — границы шкалы по умолчанию (0/100); hasMeters
     │   ├── issue.ts             # issue(), построение путей
     │   └── __tests__/           # fixtures.ts + validate*.spec.ts, compare-attempts.spec.ts, meter-bounds.spec.ts,
     │                              best-attempt.spec.ts, course-progress.spec.ts;
     │                              report-fixture.ts + build-report*.spec.ts, recommend.spec.ts
-    └── __tests__/               # format-*.spec.ts, meter-percent.spec.ts, route-links.spec.ts
+    └── __tests__/               # spec на каждый файл utils
 ```
 
 Назначение папок — [architecture.md](architecture.md#папки-и-их-назначение).
