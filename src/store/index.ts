@@ -1,4 +1,5 @@
 export { api } from './api';
+export * from './apis/achievements-api';
 export * from './apis/attempts-api';
 export * from './apis/courses-api';
 export * from './apis/scenarios-api';

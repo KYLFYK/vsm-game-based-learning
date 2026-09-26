@@ -65,6 +65,8 @@ export const gameFontSizes = {
   reportTitle: 'clamp(24px, 3vw, 40px)',
   reportSection: '15px',
   reportScore: '40px',
+  tab: '13px',
+  tooltip: '13px',
 } as const;
 
 export const fontFamily =
@@ -107,6 +109,7 @@ export const tilts = {
 
 export const filters = {
   dimmed: 'brightness(0.55) saturate(0.6)',
+  locked: 'grayscale(1) opacity(0.45)',
 } as const;
 
 export const offsets = {
@@ -187,6 +190,11 @@ export const report = {
   hitRadius: 10,
 } as const;
 
+/* Страница достижений: минимальная ширина карточки в сетке */
+export const achievements = {
+  cardMinWidth: '190px',
+} as const;
+
 export const theme = {
   colors,
   spacing,
@@ -204,6 +212,7 @@ export const theme = {
   durations,
   stage,
   report,
+  achievements,
 } as const;
 
 export type AppTheme = typeof theme;

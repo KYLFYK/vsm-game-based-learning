@@ -1,8 +1,9 @@
 import { BACKGROUNDS } from '@/constants/backgrounds';
 import { CHARACTERS } from '@/constants/characters';
 import { TOPICS } from '@/constants/topics';
-import type { Course, Scenario, Validation } from '@/types';
+import type { Achievement, Course, Scenario, Validation } from '@/types';
 
+import achievementsData from './achievements.json';
 import { assertCourses } from './assert-courses';
 import coursesData from './courses.json';
 import { loadScenarios } from './load-scenarios';
@@ -28,5 +29,9 @@ export const CONTENT_WARNINGS: Record<Scenario.Id, Validation.Issue[]> =
 export const COURSES: Course.Definition[] = coursesData;
 
 assertCourses(COURSES, SCENARIOS);
+
+export const ACHIEVEMENTS: Achievement.Definition[] = achievementsData;
+
+export { EARNED_ACHIEVEMENTS_MOCK } from './earned-achievements.mock';
 
 export { toSummary } from './to-summary';

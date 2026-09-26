@@ -30,7 +30,7 @@ index.tsx → <Provider store> → <App>
 |-------|------------|------------|
 | `config/` | Чтение env | `env.ts`, `read-env.ts` |
 | `constants/` | Константы, не привязанные к фиче | `ROUTES`, `APP_NAME`, перечисления, лимиты |
-| `content/` | JSON-сценарии и курсы в бандле, будущий контракт API | `scenarios/*.json`, `courses.json`, загрузчик с валидацией на импорте |
+| `content/` | JSON-сценарии, курсы и каталог достижений в бандле, будущий контракт API | `scenarios/*.json`, `courses.json`, `achievements.json`, загрузчик с валидацией на импорте |
 | `components/` | Общий чистый UI без данных | Папка на компонент `<name>/` с барелем `index.ts`; импорт `@/components/<name>`, корневого бареля нет |
 | `containers/` | Бизнес-логика и layout | `AppLayout`, контейнеры разделов, их хуки `use-*.ts` |
 | `hooks/` | Хуки для нескольких разделов | `useDocumentTitle`, `useCourseParam`. Ре-экспорт через `index.ts` |
