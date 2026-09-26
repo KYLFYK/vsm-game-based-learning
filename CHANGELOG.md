@@ -1,5 +1,11 @@
 # vsm-game-based-learning
 
+## 0.5.1
+
+### Patch Changes
+
+- [#11](https://github.com/KYLFYK/vsm-game-based-learning/pull/11) [`f9e5cb2`](https://github.com/KYLFYK/vsm-game-based-learning/commit/f9e5cb2c363d707449ac6c18efde199dfaf290c7) Thanks [@KYLFYK](https://github.com/KYLFYK)! - Повторяющиеся части интерфейса и логики вынесены в общие компоненты и утилиты: метки, карточки каталога, заголовок и колонка страницы, состояние «не найдено», стили нажатия и карточек, подписи тем, ссылка «назад» и чтение курса из адреса. Внешний вид и поведение не меняются.
+
 ## 0.5.0
 
 ### Minor Changes
