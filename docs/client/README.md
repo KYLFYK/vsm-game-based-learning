@@ -51,7 +51,8 @@ src/
 ├── hooks/
 │   ├── index.ts               # барель
 │   ├── use-document-title.ts  # useDocumentTitle — заголовок вкладки на время жизни компонента
-│   └── __tests__/             # use-document-title.spec.ts — пример теста хука
+│   ├── use-value-delta.ts     # useValueDelta — разница с предыдущим значением за время
+│   └── __tests__/             # use-document-title.spec.ts, use-value-delta.spec.ts
 ├── pages/
 │   ├── home/                  # HomePage — главная, маршрут /
 │   ├── scenario/              # ScenarioPage — /scenarios/:scenarioId, вне лейаута
@@ -92,8 +93,11 @@ src/
 │   ├── api.ts                 # namespace Api — коды ошибок RTK Query
 │   └── validation.ts          # namespace Validation — Code, Issue, Result, Registries
 └── utils/
-    ├── index.ts                # барель: re-export из scenario-engine
-    └── scenario-engine/
+    ├── index.ts                # барель: formatting, scenario-engine
+    ├── format-remaining.ts     # formatRemaining — остаток времени мм:сс
+    ├── format-delta.ts         # formatDelta — дельта со знаком (+ или −)
+    ├── meter-percent.ts        # meterPercent — нормализация значения в проценты [0, 100]
+    ├── scenario-engine/
         ├── index.ts             # барель: validateScenario, compareAttempts, meterBounds
         ├── validate.ts          # validateScenario — фаза 1, фаза 2, предупреждения (specs/…/validation.md)
         ├── compare-attempts.ts  # compareAttempts — правило лучшей попытки (scenario-engine.md)
@@ -106,7 +110,8 @@ src/
         ├── walk.ts              # обход сценария: узлы, варианты, next, условия, эффекты, персонажи с путями
         ├── meter-bounds.ts      # meterBounds(meter) — границы шкалы по умолчанию (0/100)
         ├── issue.ts             # issue(), построение путей
-        └── __tests__/           # fixtures.ts + validate*.spec.ts по файлу-источнику кодов, compare-attempts.spec.ts, meter-bounds.spec.ts
+        └── __tests__/           # fixtures.ts + validate*.spec.ts, compare-attempts.spec.ts, meter-bounds.spec.ts
+    └── __tests__/               # format-remaining.spec.ts, format-delta.spec.ts, meter-percent.spec.ts
 ```
 
 Папка `components/` создаётся при появлении первого файла; назначение
