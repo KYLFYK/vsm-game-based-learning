@@ -1,5 +1,11 @@
 # vsm-game-based-learning
 
+## 0.5.0
+
+### Minor Changes
+
+- [#9](https://github.com/KYLFYK/vsm-game-based-learning/pull/9) [`b896fe9`](https://github.com/KYLFYK/vsm-game-based-learning/commit/b896fe93cbb86f64366927d44a85686d1d8ed9d8) Thanks [@KYLFYK](https://github.com/KYLFYK)! - Курсы и результаты: список курсов с прогрессом, страница курса со статусом каждого сценария по лучшей попытке и историей попыток с переходом в отчёт, навигация «Главная» / «Курсы» в шапке, возврат на курс из сценария и кнопка «К курсу» в отчёте.
+
 ## 0.4.0
 
 ### Minor Changes
