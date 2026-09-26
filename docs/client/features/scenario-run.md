@@ -7,7 +7,8 @@
 
 ## Маршруты
 
-- `/` → `HomePage` (`scenario-catalog`).
+- `/` → `HomePage` (`scenario-catalog`); из курса сценарий открывается
+  с search-параметром `course` ([courses.md](courses.md)).
 - `/scenarios/:scenarioId` → `ScenarioPage` (`scenario-player`, без
   `AppLayout`).
 - `/scenarios/:scenarioId/attempts/:attemptId` → `ScenarioAttemptPage`
@@ -21,8 +22,8 @@
   с темами, длительностью, лимитом и «Играть».
 - `containers/scenario-player/`:
   - `scenario-player.tsx` — загрузка сценария, переключение по статусу
-    попытки, «Выйти», `runLeft` при уходе;
-  - `intro.tsx` — заставка и «Начать»;
+    попытки, «Выйти» на курс или главную, `runLeft` при уходе;
+  - `intro.tsx` — заставка, «Начать» и «◂ К курсу» / «◂ К сценариям»;
   - `scene.tsx` — фон, слоты, реплика, варианты, «Далее»;
   - `hud.tsx` — «Выйти», название, шкалы, таймер, «Во весь экран»;
   - `finale.tsx` — штамп и «К отчёту» с сохранением попытки;
@@ -38,7 +39,9 @@
 - `store/apis/scenarios-api.ts` — `getScenarios`, `getScenario`.
 - `store/apis/attempts-api.ts` — `saveAttempt`, `getAttempt`,
   `getAttempts`.
-- `store/apis/courses-api.ts` — `getCourse` для «Следующего сценария».
+- `store/apis/courses-api.ts` — `getCourse` для «Следующего сценария» и
+  «К курсу».
+- `utils/route-links.ts` — `scenarioLink`, `attemptLink`, `courseLink`.
 - `store/slices/scenario-run/` — слайс попытки.
 
 ## Поток (step-by-step)
@@ -50,8 +53,10 @@
 5. Финал: штамп, «К отчёту» → `saveAttempt` → `SCENARIO_ATTEMPT`.
 6. Отчёт: `buildReport` из попытки, сценария, каталога и всех попыток;
    «Пройти ещё раз» и «Следующий сценарий» ведут на `SCENARIO` с тем же
-   `course`, рекомендации — без него.
-7. «Выйти» → `confirm` → главная; уход со страницы → `runLeft`.
+   `course`, рекомендации — без него; «К курсу» — на `COURSE`, если курс
+   найден, иначе «К сценариям» на главную.
+7. «Выйти» → `confirm` → курс из `course` или главная; уход со страницы →
+   `runLeft`.
 
 ## API
 
@@ -73,7 +78,6 @@ HTTP-запросов нет: `queryFn` поверх бандла сценари
   реального времени.
 - Отчёт по попытке старой версии сценария показывает только итог и
   шкалы: тексты узлов могли измениться.
-- «К курсу» в отчёте появится вместе со страницами курсов (этап 6).
 - Таймеры сценария и узла — из `useRunTimers`
   ([../scenario-engine.md](../scenario-engine.md)).
 

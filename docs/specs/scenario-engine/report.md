@@ -45,9 +45,17 @@
 3. Меньшая `finishedAt - startedAt`.
 4. Более поздний `finishedAt` (стабильность).
 
-`bestAttempt(attempts) = [...attempts].sort(compareAttempts)[0] ?? null`.
-`scenarioStatus(attempts): Course.ScenarioStatus`: нет попыток —
-`NotStarted`, лучшая `Passed` — `Passed`, иначе `Failed`.
+Помощники в `utils/scenario-engine/best-attempt.ts` и `course-progress.ts`:
+
+- `bestAttempt(attempts) = [...attempts].sort(compareAttempts)[0] ?? null`,
+  исходный список не меняется.
+- `scenarioStatus(attempts): Course.ScenarioStatus`: нет попыток —
+  `NotStarted`, лучшая `Passed` — `Passed`, иначе `Failed`.
+- `attemptsOf(attempts, scenarioId)` — попытки сценария в исходном порядке.
+- `courseProgress(course, attempts): CourseProgress` —
+  `{ statuses, passed, total, completed }`: статус каждого сценария курса
+  по всем его попыткам (и вне курса), число зачтённых, `completed` —
+  `total > 0` и зачтены все.
 
 ## `buildReport`
 
@@ -96,6 +104,9 @@ buildReport(input: {
   несколькими шкалами и флагами, `computeScore` на пустом журнале, на
   повторном узле, округление.
 - `compare-attempts.spec.ts`: каждый уровень сравнения, `null` балл.
+- `best-attempt.spec.ts`: пустой список, выбор лучшей, неизменность
+  входа, каждый статус сценария; `course-progress.spec.ts`: статусы,
+  попытки вне курса, завершённый и пустой курс.
 - `build-report-outcome.spec.ts`: текст итога по каждой причине и
   неизвестной `reason` из хранилища.
 - `build-report.spec.ts`: `versionMismatch`,

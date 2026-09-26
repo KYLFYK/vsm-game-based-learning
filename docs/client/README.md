@@ -13,6 +13,7 @@ React 19 SPA на Vite 8. Точка входа — [src/index.tsx](../../src/in
 - [Игровой движок сценариев](scenario-engine.md) — жизненный цикл
   попытки, где что лежит, таймеры, результат, лучшая попытка.
 - [Фичи и флоу](features/README.md) — пошаговые описания.
+- [Команды и тесты](tooling.md) — npm-скрипты, настройка Jest.
 
 ## Карта `src/`
 
@@ -53,7 +54,15 @@ src/
 │   ├── index.ts               # барель: SCENARIOS, COURSES, CONTENT_WARNINGS, toSummary
 │   └── __tests__/             # index.spec.ts — загрузка, ошибки, snapshot предупреждений
 ├── containers/
-│   ├── layout/app-layout.tsx  # AppLayout — Header (имя + версия) + Main с <Outlet/>
+│   ├── layout/app-layout.tsx  # AppLayout — Header (имя, навигация «Главная» / «Курсы», версия) + Main с <Outlet/>
+│   ├── course-list/           # CourseList — карточки курсов с прогрессом «Зачтено N из M», «Открыть»
+│   ├── course-view/           # CourseView — курс: сценарии по порядку, статус, лучшая попытка, история
+│   │   ├── course-view.tsx     # данные, courseProgress, загрузка и «Курс не найден», список
+│   │   ├── course-scenario.tsx # CourseScenario — карточка сценария: метка статуса, лучшая попытка, «Играть»
+│   │   ├── attempt-history.tsx # AttemptHistory — таблица попыток в <details>, ссылки на отчёт
+│   │   ├── course-view-model.ts # SCENARIO_STATUS_LABELS, playLabel, nextToPlay
+│   │   ├── course-view.styles.ts # Root, заголовки, карточка сценария, Badge по статусу
+│   │   └── __tests__/          # course-view-model.spec.ts
 │   ├── scenario-catalog/      # ScenarioCatalog — карточки сценариев на главной, «Играть»
 │   ├── scenario-report/       # ScenarioReport — отчёт о попытке (specs/…/ui-report.md)
 │   │   ├── scenario-report.tsx # данные, buildReport, загрузка и «не найдено», порядок блоков
@@ -65,11 +74,10 @@ src/
 │   │   ├── decisions-section.tsx # Разбор решений и «Лучше было бы»
 │   │   ├── topics-section.tsx  # Темы: счётчики оценок, слабые и сильные
 │   │   ├── recommendations-section.tsx # Рекомендации: до трёх сценариев
-│   │   ├── report-actions.tsx  # «Пройти ещё раз», «Следующий сценарий», «К сценариям»
+│   │   ├── report-actions.tsx  # «Пройти ещё раз», «Следующий сценарий», «К курсу» или «К сценариям»
 │   │   ├── report-view.ts      # VERDICT_LABELS, isRetryPrimary, meterEffectLabels, speakerName
-│   │   ├── scenario-link.ts    # scenarioLink — SCENARIO с search-параметром course
 │   │   ├── sparkline.ts        # sparklinePoints, sparklineY — координаты графика
-│   │   └── __tests__/          # sparkline.spec.ts, report-view.spec.ts, scenario-link.spec.ts
+│   │   └── __tests__/          # sparkline.spec.ts, report-view.spec.ts
 │   └── scenario-player/
 │       ├── scenario-player.tsx # ScenarioPlayer — экран сценария, сброс попытки при уходе (routing.md)
 │       ├── index.ts            # барель: ScenarioPlayer
@@ -92,7 +100,9 @@ src/
 │   ├── use-value-delta.ts     # useValueDelta — разница с предыдущим значением за время
 │   └── __tests__/             # use-document-title.spec.ts, use-value-delta.spec.ts
 ├── pages/
-│   ├── home/                  # HomePage — главная, маршрут /, каталог сценариев
+│   ├── home/                  # HomePage — главная, маршрут /, ссылка на курсы, каталог сценариев
+│   ├── courses/               # CoursesPage — /courses, список курсов
+│   ├── course/                # CoursePage — /courses/:courseId, курс
 │   ├── scenario/              # ScenarioPage — /scenarios/:scenarioId, вне лейаута
 │   └── scenario-attempt/      # ScenarioAttemptPage — отчёт о попытке, в лейауте
 ├── store/
@@ -132,16 +142,20 @@ src/
 │   ├── api.ts                 # namespace Api — коды ошибок RTK Query
 │   └── validation.ts          # namespace Validation — Code, Issue, Result, Registries
 └── utils/
-    ├── index.ts                # барель: formatting, scenario-engine
+    ├── index.ts                # барель: formatting, route-links, scenario-engine
     ├── format-remaining.ts     # formatRemaining — остаток времени мм:сс
     ├── format-delta.ts         # formatDelta — дельта со знаком (+ или −)
     ├── meter-percent.ts        # meterPercent — нормализация значения в проценты [0, 100]
+    ├── format-date-time.ts     # formatDateTime — дата и время `дд.мм.гггг, чч:мм`
+    ├── route-links.ts          # scenarioLink, attemptLink (search-параметр course), courseLink
     ├── scenario-engine/
-    │   ├── index.ts             # барель: validateScenario, compareAttempts, buildReport, meterBounds
+    │   ├── index.ts             # барель: validateScenario, compareAttempts, bestAttempt, courseProgress, buildReport, meterBounds
     │   ├── build-report.ts      # buildReport — отчёт о попытке (specs/…/report.md)
     │   ├── recommend.ts         # recommendScenarios, MAX_RECOMMENDATIONS — рекомендации по слабым темам
     │   ├── validate.ts          # validateScenario — фаза 1, фаза 2, предупреждения (specs/…/validation.md)
     │   ├── compare-attempts.ts  # compareAttempts — правило лучшей попытки (scenario-engine.md)
+    │   ├── best-attempt.ts      # bestAttempt, scenarioStatus, attemptsOf — лучшая попытка и статус сценария
+    │   ├── course-progress.ts   # courseProgress — статусы сценариев курса, зачтено, курс пройден
     │   ├── validate-shape.ts    # фаза 1: схема Scenario.Definition, коды shape.*
     │   ├── shape-schema.ts      # декларативные проверки формы: objectOf, arrayOf, recordOf, variantBy
     │   ├── validate-graph.ts    # фаза 2: коды graph.* (старт, ссылки, переходы, варианты, достижимость)
@@ -151,9 +165,10 @@ src/
     │   ├── walk.ts              # обход сценария: узлы, варианты, next, условия, эффекты, персонажи с путями
     │   ├── meter-bounds.ts      # meterBounds(meter) — границы шкалы по умолчанию (0/100)
     │   ├── issue.ts             # issue(), построение путей
-    │   └── __tests__/           # fixtures.ts + validate*.spec.ts, compare-attempts.spec.ts, meter-bounds.spec.ts;
+    │   └── __tests__/           # fixtures.ts + validate*.spec.ts, compare-attempts.spec.ts, meter-bounds.spec.ts,
+    │                              best-attempt.spec.ts, course-progress.spec.ts;
     │                              report-fixture.ts + build-report*.spec.ts, recommend.spec.ts
-    └── __tests__/               # format-remaining.spec.ts, format-delta.spec.ts, meter-percent.spec.ts
+    └── __tests__/               # format-*.spec.ts, meter-percent.spec.ts, route-links.spec.ts
 ```
 
 Назначение папок — [architecture.md](architecture.md#папки-и-их-назначение).
@@ -172,25 +187,3 @@ src/
 - Маршруты — только `ROUTES`.
 - Env — только `env` из `@/config/env`.
 - Полные правила — [requirements/client.md](../requirements/client.md).
-
-## Команды
-
-| Команда | Что делает |
-|---------|------------|
-| `yarn dev` | Vite dev-сервер на `:3000` (`--port` переопределяет) |
-| `yarn build` | `tsc -b` (app + node + test) и `vite build` → `dist/` |
-| `yarn preview` | Превью production-сборки на `:3000` |
-| `yarn lint` | Oxlint с автофиксом, type-aware правила, `--max-warnings 0` |
-| `yarn format` / `yarn format:check` | oxfmt |
-| `yarn test` | Jest: `src/**/__tests__/*.spec.ts(x)` |
-
-## Тесты
-
-- Jest 30, env jsdom, трансформер `@swc/jest` (TS → CommonJS без участия
-  TypeScript). Типы тестов проверяет `yarn build` через `tsconfig.test.json`.
-- `@/config/env` в тестах подменён `src/config/__mocks__/env.ts`; глобал
-  `__APP_VERSION__` = `0.0.0-test` ([jest.config.js](../../jest.config.js)).
-- ESM-only зависимости (react-router) загружаются через `require(esm)` Jest
-  на Node ≥ 24.9 с флагом `--experimental-vm-modules` (его выставляет скрипт
-  `test`); `transformIgnorePatterns` не нужен.
-- Конвенции — [requirements/general.md](../requirements/general.md#тесты).
