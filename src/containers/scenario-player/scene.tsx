@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
 import type { MouseEvent, ReactNode } from 'react';
 
-import { BackdropVariant, ComicBackdrop } from '@/components/comic-backdrop';
-import { BubbleSide, SpeechBubble } from '@/components/speech-bubble';
 import { CharacterPortrait } from '@/components/character-portrait';
 import { ChoiceList } from '@/components/choice-list';
+import { BackdropVariant, ComicBackdrop } from '@/components/comic-backdrop';
+import { BubbleSide, SpeechBubble } from '@/components/speech-bubble';
 import { STAMP_LABELS } from '@/components/stamp';
 import { VisuallyHidden } from '@/components/visually-hidden';
 import { BACKGROUNDS } from '@/constants/backgrounds';

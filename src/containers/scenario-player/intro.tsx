@@ -1,7 +1,12 @@
 import { styled } from 'styled-components';
 
+import {
+  Button,
+  ButtonLink,
+  ButtonSize,
+  ButtonVariant,
+} from '@/components/button';
 import { BackdropVariant, ComicBackdrop } from '@/components/comic-backdrop';
-import { Button, ButtonLink, ButtonSize, ButtonVariant } from '@/components/button';
 import { ROUTES } from '@/constants/routes';
 import { TOPICS } from '@/constants/topics';
 import type { Scenario } from '@/types';

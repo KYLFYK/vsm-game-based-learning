@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router';
 
-import { BackdropVariant, ComicBackdrop } from '@/components/comic-backdrop';
 import { ButtonLink, ButtonSize, ButtonVariant } from '@/components/button';
+import { BackdropVariant, ComicBackdrop } from '@/components/comic-backdrop';
 import { ROUTES } from '@/constants/routes';
 import { useDocumentTitle } from '@/hooks';
 import {
