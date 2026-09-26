@@ -77,8 +77,8 @@ MVP0 — источник `queryFn` (бандл или `localStorage`); HTTP-м�
 |-----|------|------|------|------|------|
 | `useGetScenariosQuery` | `queryFn` (бандл) | `GET` | `scenarios` | `Scenarios` | [scenario-engine.md](scenario-engine.md) |
 | `useGetScenarioQuery` | `queryFn` (бандл) | `GET` | `scenarios/:id` | `{ type: 'Scenarios', id }` | [scenario-engine.md](scenario-engine.md) |
-| `useGetCoursesQuery` | `queryFn` (бандл) | `GET` | `courses` | `Courses` | [scenario-engine.md](scenario-engine.md) |
-| `useGetCourseQuery` | `queryFn` (бандл) | `GET` | `courses/:id` | `{ type: 'Courses', id }` | [scenario-engine.md](scenario-engine.md) |
+| `useGetCoursesQuery` | `queryFn` (бандл) | `GET` | `courses` | `Courses` | [courses.md](features/courses.md) |
+| `useGetCourseQuery` | `queryFn` (бандл) | `GET` | `courses/:id` | `{ type: 'Courses', id }` | [courses.md](features/courses.md) |
 | `useGetAttemptsQuery` | `queryFn` (`localStorage`) | `GET` | `attempts?scenarioId=` | `Attempts` | [scenario-engine.md](scenario-engine.md) |
 | `useGetAttemptQuery` | `queryFn` (`localStorage`) | `GET` | `attempts/:id` | `{ type: 'Attempts', id }` | [scenario-engine.md](scenario-engine.md) |
 | `useSaveAttemptMutation` | `queryFn` (`localStorage`) | `POST` | `attempts` | инвалидирует `Attempts` | [scenario-engine.md](scenario-engine.md) |

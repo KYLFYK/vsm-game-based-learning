@@ -8,6 +8,7 @@
 | Фича | Маршрут | Документ |
 |------|---------|----------|
 | Прохождение сценария | /scenarios/:scenarioId | [scenario-run.md](scenario-run.md) |
+| Курсы и результаты | /courses, /courses/:courseId | [courses.md](courses.md) |
 
 ## Шаблон для новой фичи
 

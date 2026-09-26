@@ -15,9 +15,8 @@
 | `decisions-section.tsx` | Разбор решений: номер, оценка, вопрос, ответ, пояснение, изменения шкал, тема, «Лучше было бы» |
 | `topics-section.tsx` | Темы: счётчики `best` / `ok` / `bad`, метка «Стоит подтянуть» или «Сильная сторона» |
 | `recommendations-section.tsx` | До трёх сценариев: название, темы-пересечения, «Играть» |
-| `report-actions.tsx` | «Пройти ещё раз», «Следующий сценарий», «К сценариям» |
+| `report-actions.tsx` | «Пройти ещё раз», «Следующий сценарий», «К курсу» или «К сценариям» |
 | `report-view.ts` | Чистые помощники: `VERDICT_LABELS`, `isRetryPrimary`, `meterEffectLabels`, `speakerName` |
-| `scenario-link.ts` | `scenarioLink(scenarioId, courseId?)` — `SCENARIO` с search-параметром `course` |
 | `sparkline.ts` | `sparklinePoints`, `sparklineY` — координаты графика в `viewBox` |
 | `scenario-report.styles.ts` | `Root`, заголовки, `cardStyles`, списки, теги, `Actions` |
 
@@ -59,8 +58,9 @@
   «Следующего сценария» и `Secondary`.
 - «Следующий сценарий ▸» → `SCENARIO` для `nextScenarioId` с тем же
   `course`, только при `nextScenarioId`.
-- «К сценариям» → `HOME`, всегда последней. «К курсу» появится вместе с
-  `ROUTES.COURSE` на этапе 6.
+- Последняя кнопка: «К курсу» → `COURSE`, если курс из `course` найден,
+  иначе «К сценариям» → `HOME`.
+- Ссылки собирает `scenarioLink` из `utils/route-links.ts`.
 
 ## График шкалы
 
@@ -83,8 +83,7 @@
 
 ## Тесты
 
-`__tests__/sparkline.spec.ts`, `report-view.spec.ts`,
-`scenario-link.spec.ts` — чистые помощники; компоненты не тестируются
+`__tests__/sparkline.spec.ts`, `report-view.spec.ts` — чистые помощники; компоненты не тестируются
 ([../../requirements/general.md](../../requirements/general.md#тесты)).
 
 ## См. также

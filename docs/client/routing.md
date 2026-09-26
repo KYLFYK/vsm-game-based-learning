@@ -13,12 +13,16 @@ BrowserRouter
 └── Routes
     ├── /                            → AppLayout (Header + Main)
     │   ├── index                    → HomePage
+    │   ├── /courses                 → CoursesPage
+    │   ├── /courses/:courseId       → CoursePage
     │   └── /scenarios/:scenarioId/attempts/:attemptId → ScenarioAttemptPage
     └── /scenarios/:scenarioId       → ScenarioPage (без AppLayout, во всё окно)
 ```
 
 `AppLayout` ([containers/layout/app-layout.tsx](../../src/containers/layout/app-layout.tsx))
-— шапка с `APP_NAME` и версией `__APP_VERSION__`, под ней `<Outlet />`.
+— шапка с `APP_NAME` (ссылка на главную), навигацией `NavLink` «Главная»
+и «Курсы» (активный пункт — `aria-current="page"`) и версией
+`__APP_VERSION__`, под ней `<Outlet />`.
 
 ## ROUTES — единственный источник истины
 
@@ -27,14 +31,20 @@ BrowserRouter
 ```ts
 export const ROUTES = {
   HOME: '/',
+  COURSES: '/courses',
+  COURSE: '/courses/:courseId',
   SCENARIO: '/scenarios/:scenarioId',
   SCENARIO_ATTEMPT: '/scenarios/:scenarioId/attempts/:attemptId',
 } as const;
 ```
 
 Никогда не пиши пути строками в компонентах — только `ROUTES.XXX`. Для
-параметризованных путей (`SCENARIO`, `SCENARIO_ATTEMPT`) подставляй
+параметризованных путей (`COURSE`, `SCENARIO`, `SCENARIO_ATTEMPT`) подставляй
 значения через `generatePath` из `react-router`, а не шаблонной строкой.
+Ссылки с контекстом курса собирают `scenarioLink`, `attemptLink` и
+`courseLink` из [utils/route-links.ts](../../src/utils/route-links.ts):
+курс едет search-параметром `course` из курса в сценарий и из сценария
+в отчёт.
 
 ## Маршруты вне лейаута
 

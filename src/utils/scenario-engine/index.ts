@@ -1,6 +1,9 @@
+export { attemptsOf, bestAttempt, scenarioStatus } from './best-attempt';
 export { buildReport } from './build-report';
 export type { BuildReportInput } from './build-report';
 export { compareAttempts } from './compare-attempts';
+export { courseProgress } from './course-progress';
+export type { CourseProgress } from './course-progress';
 export { meterBounds } from './meter-bounds';
 export { MAX_CHOICE_OPTIONS } from './validate-graph';
 export { MAX_RECOMMENDATIONS } from './recommend';
