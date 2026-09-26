@@ -22,6 +22,21 @@ src/
 ├── app.tsx                    # ThemeProvider + GlobalStyle + BrowserRouter + Routes
 ├── vite-env.d.ts              # типы Vite, __APP_VERSION__, ImportMetaEnv
 ├── styled.d.ts                # DefaultTheme styled-components = AppTheme
+├── components/
+│   ├── button.enums.ts         # ButtonVariant, ButtonSize
+│   ├── button.styles.ts        # buttonStyles — общая CSS размеров и вариантов кнопки
+│   ├── button.tsx              # Button, ButtonLink
+│   ├── character-portrait.tsx  # CharacterPortrait — портрет персонажа, зеркалится и притушивается
+│   ├── choice-list.tsx         # ChoiceList — пронумерованные варианты и таймер узла
+│   ├── comic-backdrop.enums.ts # BackdropVariant
+│   ├── comic-backdrop.tsx      # ComicBackdrop — декоративный слой лучей и полутона
+│   ├── countdown.enums.ts      # CountdownSize
+│   ├── countdown.tsx           # Countdown — мм:сс, «горящее» состояние
+│   ├── index.ts                # барель: компоненты и их enum пропсов
+│   ├── meter-bar.tsx           # MeterBar — шкала, риска порога, всплывающая дельта (useValueDelta)
+│   ├── speech-bubble.enums.ts  # BubbleSide
+│   ├── speech-bubble.tsx       # SpeechBubble — реплика персонажа или автора
+│   └── stamp.tsx               # Stamp — штамп «Зачтено» / «Не зачтено»
 ├── config/
 │   ├── env.ts                 # env = readEnv(import.meta.env) — единственная точка чтения env
 │   ├── read-env.ts            # readEnv: типизация и проверка обязательных переменных
@@ -98,24 +113,23 @@ src/
     ├── format-delta.ts         # formatDelta — дельта со знаком (+ или −)
     ├── meter-percent.ts        # meterPercent — нормализация значения в проценты [0, 100]
     ├── scenario-engine/
-        ├── index.ts             # барель: validateScenario, compareAttempts, meterBounds
-        ├── validate.ts          # validateScenario — фаза 1, фаза 2, предупреждения (specs/…/validation.md)
-        ├── compare-attempts.ts  # compareAttempts — правило лучшей попытки (scenario-engine.md)
-        ├── validate-shape.ts    # фаза 1: схема Scenario.Definition, коды shape.*
-        ├── shape-schema.ts      # декларативные проверки формы: objectOf, arrayOf, recordOf, variantBy
-        ├── validate-graph.ts    # фаза 2: коды graph.* (старт, ссылки, переходы, варианты, достижимость)
-        ├── validate-refs.ts     # фаза 2: коды ref.* (реестры, characters, шкалы)
-        ├── validate-limits.ts   # фаза 2: meter.range, outcome.*, time.nodeOverScenario
-        ├── validate-warnings.ts # предупреждения: review.*, flag.*, самопетля, вариант без review
-        ├── walk.ts              # обход сценария: узлы, варианты, next, условия, эффекты, персонажи с путями
-        ├── meter-bounds.ts      # meterBounds(meter) — границы шкалы по умолчанию (0/100)
-        ├── issue.ts             # issue(), построение путей
-        └── __tests__/           # fixtures.ts + validate*.spec.ts, compare-attempts.spec.ts, meter-bounds.spec.ts
+    │   ├── index.ts             # барель: validateScenario, compareAttempts, meterBounds
+    │   ├── validate.ts          # validateScenario — фаза 1, фаза 2, предупреждения (specs/…/validation.md)
+    │   ├── compare-attempts.ts  # compareAttempts — правило лучшей попытки (scenario-engine.md)
+    │   ├── validate-shape.ts    # фаза 1: схема Scenario.Definition, коды shape.*
+    │   ├── shape-schema.ts      # декларативные проверки формы: objectOf, arrayOf, recordOf, variantBy
+    │   ├── validate-graph.ts    # фаза 2: коды graph.* (старт, ссылки, переходы, варианты, достижимость)
+    │   ├── validate-refs.ts     # фаза 2: коды ref.* (реестры, characters, шкалы)
+    │   ├── validate-limits.ts   # фаза 2: meter.range, outcome.*, time.nodeOverScenario
+    │   ├── validate-warnings.ts # предупреждения: review.*, flag.*, самопетля, вариант без review
+    │   ├── walk.ts              # обход сценария: узлы, варианты, next, условия, эффекты, персонажи с путями
+    │   ├── meter-bounds.ts      # meterBounds(meter) — границы шкалы по умолчанию (0/100)
+    │   ├── issue.ts             # issue(), построение путей
+    │   └── __tests__/           # fixtures.ts + validate*.spec.ts, compare-attempts.spec.ts, meter-bounds.spec.ts
     └── __tests__/               # format-remaining.spec.ts, format-delta.spec.ts, meter-percent.spec.ts
 ```
 
-Папка `components/` создаётся при появлении первого файла; назначение
-папок — [architecture.md](architecture.md#папки-и-их-назначение).
+Назначение папок — [architecture.md](architecture.md#папки-и-их-назначение).
 Статика вне `src/` — `public/`, отдаётся от корня сайта: `favicon.svg`,
 `characters/*.svg` (заглушки портретов, один SVG на персонажа, кроме
 автора) и `backgrounds/*.svg` (заглушки фонов), пути на них — в

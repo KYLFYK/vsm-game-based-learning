@@ -49,7 +49,7 @@ Routes
 |-----------|--------|-----------------|
 | `Button` | `variant: ButtonVariant`, `size: ButtonSize`, `onClick`, `disabled`, `aria-*` | Единая кнопка; `enum ButtonVariant { Primary, Secondary }`, `enum ButtonSize { Sm, Md, Lg }` |
 | `ButtonLink` | `to`, `variant`, `size` | Та же кнопка поверх `Link` из `react-router` |
-| `MeterBar` | `label`, `value`, `min`, `max`, `threshold?` | Полоса, риска порога, всплывающий `±n` на 1 с при смене `value` |
+| `MeterBar` | `label`, `value`, `min`, `max`, `threshold?` | Полоса, риска порога, всплывающий `±n` на 1 с при смене `value` (`useValueDelta`) |
 | `Countdown` | `remainingMs`, `size: CountdownSize` | `мм:сс`; при `< COUNTDOWN_HOT_MS` (10 000) — «горящее» состояние; `enum CountdownSize { Hud, Inline }` |
 | `SpeechBubble` | `side: BubbleSide`, `name?`, `text` | Реплика персонажа (`Left`, `Right`) или автора (`Top`); `enum BubbleSide { Left, Right, Top }` |
 | `CharacterPortrait` | `src`, `name`, `side: Character.Side`, `active` | Портрет, притушен при `active: false`; `Side.Left` отзеркален |
@@ -58,8 +58,9 @@ Routes
 | `ComicBackdrop` | `variant: BackdropVariant` | Декоративный слой: лучи и полутон; `enum BackdropVariant { Intro, Scene }` |
 
 Компоненты не знают про store и типы сценария глубже пропсов. Enum
-пропсов экспортируется из файла компонента и через `components/index.ts`.
-`MeterBar` сам хранит предыдущее `value`, чтобы показать дельту.
+пропсов компонента живёт в `<component>.enums.ts` рядом с компонентом и
+реэкспортируется через `components/index.ts`. `MeterBar` через
+`useValueDelta` показывает разницу с предыдущим `value`.
 Клавиш 1–4 хватает на любой `choice`: валидатор гарантирует не больше
 `MAX_CHOICE_OPTIONS` вариантов ([validation.md](validation.md)).
 
