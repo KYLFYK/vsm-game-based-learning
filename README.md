@@ -50,7 +50,9 @@ yarn dev                    # http://localhost:3000
 ```
 
 Порт переопределяется флагом: `yarn dev --port 3100`. Conductor делает это
-сам через `CONDUCTOR_PORT`.
+сам через `CONDUCTOR_PORT`. Открывая dev-сервер с другого устройства в
+сети — см. ограничение `crypto.randomUUID()` в
+[docs/client/scenario-engine.md](docs/client/scenario-engine.md).
 
 ### Переменные окружения
 
@@ -111,6 +113,7 @@ docker compose down
 | [docs/stack.md](docs/stack.md) | Версии и что не установлено |
 | [docs/client/](docs/client/README.md) | Карта `src/`, роутинг, состояние, API, стили, фичи |
 | [docs/plans/](docs/plans/README.md) | Многозадачные планы фич |
+| [docs/specs/](docs/specs/README.md) | Спецификации подсистем до реализации |
 | [docs/ai.md](docs/ai.md) | Что настроено для ИИ-агентов |
 
 ---

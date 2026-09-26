@@ -9,6 +9,6 @@ import { env } from '@/config/env';
 export const api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({ baseUrl: env.apiUrl }),
-  tagTypes: [],
+  tagTypes: ['Scenarios', 'Courses', 'Attempts'],
   endpoints: () => ({}),
 });

@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`scenariosApi getScenarios maps every bundled scenario through toSummary 1`] = `
+[
+  {
+    "hasMeters": false,
+    "id": "a",
+  },
+  {
+    "hasMeters": true,
+    "id": "b",
+  },
+]
+`;

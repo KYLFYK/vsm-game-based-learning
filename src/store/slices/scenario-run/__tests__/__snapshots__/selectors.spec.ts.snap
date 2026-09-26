@@ -1,0 +1,160 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`selectAttemptDraft failed by meter depletion, with the depleted meter id 1`] = `
+{
+  "failedMeterId": "trust",
+  "finishedAt": 1000003,
+  "flags": {},
+  "id": Any<String>,
+  "log": [
+    {
+      "at": 1000003,
+      "effects": [
+        {
+          "delta": -60,
+          "meter": "trust",
+        },
+      ],
+      "metersAfter": {
+        "calm": 8,
+        "trust": 0,
+      },
+      "nodeId": "ask",
+      "optionId": "ignore",
+    },
+  ],
+  "meters": {
+    "calm": 8,
+    "trust": 0,
+  },
+  "reason": "meterDepleted",
+  "scenarioId": "fixture",
+  "scenarioVersion": 1,
+  "score": 0,
+  "startedAt": 1000000,
+  "status": "failed",
+}
+`;
+
+exports[`selectAttemptDraft failed by timeout 1`] = `
+{
+  "finishedAt": 1600000,
+  "flags": {},
+  "id": Any<String>,
+  "log": [],
+  "meters": {
+    "calm": 8,
+    "trust": 50,
+  },
+  "reason": "timeout",
+  "scenarioId": "fixture",
+  "scenarioVersion": 1,
+  "score": null,
+  "startedAt": 1000000,
+  "status": "failed",
+}
+`;
+
+exports[`selectAttemptDraft failed by unmet criteria, without a courseId 1`] = `
+{
+  "finishedAt": 1000002,
+  "flags": {},
+  "id": Any<String>,
+  "log": [
+    {
+      "at": 1000001,
+      "effects": [
+        {
+          "delta": -5,
+          "meter": "trust",
+        },
+      ],
+      "metersAfter": {
+        "calm": 8,
+        "trust": 45,
+      },
+      "nodeId": "ask",
+      "optionId": "hesitate",
+    },
+  ],
+  "meters": {
+    "calm": 8,
+    "trust": 45,
+  },
+  "reason": "criteria",
+  "scenarioId": "fixture",
+  "scenarioVersion": 1,
+  "score": 0,
+  "startedAt": 1000000,
+  "status": "failed",
+  "unmetCriteria": {
+    "flags": [
+      "helped",
+    ],
+    "meters": [
+      "trust",
+    ],
+  },
+}
+`;
+
+exports[`selectAttemptDraft passed by an end node, with a courseId 1`] = `
+{
+  "courseId": "course-1",
+  "finishedAt": 1000004,
+  "flags": {
+    "helped": true,
+  },
+  "id": Any<String>,
+  "log": [
+    {
+      "at": 1000001,
+      "effects": [
+        {
+          "delta": 10,
+          "meter": "trust",
+        },
+      ],
+      "metersAfter": {
+        "calm": 8,
+        "trust": 60,
+      },
+      "nodeId": "ask",
+      "optionId": "retry",
+    },
+    {
+      "at": 1000002,
+      "effects": [
+        {
+          "delta": 5,
+          "meter": "calm",
+        },
+        {
+          "delta": 20,
+          "meter": "trust",
+        },
+        {
+          "flag": "helped",
+          "value": true,
+        },
+      ],
+      "metersAfter": {
+        "calm": 10,
+        "trust": 80,
+      },
+      "nodeId": "ask",
+      "optionId": "calm-down",
+    },
+  ],
+  "meters": {
+    "calm": 10,
+    "trust": 80,
+  },
+  "reason": "endNode",
+  "scenarioId": "fixture",
+  "scenarioVersion": 1,
+  "score": 75,
+  "startedAt": 1000000,
+  "status": "passed",
+}
+`;

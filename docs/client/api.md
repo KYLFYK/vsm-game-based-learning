@@ -10,7 +10,7 @@ HTTP-слой — **RTK Query**. Единственный экземпляр `ap
 export const api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({ baseUrl: env.apiUrl }),
-  tagTypes: [],
+  tagTypes: ['Scenarios', 'Courses', 'Attempts'],
   endpoints: () => ({}),
 });
 ```
@@ -25,10 +25,21 @@ export const api = createApi({
 
 ## Теги кеша
 
-`tagTypes` пуст. Тег добавляется вместе с первой сущностью: списочный
-запрос ставит тег целиком (`providesTags: ['Orders']`), карточка — точечно
+Тег добавляется вместе с первой сущностью: списочный запрос ставит тег
+целиком (`providesTags: ['Orders']`), карточка — точечно
 (`{ type: 'Orders', id }`), мутация инвалидирует оба вида, если меняет и
-элемент, и выдачу.
+элемент, и выдачу. Текущие теги — `Scenarios`, `Courses`, `Attempts`, по
+одному на каждый файл `store/apis/`.
+
+## `queryFn` вместо `query`
+
+Все три endpoint-файла сценарного движка (MVP0) читают данные не по сети,
+а из бандла (`@/content`) или `localStorage`, поэтому вместо `query:`
+используют `queryFn:` — функцию, которая сама возвращает `{ data }` или
+`{ error }` без похода в `fetchBaseQuery`. Сигнатуры хуков не меняются при
+переезде на HTTP: `queryFn` заменяется на `query`. Источники данных,
+формат ошибок и правила `localStorage` — таблицы и правила в
+[specs/scenario-engine/data.md](../specs/scenario-engine/data.md#rtk-query).
 
 ## Как добавить endpoint
 
@@ -58,9 +69,19 @@ export const api = createApi({
 
 ## Реестр endpoints
 
-| Хук | HTTP | Путь | Теги | Фича |
-|-----|------|------|------|------|
-| — | — | — | — | Endpoints пока нет |
+MVP0 — источник `queryFn` (бандл или `localStorage`); HTTP-метод и путь —
+контракт будущего сервера из
+[data.md](../specs/scenario-engine/data.md#переезд-на-сервер).
+
+| Хук | MVP0 | HTTP | Путь | Теги | Фича |
+|-----|------|------|------|------|------|
+| `useGetScenariosQuery` | `queryFn` (бандл) | `GET` | `scenarios` | `Scenarios` | [scenario-engine.md](scenario-engine.md) |
+| `useGetScenarioQuery` | `queryFn` (бандл) | `GET` | `scenarios/:id` | `{ type: 'Scenarios', id }` | [scenario-engine.md](scenario-engine.md) |
+| `useGetCoursesQuery` | `queryFn` (бандл) | `GET` | `courses` | `Courses` | [scenario-engine.md](scenario-engine.md) |
+| `useGetCourseQuery` | `queryFn` (бандл) | `GET` | `courses/:id` | `{ type: 'Courses', id }` | [scenario-engine.md](scenario-engine.md) |
+| `useGetAttemptsQuery` | `queryFn` (`localStorage`) | `GET` | `attempts?scenarioId=` | `Attempts` | [scenario-engine.md](scenario-engine.md) |
+| `useGetAttemptQuery` | `queryFn` (`localStorage`) | `GET` | `attempts/:id` | `{ type: 'Attempts', id }` | [scenario-engine.md](scenario-engine.md) |
+| `useSaveAttemptMutation` | `queryFn` (`localStorage`) | `POST` | `attempts` | инвалидирует `Attempts` | [scenario-engine.md](scenario-engine.md) |
 
 ## См. также
 

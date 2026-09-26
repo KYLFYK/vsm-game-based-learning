@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`content validator warnings for all bundled content 1`] = `
+{
+  "smoke-next-car": [],
+}
+`;
+
+exports[`toSummary drops meters, passCriteria, outcomes, characters, startNodeId and nodes 1`] = `
+{
+  "description": "Пассажир сообщает о задымлении в соседнем вагоне: нужно доложить наставнику, успокоить пассажира и объявить эвакуацию по громкой связи.",
+  "estimatedMinutes": 7,
+  "hasMeters": true,
+  "id": "smoke-next-car",
+  "timeLimitSec": 600,
+  "title": "Задымление в соседнем вагоне",
+  "topics": [
+    "safety.evacuation",
+    "communication.calm",
+  ],
+  "version": 1,
+}
+`;
