@@ -38,6 +38,7 @@ enum `Validation.Code` — в [types-runtime.md](types-runtime.md). Коды в
 | `graph.noEnd` | Из `startNodeId` не достижим ни один узел `end` |
 | `graph.noFallback` | Список переходов, где последний элемент имеет `if` |
 | `graph.tooFewOptions` | У `choice` меньше двух вариантов |
+| `graph.tooManyOptions` | У `choice` больше `MAX_CHOICE_OPTIONS` (4) вариантов |
 | `graph.duplicateOptionId` | Повтор `id` варианта в узле |
 | `graph.emptyNodes` | `nodes` пуст |
 | `ref.character` | `speaker`, слот `stage` или элемент `characters` не в реестре |

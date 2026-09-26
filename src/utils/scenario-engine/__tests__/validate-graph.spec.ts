@@ -114,6 +114,29 @@ describe(validateScenario.name, () => {
     ]);
   });
 
+  test('accepts a choice with the maximum number of options', () => {
+    const scenario = createScenario();
+    choiceOf(scenario).options.push(
+      { id: 'opt3', text: 'Вариант 3', next: 'check' },
+      { id: 'opt4', text: 'Вариант 4', next: 'check' }
+    );
+
+    expect(errorsOf(scenario)).toEqual([]);
+  });
+
+  test(`reports ${Validation.Code.GraphTooManyOptions}`, () => {
+    const scenario = createScenario();
+    choiceOf(scenario).options.push(
+      { id: 'opt3', text: 'Вариант 3', next: 'check' },
+      { id: 'opt4', text: 'Вариант 4', next: 'check' },
+      { id: 'opt5', text: 'Вариант 5', next: 'check' }
+    );
+
+    expect(errorsOf(scenario)).toEqual([
+      { code: Validation.Code.GraphTooManyOptions, path: 'nodes.q1.options' },
+    ]);
+  });
+
   test(`reports ${Validation.Code.GraphDuplicateOptionId}`, () => {
     const scenario = createScenario();
     choiceOf(scenario).options[1].id = 'good';

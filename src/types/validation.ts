@@ -13,6 +13,7 @@ export namespace Validation {
     GraphNoEnd = 'graph.noEnd',
     GraphNoFallback = 'graph.noFallback',
     GraphTooFewOptions = 'graph.tooFewOptions',
+    GraphTooManyOptions = 'graph.tooManyOptions',
     GraphDuplicateOptionId = 'graph.duplicateOptionId',
     GraphEmptyNodes = 'graph.emptyNodes',
     RefCharacter = 'ref.character',

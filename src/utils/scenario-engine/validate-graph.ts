@@ -5,6 +5,9 @@ import { exitsOf, nextsOf, nodesOf, optionsOf } from './walk';
 
 import type { NodeAt } from './walk';
 
+/** UI отображает варианты клавишами 1–4 (см. ui.md), больше показать нечем */
+export const MAX_CHOICE_OPTIONS = 4;
+
 const checkTransitions = (node: NodeAt): Validation.Issue[] =>
   nextsOf(node).flatMap((next) => {
     if (typeof next.value === 'string') return [];
@@ -38,6 +41,15 @@ const checkOptions = (node: NodeAt): Validation.Issue[] => {
         Validation.Code.GraphTooFewOptions,
         key(node.path, 'options'),
         'У выбора меньше двух вариантов'
+      )
+    );
+  }
+  if (node.value.options.length > MAX_CHOICE_OPTIONS) {
+    issues.push(
+      issue(
+        Validation.Code.GraphTooManyOptions,
+        key(node.path, 'options'),
+        `У выбора больше ${MAX_CHOICE_OPTIONS} вариантов`
       )
     );
   }
