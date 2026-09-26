@@ -16,9 +16,9 @@
 | `topics-section.tsx` | Темы: счётчики `best` / `ok` / `bad`, метка «Стоит подтянуть» или «Сильная сторона» |
 | `recommendations-section.tsx` | До трёх сценариев: название, темы-пересечения, «Играть» |
 | `report-actions.tsx` | «Пройти ещё раз», «Следующий сценарий», «К курсу» или «К сценариям» |
-| `report-view.ts` | Чистые помощники: `VERDICT_LABELS`, `isRetryPrimary`, `meterEffectLabels`, `speakerName` |
+| `report-view.ts` | Чистые помощники: `VERDICT_LABELS`, `VERDICT_TONES`, `isRetryPrimary`, `meterEffectLabels`, `speakerName` |
 | `sparkline.ts` | `sparklinePoints`, `sparklineY` — координаты графика в `viewBox` |
-| `scenario-report.styles.ts` | `Root`, заголовки, `cardStyles`, списки, теги, `Actions` |
+| `scenario-report.styles.ts` | `Section`, `SectionTitle`; колонка, заголовок, списки, метки и кнопки — из `@/components/page`, `@/components/tag`, `cardStyles` — из `styles/mixins.ts` |
 
 ## Данные
 
@@ -30,7 +30,7 @@
   держит прошлый ответ.
 - Загрузка — «Загрузка…», пока любой из запросов идёт без данных.
 - Попытки или сценария нет, либо `attempt.scenarioId` не совпадает со
-  `scenarioId` из URL — «Попытка не найдена» и `ButtonLink` на `HOME`.
+  `scenarioId` из URL — `NotFound` «Попытка не найдена» с кнопкой на `HOME`.
 - Курс не найден — отчёт без курса: нет «Следующего сценария».
 
 ## Блоки
