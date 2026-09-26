@@ -1,5 +1,11 @@
 # vsm-game-based-learning
 
+## 0.6.0
+
+### Minor Changes
+
+- [#13](https://github.com/KYLFYK/vsm-game-based-learning/pull/13) [`411f811`](https://github.com/KYLFYK/vsm-game-based-learning/commit/411f811cd2390f59ab3e42dcab3bd390534772d0) Thanks [@KYLFYK](https://github.com/KYLFYK)! - Страница достижений: пункт «Достижения» в шапке, табы «Мои» и «Все», карточки с картинкой-заглушкой, названием, датой получения и описанием при наведении, в каталоге — условие получения. Только интерфейс: полученные достижения — заглушка до появления API.
+
 ## 0.5.1
 
 ### Patch Changes
