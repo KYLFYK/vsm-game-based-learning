@@ -8,6 +8,7 @@
 |------|------|----------|
 | Прохождение сценария | Сотрудник | [scenario-run.md](scenario-run.md) |
 | Прохождение курса | Сотрудник | [course.md](course.md) |
+| Достижения | Сотрудник | [achievements.md](achievements.md) |
 
 ## Шаблон флоу
 

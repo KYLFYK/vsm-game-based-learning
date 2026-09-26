@@ -8,7 +8,8 @@ UI-кита нет: компоненты пишутся на styled-components �
 Единственный источник токенов — [src/styles/theme.ts](../../src/styles/theme.ts):
 `colors`, `spacing`, `fontSizes`, `gameFontSizes`, `fontFamily`,
 `fontFamilyDisplay`, `radii`, `borders`, `shadows`, `tilts`, `filters`,
-`offsets`, `zIndices`, `durations` (мс), `stage`, `report`, собранные в объект
+`offsets`, `zIndices`, `durations` (мс), `stage`, `report`, `achievements`,
+собранные в объект
 `theme`. Тип `AppTheme` расширяет `DefaultTheme` styled-components через
 [src/styled.d.ts](../../src/styled.d.ts), поэтому проп `theme` типизирован:
 опечатка в имени токена — ошибка `tsc`.
@@ -20,6 +21,15 @@ UI-кита нет: компоненты пишутся на styled-components �
 `filters`, `offsets`, `zIndices`, `durations`, `stage`, `report` и часть `colors`)
 описаны в [specs/scenario-engine/ui-visual.md](../specs/scenario-engine/ui-visual.md),
 здесь не дублируются.
+
+Токены страницы достижений:
+
+| Токен | Значение | Где |
+|-------|----------|-----|
+| `achievements.cardMinWidth` | `190px` | Минимальная ширина карточки в `AchievementGrid` |
+| `filters.locked` | `grayscale(1) opacity(0.45)` | Картинка неполученного достижения |
+| `gameFontSizes.tab` | `13px` | Подпись таба `Tabs` |
+| `gameFontSizes.tooltip` | `13px` | Подсказка-описание на карточке достижения |
 
 ### Шрифты
 
@@ -106,6 +116,8 @@ export const MyBlock = () => <Wrapper>…</Wrapper>;
 | Страница в лейауте (курс, отчёт) | `Page`, `PageHeader`, `PageList`, `PageActions` из `@/components/page`; «не найдено» — `NotFound` |
 | Второстепенный текст, «Загрузка…» | `MutedText`, `LoadingText` из `@/components/muted-text` |
 | Карточка в каталоге | `CatalogGrid` + `CatalogCard` из `@/components/catalog-card` |
+| Табы | `Tabs` из `@/components/tabs`: табы WAI-ARIA и панель активного |
+| Карточка достижения | `AchievementGrid` + `AchievementCard` из `@/components/achievement-card` |
 | Повтор набора правил в нескольких компонентах | Миксин в `styles/mixins.ts` |
 
 ## См. также

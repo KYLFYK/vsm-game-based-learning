@@ -15,13 +15,14 @@ BrowserRouter
     │   ├── index                    → HomePage
     │   ├── /courses                 → CoursesPage
     │   ├── /courses/:courseId       → CoursePage
-    │   └── /scenarios/:scenarioId/attempts/:attemptId → ScenarioAttemptPage
+    │   ├── /scenarios/:scenarioId/attempts/:attemptId → ScenarioAttemptPage
+    │   └── /achievements            → AchievementsPage
     └── /scenarios/:scenarioId       → ScenarioPage (без AppLayout, во всё окно)
 ```
 
 `AppLayout` ([containers/layout/app-layout.tsx](../../src/containers/layout/app-layout.tsx))
-— шапка с `APP_NAME` (ссылка на главную), навигацией `NavLink` «Главная»
-и «Курсы» (активный пункт — `aria-current="page"`) и версией
+— шапка с `APP_NAME` (ссылка на главную), навигацией `NavLink` «Главная»,
+«Курсы» и «Достижения» (активный пункт — `aria-current="page"`) и версией
 `__APP_VERSION__`, под ней `<Outlet />`.
 
 ## ROUTES — единственный источник истины
@@ -35,6 +36,7 @@ export const ROUTES = {
   COURSE: '/courses/:courseId',
   SCENARIO: '/scenarios/:scenarioId',
   SCENARIO_ATTEMPT: '/scenarios/:scenarioId/attempts/:attemptId',
+  ACHIEVEMENTS: '/achievements',
 } as const;
 ```
 
@@ -47,6 +49,11 @@ export const ROUTES = {
 `constants/routes.ts`) из курса в сценарий и из сценария в отчёт.
 Читает его хук `useCourseParam` (`@/hooks`); кнопку «назад» — «К курсу»
 или «К сценариям» — даёт `backLink(courseId)`.
+
+Активный таб страницы достижений едет search-параметром `tab`
+(`ACHIEVEMENT_TAB_SEARCH_PARAM`): `?tab=all` — «Все», без параметра —
+«Мои». Читает и пишет его `useAchievementTab`
+([features/achievements.md](features/achievements.md)).
 
 ## Маршруты вне лейаута
 
