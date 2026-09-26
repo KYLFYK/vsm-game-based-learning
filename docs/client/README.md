@@ -79,8 +79,9 @@ src/
 │   │       └── __tests__/     # fixture.ts + reducers*.spec.ts, result, conditions, effects, selectors
 │   └── __tests__/             # store.spec.ts
 ├── styles/
-│   ├── theme.ts               # токены: colors, spacing, fontSizes, fontFamily, radii; тип AppTheme
-│   └── global-style.ts        # GlobalStyle — reset и стили body
+│   ├── theme.ts               # токены: colors, spacing, fontSizes, fontFamily, radii и др.; тип AppTheme
+│   ├── global-style.ts        # GlobalStyle — reset, @font-face, стили body, prefers-reduced-motion
+│   └── animations.ts          # keyframes: popIn, floatUp, stampHit, pulse (styling.md#анимации)
 ├── types/
 │   ├── index.ts               # барель: re-export всех namespace
 │   ├── character.ts           # namespace Character — персонажи сценариев
@@ -113,7 +114,8 @@ src/
 Статика вне `src/` — `public/`, отдаётся от корня сайта: `favicon.svg`,
 `characters/*.svg` (заглушки портретов, один SVG на персонажа, кроме
 автора) и `backgrounds/*.svg` (заглушки фонов), пути на них — в
-`CHARACTERS` и `BACKGROUNDS`.
+`CHARACTERS` и `BACKGROUNDS`; `fonts/` — шрифт Unbounded (`woff2` на
+подмножество cyrillic и latin) и `OFL.txt` (styling.md#шрифты).
 
 ## Конвенции (короткая выжимка)
 

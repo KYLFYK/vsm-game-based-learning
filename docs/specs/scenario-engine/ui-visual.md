@@ -27,32 +27,41 @@
 | | `paper` | `#FFF9EE` — фон штампа |
 | | `accentRed` | `#E5262D` — главный акцент |
 | | `accentNavy` | `#14285A` — второй акцент, фон заставки |
-| | `accentNavyHover` | `#1C3877` |
 | | `meterTrack` | `#D9DEEA` — пустая часть шкалы |
 | | `bubbleBg`, `bubbleText` | `#FFFFFF`, `ink` |
 | | `onAccent` | `#FFFFFF` — текст на красном и синем |
+| | `onAccentMuted` | `#E4E9F7` — второстепенный текст на синем |
+| | `chipBg` | `#EEF1FA` — фон чипов |
 | | `raysLight` | белый с альфой 0.18 — лучи |
 | | `halftone` | белый с альфой 0.14 — полутон на заставке |
 | `filters` | `dimmed` | `brightness(.55) saturate(.6)` — неактивный портрет |
 | `fontFamilyDisplay` | | `'Unbounded', <fontFamily>` |
+| `gameFontSizes` | `hudTitle`, `hudLabel`, `hudValue`, `delta`, `timerHud`, `timerInline`, `buttonSm`, `buttonMd`, `buttonLg`, `text`, `name`, `choiceNumber`, `stamp`, `introKicker`, `introTitle`, `introText`, `chip`, `cardTitle`, `tag` | Размеры внутри игровой зоны; часть — `clamp()` в `cqw`/`vw`, масштабируются со сценой |
+| `radii` | `bubble`, `bubbleCorner` | `22px`, `4px` — скругление облака реплики и острый угол |
 | `borders` | `ink` | `3px solid ink` |
 | | `inkThin` | `2.5px solid ink` — бейджи, чипы |
+| | `stamp` | `5px solid accentRed` — рамка штампа |
+| | `focus` | `3px solid accentRed` — обводка фокуса |
 | `shadows` | `navySm`, `navyMd`, `navyLg` | `4px 4px 0`, `5px 5px 0`, `8px 8px 0` цвета `accentNavy` |
 | | `redSm`, `redMd` | `4px 4px 0`, `6px 6px 0` цвета `accentRed` |
 | | `inkLg` | `8px 8px 0 ink` |
-| `tilts` | `sm`, `md`, `lg` | `1deg`, `2deg`, `6deg` |
-| `zIndices` | `scene`, `slots`, `bubble`, `hud`, `choices`, `stamp` | Порядок слоёв сцены |
-| `durations` | `press`, `pop`, `meter`, `delta`, `stamp` | `80ms`, `150ms`, `400ms`, `1000ms`, `250ms` |
+| | `redDrop` | `drop-shadow(6px 6px 0 accentRed)` — тень облака реплики |
+| `tilts` | `sm`, `md`, `plate`, `lg`, `stamp` | `1deg`, `2deg`, `4deg`, `6deg`, `7deg` |
+| `offsets` | `lift`, `press`, `focus` | `translate(-2px, -2px)`, `translate(3px, 3px)`, `3px` |
+| `zIndices` | `backdrop`, `slots`, `bubble`, `choices`, `hud`, `stamp` | Порядок слоёв сцены |
+| `durations` | `press`, `pop`, `meter`, `delta`, `stamp`, `pulse` | Числа, мс: `80`, `150`, `400`, `1000`, `250`, `1000` |
+| `stage` | геометрия зоны 16:9 и слотов, отступы HUD, размеры шкалы и карточек | Значения в `vw`/`vh`/`dvh`/`cqw`/`cqh`/`px`, см. `theme.ts` |
 
 Тени у облака реплики задаются `filter: drop-shadow`, а не `box-shadow`,
 чтобы тень повторяла контур вместе с именной плашкой.
 
 ## Шрифты
 
-- **Unbounded** (OFL), начертания 800 и 900, подмножества cyrillic и
-  latin, файлы `woff2` в `public/fonts/` вместе с `OFL.txt`.
-  `@font-face` с `font-display: swap` — в `global-style.ts`, `preload`
-  начертания 800 — в `index.html`.
+- **Unbounded** (OFL) — вариативный шрифт, один файл на подмножество
+  (cyrillic, latin) покрывает диапазон начертаний 800–900; файлы `woff2`
+  в `public/fonts/` вместе с `OFL.txt`. `@font-face` с
+  `font-display: swap` — в `global-style.ts`, `preload` подмножества
+  cyrillic — в `index.html`.
 - Unbounded — заголовки, HUD, номера вариантов, кнопки, штамп, имена;
   верхний регистр.
 - Текст реплик, описаний и вариантов — системный `fontFamily`: длинный
