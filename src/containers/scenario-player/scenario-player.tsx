@@ -20,6 +20,7 @@ import {
 } from '@/store';
 import { ScenarioRun } from '@/types';
 
+import { Finale } from './finale';
 import { Hud } from './hud';
 import { Intro } from './intro';
 import { Message, Screen } from './scenario-player.styles';
@@ -91,7 +92,9 @@ export const ScenarioPlayer = () => {
 
   return (
     <Screen>
-      <Scene nodeRemainingMs={nodeRemainingMs} />
+      <Scene nodeRemainingMs={nodeRemainingMs}>
+        {status === ScenarioRun.Status.Finished && <Finale />}
+      </Scene>
       <Hud scenarioRemainingMs={scenarioRemainingMs} onExit={exit} />
     </Screen>
   );

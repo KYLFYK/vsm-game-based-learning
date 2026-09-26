@@ -134,8 +134,8 @@ Routes
 ### Финал
 
 При `Status.Finished` сцена остаётся, реплика `ending.line`
-показывается от её `speaker` по `speakerLayout`, сверху `Stamp` с
-`ending.status`, вместо вариантов — кнопка «К отчёту». Нажатие:
+показывается от её `speaker` по `speakerLayout`, вместо вариантов —
+кнопка «К отчёту», над ней `Stamp` с `ending.status`. Нажатие:
 `saveAttempt(selectAttemptDraft)` → успех: переход на
 `SCENARIO_ATTEMPT` (`runLeft` отработает при размонтировании страницы);
 ошибка: текст «Не удалось сохранить попытку» и кнопка «Повторить».

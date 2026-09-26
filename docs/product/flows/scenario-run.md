@@ -62,5 +62,4 @@
 ## Связь с client
 
 - План реализации: [../../plans/scenario-engine/README.md](../../plans/scenario-engine/README.md).
-- Файл фичи в [../../client/features/](../../client/features/README.md)
-  появится вместе с первым экраном сценария.
+- Файл фичи: [../../client/features/scenario-run.md](../../client/features/scenario-run.md).

@@ -12,7 +12,7 @@ React 19 SPA на Vite 8. Точка входа — [src/index.tsx](../../src/in
 - [Стилизация](styling.md) — тема, `GlobalStyle`, паттерны styled-components.
 - [Игровой движок сценариев](scenario-engine.md) — жизненный цикл
   попытки, где что лежит, таймеры, результат, лучшая попытка.
-- [Фичи и флоу](features/README.md) — пошаговые описания (пока пусто).
+- [Фичи и флоу](features/README.md) — пошаговые описания.
 
 ## Карта `src/`
 
@@ -58,6 +58,7 @@ src/
 │   └── __tests__/             # index.spec.ts — загрузка, ошибки, snapshot предупреждений
 ├── containers/
 │   ├── layout/app-layout.tsx  # AppLayout — Header (имя + версия) + Main с <Outlet/>
+│   ├── scenario-catalog/      # ScenarioCatalog — карточки сценариев на главной, «Играть»
 │   └── scenario-player/
 │       ├── scenario-player.tsx # ScenarioPlayer — экран сценария, сброс попытки при уходе (routing.md)
 │       ├── index.ts            # барель: ScenarioPlayer
@@ -65,6 +66,7 @@ src/
 │       ├── intro.tsx          # Intro — заставка: тема, название, описание, чипы лимита и порогов, «Начать»
 │       ├── scene.tsx          # Scene — фон, слоты, реплика, варианты, «Далее»; children — внутри зоны 16:9
 │       ├── hud.tsx            # Hud — «Выйти», название, шкалы, таймер сценария, «Во весь экран»
+│       ├── finale.tsx         # Finale — штамп, «К отчёту»: saveAttempt и переход к SCENARIO_ATTEMPT
 │       ├── use-run-timers.ts  # useRunTimers — остаток времени сценария/узла, тик 250 мс, expired() (scenario-engine.md)
 │       ├── speaker-layout.ts  # speakerLayout — слот и сторона реплики для говорящего
 │       ├── meter-thresholds.ts # meterThresholds — пороги зачёта шкал с подписями
@@ -79,7 +81,7 @@ src/
 │   ├── use-value-delta.ts     # useValueDelta — разница с предыдущим значением за время
 │   └── __tests__/             # use-document-title.spec.ts, use-value-delta.spec.ts
 ├── pages/
-│   ├── home/                  # HomePage — главная, маршрут /
+│   ├── home/                  # HomePage — главная, маршрут /, каталог сценариев
 │   ├── scenario/              # ScenarioPage — /scenarios/:scenarioId, вне лейаута
 │   └── scenario-attempt/      # ScenarioAttemptPage — заглушка отчёта о попытке
 ├── store/
