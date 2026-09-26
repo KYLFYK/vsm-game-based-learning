@@ -62,8 +62,8 @@ const Index = styled.span`
   flex: none;
   display: grid;
   place-items: center;
-  width: 1.9em;
-  height: 1.9em;
+  width: ${({ theme }) => theme.stage.choiceIndexSize};
+  height: ${({ theme }) => theme.stage.choiceIndexSize};
   font-family: ${({ theme }) => theme.fontFamilyDisplay};
   font-size: ${({ theme }) => theme.gameFontSizes.choiceNumber};
   font-weight: 900;

@@ -14,7 +14,7 @@ const Root = styled.div`
   font-family: ${({ theme }) => theme.fontFamilyDisplay};
   font-size: ${({ theme }) => theme.gameFontSizes.stamp};
   font-weight: 900;
-  letter-spacing: 0.04em;
+  letter-spacing: ${({ theme }) => theme.stage.stampTracking};
   text-transform: uppercase;
   white-space: nowrap;
   color: ${({ theme }) => theme.colors.accentRed};

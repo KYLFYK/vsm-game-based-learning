@@ -23,10 +23,12 @@ const Root = styled.div<{ $variant: BackdropVariant }>`
         inset: 0;
         background: radial-gradient(
             circle,
-            ${({ theme }) => theme.colors.halftone} 1.3px,
-            transparent 1.7px
+            ${({ theme }) => theme.colors.halftone}
+              ${({ theme }) => theme.stage.halftoneDot},
+            transparent ${({ theme }) => theme.stage.halftoneFade}
           )
-          0 0 / 9px 9px;
+          0 0 / ${({ theme }) => theme.stage.halftoneTile}
+          ${({ theme }) => theme.stage.halftoneTile};
         mask-image: linear-gradient(
           120deg,
           transparent 40%,

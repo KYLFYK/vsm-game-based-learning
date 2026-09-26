@@ -159,6 +159,11 @@ export const stage = {
   cardWidth: '340px',
   introPadding: '9vw',
   introTextWidth: '60%',
+  choiceIndexSize: '1.9em',
+  halftoneDot: '1.3px',
+  halftoneFade: '1.7px',
+  halftoneTile: '9px',
+  stampTracking: '0.04em',
 } as const;
 
 export const theme = {
