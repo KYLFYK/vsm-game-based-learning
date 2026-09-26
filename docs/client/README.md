@@ -12,7 +12,7 @@ React 19 SPA на Vite 8. Точка входа — [src/index.tsx](../../src/in
 - [Стилизация](styling.md) — тема, `GlobalStyle`, паттерны styled-components.
 - [Игровой движок сценариев](scenario-engine.md) — жизненный цикл
   попытки, где что лежит, таймеры, результат, лучшая попытка.
-- [Фичи и флоу](features/README.md) — пошаговые описания (пока пусто).
+- [Фичи и флоу](features/README.md) — пошаговые описания.
 
 ## Карта `src/`
 
@@ -22,6 +22,17 @@ src/
 ├── app.tsx                    # ThemeProvider + GlobalStyle + BrowserRouter + Routes
 ├── vite-env.d.ts              # типы Vite, __APP_VERSION__, ImportMetaEnv
 ├── styled.d.ts                # DefaultTheme styled-components = AppTheme
+├── components/                # папка на компонент: <name>.tsx, enum/стили рядом, index.ts; импорт @/components/<name>
+│   ├── button/                 # Button, ButtonLink; button.enums.ts (ButtonVariant, ButtonSize), button.styles.ts (buttonStyles)
+│   ├── character-portrait/     # CharacterPortrait — портрет персонажа, зеркалится и притушивается
+│   ├── choice-list/            # ChoiceList — пронумерованные варианты и таймер узла
+│   ├── comic-backdrop/         # ComicBackdrop — лучи и полутон; comic-backdrop.enums.ts (BackdropVariant)
+│   ├── countdown/              # Countdown — мм:сс, «горящее» состояние; countdown.enums.ts (CountdownSize)
+│   ├── icons/                  # FullscreenEnterIcon, FullscreenExitIcon — SVG-иконки HUD
+│   ├── meter-bar/              # MeterBar — шкала, риска порога, всплывающая дельта (useValueDelta)
+│   ├── speech-bubble/          # SpeechBubble — реплика персонажа или автора; speech-bubble.enums.ts (BubbleSide)
+│   ├── stamp/                  # Stamp — штамп итога, aria-hidden; stamp.enums.ts (STAMP_LABELS)
+│   └── visually-hidden/        # VisuallyHidden — текст только для скринридеров
 ├── config/
 │   ├── env.ts                 # env = readEnv(import.meta.env) — единственная точка чтения env
 │   ├── read-env.ts            # readEnv: типизация и проверка обязательных переменных
@@ -43,15 +54,32 @@ src/
 │   └── __tests__/             # index.spec.ts — загрузка, ошибки, snapshot предупреждений
 ├── containers/
 │   ├── layout/app-layout.tsx  # AppLayout — Header (имя + версия) + Main с <Outlet/>
+│   ├── scenario-catalog/      # ScenarioCatalog — карточки сценариев на главной, «Играть»
 │   └── scenario-player/
+│       ├── scenario-player.tsx # ScenarioPlayer — экран сценария, сброс попытки при уходе (routing.md)
+│       ├── index.ts            # барель: ScenarioPlayer
+│       ├── scenario-player.styles.ts # Screen, Zone, слоты и якоря реплики, вариантов, штампа, действий
+│       ├── intro.tsx          # Intro — заставка: тема, название, описание, чипы лимита и порогов, «Начать»
+│       ├── scene.tsx          # Scene — фон, слоты, реплика, варианты, «Далее»; children — внутри зоны 16:9
+│       ├── hud.tsx            # Hud — «Выйти», название, шкалы, таймер сценария, «Во весь экран»
+│       ├── finale.tsx         # Finale — штамп, «К отчёту»: saveAttempt и переход к SCENARIO_ATTEMPT
 │       ├── use-run-timers.ts  # useRunTimers — остаток времени сценария/узла, тик 250 мс, expired() (scenario-engine.md)
-│       └── __tests__/          # use-run-timers.spec.ts — renderHook с моком @/store, jest.useFakeTimers
+│       ├── speaker-layout.ts  # speakerLayout — слот и сторона реплики для говорящего
+│       ├── meter-thresholds.ts # meterThresholds — пороги зачёта шкал с подписями
+│       ├── use-player-keys.ts # usePlayerKeys — клавиатура сцены: Enter/Space далее, 1–4 вариант
+│       ├── use-fullscreen.ts  # useFullscreen — полноэкранный режим документа
+│       └── __tests__/          # use-run-timers.spec.ts — renderHook с моком @/store, jest.useFakeTimers;
+│                                 speaker-layout.spec.ts, meter-thresholds.spec.ts,
+│                                 use-player-keys.spec.ts, use-fullscreen.spec.ts
 ├── hooks/
 │   ├── index.ts               # барель
 │   ├── use-document-title.ts  # useDocumentTitle — заголовок вкладки на время жизни компонента
-│   └── __tests__/             # use-document-title.spec.ts — пример теста хука
+│   ├── use-value-delta.ts     # useValueDelta — разница с предыдущим значением за время
+│   └── __tests__/             # use-document-title.spec.ts, use-value-delta.spec.ts
 ├── pages/
-│   └── home/                  # HomePage — единственная страница, маршрут /
+│   ├── home/                  # HomePage — главная, маршрут /, каталог сценариев
+│   ├── scenario/              # ScenarioPage — /scenarios/:scenarioId, вне лейаута
+│   └── scenario-attempt/      # ScenarioAttemptPage — заглушка отчёта о попытке
 ├── store/
 │   ├── api.ts                 # createApi + fetchBaseQuery(env.apiUrl), tagTypes (api.md)
 │   ├── store.ts               # configureStore, RootState, AppDispatch, useAppDispatch/Selector (state.md)
@@ -75,8 +103,9 @@ src/
 │   │       └── __tests__/     # fixture.ts + reducers*.spec.ts, result, conditions, effects, selectors
 │   └── __tests__/             # store.spec.ts
 ├── styles/
-│   ├── theme.ts               # токены: colors, spacing, fontSizes, fontFamily, radii; тип AppTheme
-│   └── global-style.ts        # GlobalStyle — reset и стили body
+│   ├── theme.ts               # токены: colors, spacing, fontSizes, fontFamily, radii и др.; тип AppTheme
+│   ├── global-style.ts        # GlobalStyle — reset, @font-face, стили body, prefers-reduced-motion
+│   └── animations.ts          # keyframes: popIn, floatUp, stampHit, pulse (styling.md#анимации)
 ├── types/
 │   ├── index.ts               # барель: re-export всех namespace
 │   ├── character.ts           # namespace Character — персонажи сценариев
@@ -87,29 +116,33 @@ src/
 │   ├── api.ts                 # namespace Api — коды ошибок RTK Query
 │   └── validation.ts          # namespace Validation — Code, Issue, Result, Registries
 └── utils/
-    ├── index.ts                # барель: re-export из scenario-engine
-    └── scenario-engine/
-        ├── index.ts             # барель: validateScenario, compareAttempts, meterBounds
-        ├── validate.ts          # validateScenario — фаза 1, фаза 2, предупреждения (specs/…/validation.md)
-        ├── compare-attempts.ts  # compareAttempts — правило лучшей попытки (scenario-engine.md)
-        ├── validate-shape.ts    # фаза 1: схема Scenario.Definition, коды shape.*
-        ├── shape-schema.ts      # декларативные проверки формы: objectOf, arrayOf, recordOf, variantBy
-        ├── validate-graph.ts    # фаза 2: коды graph.* (старт, ссылки, переходы, варианты, достижимость)
-        ├── validate-refs.ts     # фаза 2: коды ref.* (реестры, characters, шкалы)
-        ├── validate-limits.ts   # фаза 2: meter.range, outcome.*, time.nodeOverScenario
-        ├── validate-warnings.ts # предупреждения: review.*, flag.*, самопетля, вариант без review
-        ├── walk.ts              # обход сценария: узлы, варианты, next, условия, эффекты, персонажи с путями
-        ├── meter-bounds.ts      # meterBounds(meter) — границы шкалы по умолчанию (0/100)
-        ├── issue.ts             # issue(), построение путей
-        └── __tests__/           # fixtures.ts + validate*.spec.ts по файлу-источнику кодов, compare-attempts.spec.ts, meter-bounds.spec.ts
+    ├── index.ts                # барель: formatting, scenario-engine
+    ├── format-remaining.ts     # formatRemaining — остаток времени мм:сс
+    ├── format-delta.ts         # formatDelta — дельта со знаком (+ или −)
+    ├── meter-percent.ts        # meterPercent — нормализация значения в проценты [0, 100]
+    ├── scenario-engine/
+    │   ├── index.ts             # барель: validateScenario, compareAttempts, meterBounds
+    │   ├── validate.ts          # validateScenario — фаза 1, фаза 2, предупреждения (specs/…/validation.md)
+    │   ├── compare-attempts.ts  # compareAttempts — правило лучшей попытки (scenario-engine.md)
+    │   ├── validate-shape.ts    # фаза 1: схема Scenario.Definition, коды shape.*
+    │   ├── shape-schema.ts      # декларативные проверки формы: objectOf, arrayOf, recordOf, variantBy
+    │   ├── validate-graph.ts    # фаза 2: коды graph.* (старт, ссылки, переходы, варианты, достижимость)
+    │   ├── validate-refs.ts     # фаза 2: коды ref.* (реестры, characters, шкалы)
+    │   ├── validate-limits.ts   # фаза 2: meter.range, outcome.*, time.nodeOverScenario
+    │   ├── validate-warnings.ts # предупреждения: review.*, flag.*, самопетля, вариант без review
+    │   ├── walk.ts              # обход сценария: узлы, варианты, next, условия, эффекты, персонажи с путями
+    │   ├── meter-bounds.ts      # meterBounds(meter) — границы шкалы по умолчанию (0/100)
+    │   ├── issue.ts             # issue(), построение путей
+    │   └── __tests__/           # fixtures.ts + validate*.spec.ts, compare-attempts.spec.ts, meter-bounds.spec.ts
+    └── __tests__/               # format-remaining.spec.ts, format-delta.spec.ts, meter-percent.spec.ts
 ```
 
-Папка `components/` создаётся при появлении первого файла; назначение
-папок — [architecture.md](architecture.md#папки-и-их-назначение).
+Назначение папок — [architecture.md](architecture.md#папки-и-их-назначение).
 Статика вне `src/` — `public/`, отдаётся от корня сайта: `favicon.svg`,
 `characters/*.svg` (заглушки портретов, один SVG на персонажа, кроме
 автора) и `backgrounds/*.svg` (заглушки фонов), пути на них — в
-`CHARACTERS` и `BACKGROUNDS`.
+`CHARACTERS` и `BACKGROUNDS`; `fonts/` — шрифт Unbounded (`woff2` на
+подмножество cyrillic и latin) и `OFL.txt` (styling.md#шрифты).
 
 ## Конвенции (короткая выжимка)
 

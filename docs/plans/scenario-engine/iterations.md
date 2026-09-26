@@ -50,16 +50,21 @@
 
 ## Этап 4 — Экран сценария
 
-- [ ] **4.1 Маршруты**: `ROUTES.SCENARIO`, `ROUTES.SCENARIO_ATTEMPT`,
-  страницы-заглушки. Docs: client/routing.md.
-- [ ] **4.2 Компоненты**: `MeterBar`, `Countdown`, `SpeechBubble`,
-  `CharacterPortrait`, `ChoiceList`, `Button` в `components/`; токены темы
-  для сцены. Docs: client/README.md, client/styling.md.
-- [ ] **4.3 Сцена**: `containers/scenario-player/` по [ux.md](ux.md):
-  фон, слоты, реплика, варианты, HUD, клавиатура, «Выйти» с подтверждением.
-- [ ] **4.4 Карточка и финал**: карточка до старта, финальная реплика,
-  сохранение попытки и переход к отчёту.
-  Docs: `docs/client/features/scenario-run.md`, ссылка из product flow.
+- [x] **4.1 Маршруты**: `ROUTES.SCENARIO` вне `AppLayout`,
+  `ROUTES.SCENARIO_ATTEMPT` в лейауте, страницы-заглушки.
+  Docs: client/routing.md, карта в client/README.md.
+- [x] **4.2 Тема и компоненты**: токены и шрифт Unbounded по
+  [ui-visual.md](../../specs/scenario-engine/ui-visual.md); `Button`,
+  `ButtonLink`, `MeterBar`, `Countdown`, `SpeechBubble`,
+  `CharacterPortrait`, `ChoiceList`, `Stamp`, `ComicBackdrop` в
+  `components/`. Docs: client/README.md, client/styling.md.
+- [x] **4.3 Заставка и сцена**: `containers/scenario-player/` по
+  [ui.md](../../specs/scenario-engine/ui.md): заставка, раскладка во всё
+  окно, фон, слоты, реплики, варианты, HUD, клавиатура, «Во весь экран»,
+  «Выйти» с подтверждением.
+- [x] **4.4 Финал и каталог**: финал со штампом, сохранение попытки и
+  переход к отчёту; каталог сценариев на главной. Docs:
+  `docs/client/features/scenario-run.md`, ссылка из product flow.
 
 ## Этап 5 — Отчёт
 
@@ -77,7 +82,7 @@
   курсов, курс со сценариями и статусом каждого, «Следующий сценарий» из
   отчёта. Навигация в `AppLayout`, ссылка с главной.
   Docs: routing.md, features, product/flows (курс).
-- [ ] **6.3 История попыток**: список попыток на карточке сценария с
+- [ ] **6.3 История попыток**: список попыток сценария в курсе с
   переходом в отчёт.
 
 ## Этап 7 — Контент и подготовка к серверу

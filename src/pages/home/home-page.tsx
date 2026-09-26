@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
 
 import { APP_NAME } from '@/constants/app';
+import { ScenarioCatalog } from '@/containers/scenario-catalog';
 import { useDocumentTitle } from '@/hooks';
 
 const Title = styled.h1`
@@ -14,6 +15,11 @@ const Text = styled.p`
   color: ${({ theme }) => theme.colors.textSecondary};
 `;
 
+const SectionTitle = styled.h2`
+  margin: ${({ theme }) => `${theme.spacing.xl} 0 ${theme.spacing.md}`};
+  font-size: ${({ theme }) => theme.fontSizes.lg};
+`;
+
 export const HomePage = () => {
   useDocumentTitle('Главная');
 
@@ -25,6 +31,8 @@ export const HomePage = () => {
         очередь проводников: курсы и ситуации в игровой форме, достижения и
         сравнение результатов с коллегами.
       </Text>
+      <SectionTitle>Сценарии</SectionTitle>
+      <ScenarioCatalog />
     </>
   );
 };
