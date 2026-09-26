@@ -18,11 +18,17 @@ src/content/
   ([validation.md](validation.md)). Любая ошибка → `throw new Error` с
   перечнем `code path message`, чтобы dev-сервер и тесты падали сразу.
 - Экспорт: `SCENARIOS: Record<Scenario.Id, Scenario.Definition>`,
-  `COURSES: Course.Definition[]`, `toSummary(definition): Scenario.Summary`.
+  `COURSES: Course.Definition[]`, `toSummary(definition): Scenario.Summary`,
+  `CONTENT_WARNINGS: Record<Scenario.Id, Validation.Issue[]>` — предупреждения
+  валидатора по каждому сценарию, для snapshot-теста контента.
+- Курс ссылается только на существующие сценарии: throw при загрузке
+  бандла, если `scenarioIds` содержит id вне `SCENARIOS`.
+- Throw-логика вынесена в чистые функции (`load-scenarios.ts`,
+  `assert-courses.ts`), чтобы `__tests__/index.spec.ts` мог проверить путь
+  ошибки на сфабрикованном сценарии, а не только успешную загрузку бандла.
 - Тест `__tests__/index.spec.ts`: модуль загружается без исключения,
   предупреждения валидатора выводятся в snapshot, чтобы их рост был виден
   в ревью.
-- Курс ссылается только на существующие сценарии: проверяется там же.
 
 ## RTK Query
 
@@ -47,15 +53,16 @@ src/content/
 
 | Хук | Аргумент | Результат | Теги |
 |-----|----------|-----------|------|
-| `useGetAttemptsQuery` | `{ scenarioId?: Scenario.Id }` | `Attempt.Item[]`, новые первыми | `Attempts` |
+| `useGetAttemptsQuery` | `{ scenarioId?: Scenario.Id }` | `Attempt.Item[]`, новые первыми (сортировка по убыванию `finishedAt`) | `Attempts` |
 | `useGetAttemptQuery` | `Attempt.Id` | `Attempt.Item` | `{ type: 'Attempts', id }`; нет → `ErrorCode.NotFound` |
 | `useSaveAttemptMutation` | `Attempt.Item` | тот же `Attempt.Item` | инвалидирует `Attempts` |
 
 Хранилище — `localStorage`, ключ `vsm.attempts.v1`, значение — JSON-массив
 `Attempt.Item`. Правила:
 
-- Чтение: отсутствие ключа или ошибка парсинга → пустой массив; сломанное
-  значение не перезаписывается до первой успешной записи.
+- Чтение: отсутствие ключа, ошибка парсинга или элемент массива не-объект
+  (например `null`) → пустой массив; сломанное значение не перезаписывается
+  до первой успешной записи.
 - Запись: попытка с тем же `id` заменяется, иначе добавляется в конец.
 - `localStorage` недоступен или переполнен → `queryFn` возвращает
   `Api.Error` с `ErrorCode.Storage`; UI показывает текст и

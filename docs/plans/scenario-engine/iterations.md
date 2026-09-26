@@ -7,33 +7,33 @@
 
 ## Этап 1 — Домен и формат
 
-- [ ] **1.1 Типы**: `src/types/scenario.ts`, `course.ts`, `character.ts`,
+- [x] **1.1 Типы**: `src/types/scenario.ts`, `course.ts`, `character.ts`,
   `attempt.ts`, `index.ts` по [format.md](format.md).
   Docs: карта `src/` в client/README.md.
-- [ ] **1.2 Реестры**: `constants/characters.ts` (1–2 наставника, 3–4
+- [x] **1.2 Реестры**: `constants/characters.ts` (1–2 наставника, 3–4
   пассажира, автор), `backgrounds.ts`, `topics.ts` с подписями.
   Ассеты пока заглушки в `public/`.
   Docs: client/README.md.
-- [ ] **1.3 Контент**: папка `src/content/` с первым сценарием (пример из
+- [x] **1.3 Контент**: папка `src/content/` с первым сценарием (пример из
   format.md, доведённый до полноты) и одним курсом.
   Docs: папка в client/architecture.md и client/README.md.
-- [ ] **1.4 Валидатор**: `utils/scenario-engine/validate.ts` по
+- [x] **1.4 Валидатор**: `utils/scenario-engine/validate.ts` по
   [engine.md](engine.md), тест прогоняет все JSON из `content/`.
   Docs: client/README.md.
 
 ## Этап 2 — Движок
 
-- [ ] **2.1 Условия и эффекты**: приватные модули в
+- [x] **2.1 Условия и эффекты**: приватные модули в
   `store/slices/scenario-run/`, тесты на обрезку, порядок применения,
   список условий.
-- [ ] **2.2 Слайс**: состояние, экшены `runStarted`, `advanced`,
+- [x] **2.2 Слайс**: состояние, экшены `runStarted`, `advanced`,
   `optionChosen`, `expired`, `runLeft`, вход в узел, разрешение `next`.
   Тесты через `reducer(state, action)`: ветвление, возврат к узлу,
   истощение шкалы, таймауты, экшены на завершённой попытке.
   Docs: client/state.md, регистрация в `store.ts` и бареле.
-- [ ] **2.3 Селекторы**: список из [engine.md](engine.md), тесты на
+- [x] **2.3 Селекторы**: список из [engine.md](engine.md), тесты на
   видимые варианты и `selectAttemptDraft`.
-- [ ] **2.4 Результат и балл**: правила из [feedback.md](feedback.md)
+- [x] **2.4 Результат и балл**: правила из [feedback.md](feedback.md)
   внутри слайса и `compareAttempts` в `utils/scenario-engine/`, тесты на
   каждую строку таблицы результата.
   Docs: новый файл `docs/client/scenario-engine.md` с описанием механизма
@@ -41,10 +41,10 @@
 
 ## Этап 3 — Данные
 
-- [ ] **3.1 Endpoints**: `scenariosApi`, `coursesApi` на `queryFn` из
+- [x] **3.1 Endpoints**: `scenariosApi`, `coursesApi` на `queryFn` из
   бандла; `attemptsApi` на `queryFn` поверх `localStorage` с тегами.
   Docs: client/api.md реестр endpoints.
-- [ ] **3.2 Хук таймеров**: `containers/scenario-player/use-run-timers.ts`
+- [x] **3.2 Хук таймеров**: `containers/scenario-player/use-run-timers.ts`
   читает `selectDeadlines`, тикает, диспатчит `expired`; тест на
   `renderHook` с моком store.
 

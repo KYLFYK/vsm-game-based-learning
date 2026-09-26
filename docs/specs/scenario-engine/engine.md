@@ -2,8 +2,10 @@
 
 Папка `src/store/slices/scenario-run/`: `slice.ts` (состояние, экшены),
 `reducers.ts` (алгоритмы), `conditions.ts`, `effects.ts`, `enter-node.ts`,
-`result.ts`, `selectors.ts`, `index.ts`. Регистрация в `store.ts` под
-ключом `scenarioRun`, публичный экспорт через `@/store`.
+`result.ts`, `selectors.ts`, `index.ts`. `finish` живёт в
+`enter-node.ts`, `checkDeadlines` — в `reducers.ts` (так нет циклов
+импорта). Регистрация в `store.ts` под ключом `scenarioRun`, публичный
+экспорт через `@/store`.
 
 ## Состояние
 
@@ -40,7 +42,7 @@ Action creators с `prepare`: второй аргумент `now` необяза
 
 | Creator | Payload |
 |---------|---------|
-| `runStarted({ scenario, courseId? }, now?)` | `{ scenario, courseId, now, attemptId }`, `attemptId` из `crypto.randomUUID()` |
+| `runStarted({ scenario, courseId? }, now?)` | `{ scenario, courseId, now, attemptId }`, `courseId` без значения — `null`, `attemptId` из `crypto.randomUUID()` |
 | `advanced(now?)` | `{ now }` |
 | `optionChosen(optionId, now?)` | `{ optionId, now }` |
 | `expired(now?)` | `{ now }` |
@@ -59,8 +61,12 @@ Action creators с `prepare`: второй аргумент `now` необяза
   (валидатор гарантирует, что последний без `if`).
 - `applyEffect(effect, state)`: шкала —
   `clamp(meters[id] + delta, min ?? 0, max ?? 100)`; флаг — присвоить.
-  Шкала, которой нет в `scenario.meters`, игнорируется.
-- `checkDeadlines(state, now)`: истёк, если `scenarioDeadlineAt !== null
+  Шкала, которой нет в `scenario.meters`, игнорируется. Границы по
+  умолчанию даёт `meterBounds(meter)` из `utils/scenario-engine/` —
+  общая точка с 0 и 100 для слайса и валидатора; проверку истощения
+  использует та же функция.
+- `checkDeadlines(state, node, now)` (`node` — текущий узел, нужен для
+  запасной реплики): истёк, если `scenarioDeadlineAt !== null
   && now >= scenarioDeadlineAt` или то же для `nodeDeadlineAt`. При
   истечении — `finish(state, timeoutEnding, now)` и `true`.
 - `finish(state, ending, now)`: `status = ScenarioRun.Status.Finished`, `ending`,
@@ -85,9 +91,16 @@ Action creators с `prepare`: второй аргумент `now` необяза
 | `expired` | `Running` | `checkDeadlines` |
 | `runLeft` | любой | `initialState` |
 
-Экшены с невыполненным предусловием возвращают состояние без изменений.
-Таймаутный `Ending`: `kind: EndingKind.Timeout`, `line = outcomes.timeout`,
-`status: Failed`, `reason: Reason.Timeout`.
+Проверка истощения смотрит на `meters[id] <= min` уже после первого
+хода: `validateScenario` требует `initial > min`
+([validation.md](validation.md)), поэтому нетронутая шкала не может
+завершить попытку на первом же выборе.
+
+Экшены с невыполненным предусловием возвращают то же состояние (та же
+ссылка). Таймаутный `Ending`: `kind: EndingKind.Timeout`,
+`line = outcomes.timeout`, `status: Failed`, `reason: Reason.Timeout`.
+Если `outcomes.timeout` или `outcomes.meterDepleted[id]` нет (валидатор
+это запрещает, но типы допускают), `line` — реплика текущего узла.
 
 ## Селекторы
 
@@ -100,7 +113,7 @@ Action creators с `prepare`: второй аргумент `now` необяза
 | `selectCurrentNode` | `Scenario.Node \| null` | `scenario.nodes[currentNodeId]` |
 | `selectVisibleOptions` | `Scenario.Option[]` | Узел `NodeType.Choice` → варианты с `holds(if)` в порядке сценария; иначе `[]` |
 | `selectStage` | `ScenarioRun.Stage` | |
-| `selectMeterViews` | `MeterView[]` | По порядку ключей `scenario.meters`: `{ id, label, value, min, max, threshold?: passCriteria.meters[id] }`; `[]` без шкал |
+| `selectMeterViews` | `ScenarioRun.MeterView[]` | По порядку ключей `scenario.meters`: `{ id, label, value, min, max, threshold?: passCriteria.meters[id] }`; ключ `threshold` отсутствует, если порога нет; `[]` без шкал |
 | `selectMetersVisible` | `boolean` | Есть шкалы и `stage.metersVisible` |
 | `selectDeadlines` | `{ scenarioDeadlineAt, nodeDeadlineAt }` | |
 | `selectEnding` | `ScenarioRun.Ending \| null` | |
@@ -123,8 +136,11 @@ useRunTimers(): { scenarioRemainingMs: number | null; nodeRemainingMs: number | 
 
 ## Тесты редьюсера
 
-Файл `__tests__/reducers.spec.ts` с фикстурой-сценарием, покрывающей все
-типы узлов, условия, эффекты, таймеры и `outcomes`. Обязательные кейсы:
+Файлы `__tests__/reducers.spec.ts` (`runStarted`, `advanced`,
+`expired`, `runLeft`, предусловия), `reducers-option.spec.ts`
+(`optionChosen`), `reducers-ending.spec.ts` (финалы) с общей
+фикстурой-сценарием `__tests__/fixture.ts`, покрывающей все типы узлов,
+условия, эффекты, таймеры и `outcomes`. Обязательные кейсы:
 
 - `runStarted`: шкалы из `initial`, дедлайн сценария, `stage` первого
   узла, `attemptId` присвоен.

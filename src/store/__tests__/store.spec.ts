@@ -5,7 +5,19 @@ describe('store', () => {
     expect(store.getState()).toHaveProperty(api.reducerPath);
   });
 
-  test('has no endpoints until injected', () => {
-    expect(Object.keys(api.endpoints)).toHaveLength(0);
+  test('registers the scenario run reducer under scenarioRun', () => {
+    expect(store.getState()).toHaveProperty('scenarioRun');
+  });
+
+  test('registers exactly the endpoints injected by store/apis', () => {
+    expect(Object.keys(api.endpoints).sort()).toEqual([
+      'getAttempt',
+      'getAttempts',
+      'getCourse',
+      'getCourses',
+      'getScenario',
+      'getScenarios',
+      'saveAttempt',
+    ]);
   });
 });

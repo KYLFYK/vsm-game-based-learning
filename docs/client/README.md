@@ -10,6 +10,8 @@ React 19 SPA на Vite 8. Точка входа — [src/index.tsx](../../src/in
 - [Состояние](state.md) — `configureStore`, типизированные хуки, барель.
 - [API-слой](api.md) — RTK Query, `injectEndpoints`, теги, `VITE_API_URL`.
 - [Стилизация](styling.md) — тема, `GlobalStyle`, паттерны styled-components.
+- [Игровой движок сценариев](scenario-engine.md) — жизненный цикл
+  попытки, где что лежит, таймеры, результат, лучшая попытка.
 - [Фичи и флоу](features/README.md) — пошаговые описания (пока пусто).
 
 ## Карта `src/`
@@ -27,9 +29,23 @@ src/
 │   └── __tests__/             # read-env.spec.ts
 ├── constants/
 │   ├── routes.ts              # ROUTES — единственный источник путей (routing.md)
-│   └── app.ts                 # APP_NAME
+│   ├── app.ts                 # APP_NAME
+│   ├── characters.ts          # CHARACTERS — реестр персонажей сценариев
+│   ├── backgrounds.ts         # BACKGROUNDS — реестр фонов сцены
+│   └── topics.ts              # TOPICS — реестр тем сценариев
+├── content/
+│   ├── scenarios/smoke-next-car.json  # первый сценарий по format.md
+│   ├── courses.json           # курсы: { id, title, description, scenarioIds }
+│   ├── load-scenarios.ts      # loadScenarios — validateScenario на импорте, throw при ошибке
+│   ├── assert-courses.ts      # assertCourses — courses ссылаются только на загруженные сценарии
+│   ├── to-summary.ts          # toSummary — Definition → Scenario.Summary
+│   ├── index.ts               # барель: SCENARIOS, COURSES, CONTENT_WARNINGS, toSummary
+│   └── __tests__/             # index.spec.ts — загрузка, ошибки, snapshot предупреждений
 ├── containers/
-│   └── layout/app-layout.tsx  # AppLayout — Header (имя + версия) + Main с <Outlet/>
+│   ├── layout/app-layout.tsx  # AppLayout — Header (имя + версия) + Main с <Outlet/>
+│   └── scenario-player/
+│       ├── use-run-timers.ts  # useRunTimers — остаток времени сценария/узла, тик 250 мс, expired() (scenario-engine.md)
+│       └── __tests__/          # use-run-timers.spec.ts — renderHook с моком @/store, jest.useFakeTimers
 ├── hooks/
 │   ├── index.ts               # барель
 │   ├── use-document-title.ts  # useDocumentTitle — заголовок вкладки на время жизни компонента
@@ -37,18 +53,63 @@ src/
 ├── pages/
 │   └── home/                  # HomePage — единственная страница, маршрут /
 ├── store/
-│   ├── api.ts                 # createApi + fetchBaseQuery(env.apiUrl), endpoints пустые (api.md)
+│   ├── api.ts                 # createApi + fetchBaseQuery(env.apiUrl), tagTypes (api.md)
 │   ├── store.ts               # configureStore, RootState, AppDispatch, useAppDispatch/Selector (state.md)
-│   ├── index.ts               # барель: store, api, хуки, типы
+│   ├── index.ts               # барель: store, api, хуки apis/*, типы, экшены scenarioRun
+│   ├── apis/
+│   │   ├── scenarios-api.ts   # getScenarios, getScenario — queryFn поверх @/content (api.md)
+│   │   ├── courses-api.ts     # getCourses, getCourse — queryFn поверх @/content
+│   │   ├── attempts-api.ts    # getAttempts, getAttempt, saveAttempt — queryFn поверх localStorage
+│   │   ├── api-error.ts       # apiError(code) — сборка Api.Error, приватно для store/apis
+│   │   └── __tests__/         # по одному spec на файл, свежий store на тест
+│   ├── slices/
+│   │   └── scenario-run/      # слайс scenarioRun (state.md, specs/…/engine.md)
+│   │       ├── slice.ts       # ScenarioRunState, initialState, createSlice, экшены с prepare(now)
+│   │       ├── reducers.ts    # шаги runStarted, advanced, optionChosen, expired; проверка дедлайнов
+│   │       ├── enter-node.ts  # enterNode — слияние stage, таймер узла, финал; finish
+│   │       ├── result.ts      # evaluateEnd, computeScore (specs/…/report.md)
+│   │       ├── conditions.ts  # holds, resolveNext
+│   │       ├── effects.ts     # applyEffect(s) — применение эффектов, meterBounds из @/utils
+│   │       ├── selectors.ts   # select* (state.md, specs/…/engine.md#селекторы)
+│   │       ├── index.ts       # барель папки: reducer, экшены, селекторы
+│   │       └── __tests__/     # fixture.ts + reducers*.spec.ts, result, conditions, effects, selectors
 │   └── __tests__/             # store.spec.ts
-└── styles/
-    ├── theme.ts               # токены: colors, spacing, fontSizes, fontFamily, radii; тип AppTheme
-    └── global-style.ts        # GlobalStyle — reset и стили body
+├── styles/
+│   ├── theme.ts               # токены: colors, spacing, fontSizes, fontFamily, radii; тип AppTheme
+│   └── global-style.ts        # GlobalStyle — reset и стили body
+├── types/
+│   ├── index.ts               # барель: re-export всех namespace
+│   ├── character.ts           # namespace Character — персонажи сценариев
+│   ├── scenario.ts            # namespace Scenario — формат сценария
+│   ├── course.ts              # namespace Course — курс из сценариев
+│   ├── attempt.ts             # namespace Attempt — сохранённая попытка
+│   ├── scenario-run.ts        # namespace ScenarioRun — состояние прохождения
+│   ├── api.ts                 # namespace Api — коды ошибок RTK Query
+│   └── validation.ts          # namespace Validation — Code, Issue, Result, Registries
+└── utils/
+    ├── index.ts                # барель: re-export из scenario-engine
+    └── scenario-engine/
+        ├── index.ts             # барель: validateScenario, compareAttempts, meterBounds
+        ├── validate.ts          # validateScenario — фаза 1, фаза 2, предупреждения (specs/…/validation.md)
+        ├── compare-attempts.ts  # compareAttempts — правило лучшей попытки (scenario-engine.md)
+        ├── validate-shape.ts    # фаза 1: схема Scenario.Definition, коды shape.*
+        ├── shape-schema.ts      # декларативные проверки формы: objectOf, arrayOf, recordOf, variantBy
+        ├── validate-graph.ts    # фаза 2: коды graph.* (старт, ссылки, переходы, варианты, достижимость)
+        ├── validate-refs.ts     # фаза 2: коды ref.* (реестры, characters, шкалы)
+        ├── validate-limits.ts   # фаза 2: meter.range, outcome.*, time.nodeOverScenario
+        ├── validate-warnings.ts # предупреждения: review.*, flag.*, самопетля, вариант без review
+        ├── walk.ts              # обход сценария: узлы, варианты, next, условия, эффекты, персонажи с путями
+        ├── meter-bounds.ts      # meterBounds(meter) — границы шкалы по умолчанию (0/100)
+        ├── issue.ts             # issue(), построение путей
+        └── __tests__/           # fixtures.ts + validate*.spec.ts по файлу-источнику кодов, compare-attempts.spec.ts, meter-bounds.spec.ts
 ```
 
-Папки `components/`, `utils/`, `types/` создаются при появлении первого
-файла; их назначение — [architecture.md](architecture.md#папки-и-их-назначение).
-Статика вне `src/` — `public/` (favicon), отдаётся от корня сайта.
+Папка `components/` создаётся при появлении первого файла; назначение
+папок — [architecture.md](architecture.md#папки-и-их-назначение).
+Статика вне `src/` — `public/`, отдаётся от корня сайта: `favicon.svg`,
+`characters/*.svg` (заглушки портретов, один SVG на персонажа, кроме
+автора) и `backgrounds/*.svg` (заглушки фонов), пути на них — в
+`CHARACTERS` и `BACKGROUNDS`.
 
 ## Конвенции (короткая выжимка)
 

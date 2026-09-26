@@ -39,6 +39,8 @@ export const ROUTES = {
 
 Компоненты не знают про store и типы сценария глубже пропсов. Enum
 пропсов экспортируется из файла компонента и через `components/index.ts`.
+Клавиши 1–4 хватает на любой `choice`: валидатор гарантирует не больше
+`MAX_CHOICE_OPTIONS` вариантов ([validation.md](validation.md)).
 
 ## Контейнер `scenario-player`
 

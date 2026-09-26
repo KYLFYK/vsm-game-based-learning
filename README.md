@@ -50,7 +50,9 @@ yarn dev                    # http://localhost:3000
 ```
 
 Порт переопределяется флагом: `yarn dev --port 3100`. Conductor делает это
-сам через `CONDUCTOR_PORT`.
+сам через `CONDUCTOR_PORT`. Открывая dev-сервер с другого устройства в
+сети — см. ограничение `crypto.randomUUID()` в
+[docs/client/scenario-engine.md](docs/client/scenario-engine.md).
 
 ### Переменные окружения
 

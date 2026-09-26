@@ -38,7 +38,7 @@
 
 | Проект | Что проверяет | Особенности |
 |--------|---------------|-------------|
-| [tsconfig.app.json](../tsconfig.app.json) | `src/` без тестов и моков | `strict`, `bundler`, `paths: @/* → src/*`, `types: ["vite/client"]` |
+| [tsconfig.app.json](../tsconfig.app.json) | `src/` без тестов и моков | `strict`, `bundler`, `paths: @/* → src/*`, `types: ["vite/client"]`, `resolveJsonModule` для JSON-контента в `src/content/` |
 | [tsconfig.node.json](../tsconfig.node.json) | `vite.config.ts` | `types: ["node"]` |
 | [tsconfig.test.json](../tsconfig.test.json) | весь `src/` вместе с тестами | + `types: jest, node`; Jest типы не проверяет — это делает `yarn build` |
 
