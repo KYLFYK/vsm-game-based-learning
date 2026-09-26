@@ -107,6 +107,7 @@ export const ScenarioReport = () => {
         report={report}
         scenarioId={scenario.id}
         courseId={courseId}
+        course={course}
       />
     </Root>
   );

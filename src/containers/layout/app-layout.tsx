@@ -1,8 +1,9 @@
-import { Outlet } from 'react-router';
+import { Link, NavLink, Outlet } from 'react-router';
 
 import { styled } from 'styled-components';
 
 import { APP_NAME } from '@/constants/app';
+import { ROUTES } from '@/constants/routes';
 
 const Root = styled.div`
   display: flex;
@@ -13,14 +14,36 @@ const Root = styled.div`
 const Header = styled.header`
   display: flex;
   align-items: baseline;
-  justify-content: space-between;
+  gap: ${({ theme }) => theme.spacing.xl};
   padding: ${({ theme }) => `${theme.spacing.md} ${theme.spacing.lg}`};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
-const Brand = styled.span`
+const Brand = styled(Link)`
   font-size: ${({ theme }) => theme.fontSizes.lg};
   font-weight: 600;
+  color: inherit;
+  text-decoration: none;
+`;
+
+const Nav = styled.nav`
+  display: flex;
+  flex: 1;
+  gap: ${({ theme }) => theme.spacing.lg};
+`;
+
+const NavItem = styled(NavLink)`
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  text-decoration: none;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.text};
+  }
+
+  &[aria-current='page'] {
+    color: ${({ theme }) => theme.colors.accentRed};
+  }
 `;
 
 const Version = styled.span`
@@ -36,7 +59,13 @@ const Main = styled.main`
 export const AppLayout = () => (
   <Root>
     <Header>
-      <Brand>{APP_NAME}</Brand>
+      <Brand to={ROUTES.HOME}>{APP_NAME}</Brand>
+      <Nav aria-label="Основная навигация">
+        <NavItem to={ROUTES.HOME} end>
+          Главная
+        </NavItem>
+        <NavItem to={ROUTES.COURSES}>Курсы</NavItem>
+      </Nav>
       <Version>v{__APP_VERSION__}</Version>
     </Header>
     <Main>

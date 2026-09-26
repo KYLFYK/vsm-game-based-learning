@@ -14,6 +14,7 @@ import {
   useGetScenarioQuery,
 } from '@/store';
 import { ScenarioRun } from '@/types';
+import { courseLink } from '@/utils';
 
 import { Finale } from './finale';
 import { Hud } from './hud';
@@ -34,6 +35,11 @@ export const ScenarioPlayer = () => {
   const { currentData: scenario, isFetching } = useGetScenarioQuery(scenarioId);
   const isLoading = scenario === undefined && isFetching;
   const { scenarioRemainingMs, nodeRemainingMs } = useRunTimers();
+  const courseId = searchParams.get('course');
+  const back =
+    courseId === null
+      ? { to: ROUTES.HOME, label: 'К сценариям' }
+      : { to: courseLink(courseId), label: 'К курсу' };
 
   useDocumentTitle(scenario?.title ?? 'Сценарий');
 
@@ -74,17 +80,16 @@ export const ScenarioPlayer = () => {
       dispatch(
         runStarted({
           scenario,
-          courseId: searchParams.get('course') ?? undefined,
+          courseId: courseId ?? undefined,
         })
       );
     };
-    return <Intro scenario={scenario} onStart={start} />;
+    return <Intro scenario={scenario} back={back} onStart={start} />;
   }
 
-  // Курсы появятся на этапе 6; до них выход ведёт в каталог на главной
   const exit = () => {
     if (!window.confirm(EXIT_CONFIRM)) return;
-    void navigate(ROUTES.HOME);
+    void navigate(back.to);
   };
 
   return (
