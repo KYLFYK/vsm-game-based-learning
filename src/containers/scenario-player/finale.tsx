@@ -18,12 +18,18 @@ import {
 
 import { ActionsAnchor, StampAnchor } from './scenario-player.styles';
 
+// Под кнопкой, вне потока: кнопка не сдвигается вверх и не уходит под штамп
 const SaveError = styled.p`
+  position: absolute;
+  top: calc(100% + ${({ theme }) => theme.spacing.md});
+  left: 50%;
   margin: 0;
   padding: ${({ theme }) => `${theme.spacing.xs} ${theme.spacing.sm}`};
   font-weight: 700;
   color: ${({ theme }) => theme.colors.onAccent};
+  white-space: nowrap;
   background: ${({ theme }) => theme.colors.ink};
+  transform: translateX(-50%);
 `;
 
 export const Finale = () => {
@@ -59,9 +65,6 @@ export const Finale = () => {
         <Stamp status={ending.status} />
       </StampAnchor>
       <ActionsAnchor>
-        {isError && (
-          <SaveError role="alert">Не удалось сохранить попытку</SaveError>
-        )}
         <Button
           size={ButtonSize.Lg}
           disabled={isLoading}
@@ -71,6 +74,9 @@ export const Finale = () => {
         >
           {isError ? 'Повторить' : 'К отчёту ▸'}
         </Button>
+        {isError && (
+          <SaveError role="alert">Не удалось сохранить попытку</SaveError>
+        )}
       </ActionsAnchor>
     </>
   );
