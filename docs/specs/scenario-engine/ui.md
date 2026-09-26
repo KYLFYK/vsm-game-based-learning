@@ -23,7 +23,7 @@ export const ROUTES = {
 Routes
 ├── /                            → AppLayout
 │   ├── index                    → HomePage
-│   ├── COURSES, COURSE          → этап 6
+│   ├── COURSES, COURSE          → CoursesPage, CoursePage
 │   └── SCENARIO_ATTEMPT         → ScenarioAttemptPage
 └── SCENARIO                     → ScenarioPage (вне AppLayout, на всё окно)
 ```
@@ -33,8 +33,8 @@ Routes
 | `HOME` | `pages/home` | `scenario-catalog` | `AppLayout` |
 | `SCENARIO` | `pages/scenario` | `scenario-player` | нет |
 | `SCENARIO_ATTEMPT` | `pages/scenario-attempt` | `scenario-report` ([ui-report.md](ui-report.md)) | `AppLayout` |
-| `COURSES` | `pages/courses` | `course-list` (этап 6) | `AppLayout` |
-| `COURSE` | `pages/course` | `course-view` (этап 6) | `AppLayout` |
+| `COURSES` | `pages/courses` | `course-list` ([ui-courses.md](ui-courses.md)) | `AppLayout` |
+| `COURSE` | `pages/course` | `course-view` ([ui-courses.md](ui-courses.md)) | `AppLayout` |
 
 - `SCENARIO` — отдельный `Route` рядом с `AppLayout`, а не внутри: у
   сценария нет шапки приложения, сцена занимает всё окно.
@@ -42,8 +42,8 @@ Routes
   контейнер `scenario-player`, а не страница: у страниц нет побочных
   эффектов ([requirements/client.md](../../requirements/client.md)).
   Перезагрузка открывает заставку заново: оборванная попытка не оживает.
-- `AppLayout` получает пункт «Курсы» на этапе 6; до него каталог
-  сценариев живёт на главной.
+- `AppLayout` — навигация «Главная» и «Курсы»; каталог сценариев
+  остаётся на главной ([ui-courses.md](ui-courses.md#навигация)).
 
 ## Компоненты `components/`
 
@@ -70,7 +70,8 @@ Routes
 
 ## Контейнер `scenario-catalog`
 
-Временный каталог на главной до страниц курсов (этап 6).
+Каталог всех сценариев на главной; на него ведут рекомендации и «К
+сценариям» без курса.
 `useGetScenariosQuery` → карточки: `title`, `description`, подписи тем из
 `TOPICS`, `estimatedMinutes`, лимит `timeLimitSec` в `мм:сс`, `ButtonLink`
 «Играть» на `SCENARIO`. Загрузка — «Загрузка…», ошибка — текст ошибки.
@@ -113,16 +114,17 @@ Routes
 (`мм:сс`), по чипу на каждый порог `passCriteria.meters` («<label> — не
 ниже N»). Флаги из `passCriteria.flags` не показываются: это внутренние
 `id`. Кнопки: «Начать» → `runStarted({ scenario, courseId })`, где
-`courseId` — search-параметр `course`; «К сценариям» → `HOME`.
+`courseId` — search-параметр `course`; «◂ К курсу» → `COURSE` при
+`course`, иначе «◂ К сценариям» → `HOME`.
 
 ### HUD
 
 - Слева: «Выйти» и название сценария.
 - Справа: `MeterBar` на каждую шкалу при `selectMetersVisible`,
   `Countdown` сценария при лимите, кнопка «Во весь экран».
-- «Выйти»: `window.confirm('Попытка не сохранится. Выйти?')` → `runLeft`
-  и переход на `HOME`; переход на курс (при `course`) появится вместе с
-  курсами на этапе 6. На финале вопрос тот же: попытка сохраняется только
+- «Выйти»: `window.confirm('Попытка не сохранится. Выйти?')` → переход
+  на `COURSE` при `course`, иначе на `HOME`; `runLeft` — при
+  размонтировании. На финале вопрос тот же: попытка сохраняется только
   кнопкой «К отчёту».
 
 ### Полноэкранный режим
@@ -162,14 +164,10 @@ Routes
 - Подсказка «Далее ▸ Enter» — правый нижний угол зоны, только на
   `NodeType.Line`.
 
-## Контейнеры курсов (этап 6)
+## Контейнеры курсов
 
-- `course-list`: карточки курсов, число сценариев, сколько зачтено.
-- `course-view`: сценарии по порядку с меткой по `Course.ScenarioStatus`
-  (`Passed` — «Зачтено», `Failed` — «Не зачтено», `NotStarted` —
-  «Не начат»); ссылка на `SCENARIO` с `course`.
-- Данные: `useGetCoursesQuery`, `useGetCourseQuery`,
-  `useGetScenariosQuery`, `useGetAttemptsQuery({})`.
+`course-list`, `course-view`, история попыток —
+[ui-courses.md](ui-courses.md).
 
 ## Контейнер `scenario-report`
 
@@ -192,5 +190,6 @@ Routes
 
 - [ui-visual.md](ui-visual.md) — визуальный язык и токены темы.
 - [ui-report.md](ui-report.md) — экран отчёта.
+- [ui-courses.md](ui-courses.md) — экраны курсов.
 - [../../plans/scenario-engine/ux.md](../../plans/scenario-engine/ux.md) — экраны и поведение.
 - [../../requirements/client.md](../../requirements/client.md) — слои и стили.

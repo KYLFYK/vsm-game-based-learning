@@ -7,7 +7,6 @@ import {
   ButtonVariant,
 } from '@/components/button';
 import { BackdropVariant, ComicBackdrop } from '@/components/comic-backdrop';
-import { ROUTES } from '@/constants/routes';
 import { TOPICS } from '@/constants/topics';
 import type { Scenario } from '@/types';
 import { formatRemaining } from '@/utils';
@@ -93,10 +92,12 @@ const Chip = styled.li`
 
 interface IntroProps {
   scenario: Scenario.Definition;
+  /** Куда ведёт «назад»: курс из `course` или каталог на главной */
+  back: { to: string; label: string };
   onStart: () => void;
 }
 
-export const Intro = ({ scenario, onStart }: IntroProps) => {
+export const Intro = ({ scenario, back, onStart }: IntroProps) => {
   const topic = scenario.topics[0];
   const thresholds = meterThresholds(scenario);
 
@@ -105,11 +106,11 @@ export const Intro = ({ scenario, onStart }: IntroProps) => {
       <ComicBackdrop variant={BackdropVariant.Intro} />
       <Back>
         <ButtonLink
-          to={ROUTES.HOME}
+          to={back.to}
           variant={ButtonVariant.Secondary}
           size={ButtonSize.Sm}
         >
-          ◂ К сценариям
+          ◂ {back.label}
         </ButtonLink>
       </Back>
       <Content>

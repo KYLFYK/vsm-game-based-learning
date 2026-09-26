@@ -1,21 +1,16 @@
-import {
-  createSearchParams,
-  generatePath,
-  useNavigate,
-  useSearchParams,
-} from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 
 import { styled } from 'styled-components';
 
 import { Button, ButtonSize } from '@/components/button';
 import { Stamp } from '@/components/stamp';
-import { ROUTES } from '@/constants/routes';
 import {
   selectAttemptDraft,
   selectEnding,
   useAppSelector,
   useSaveAttemptMutation,
 } from '@/store';
+import { attemptLink } from '@/utils';
 
 import { ActionsAnchor, StampAnchor } from './scenario-player.styles';
 import { usePlayerKeys } from './use-player-keys';
@@ -45,17 +40,10 @@ export const Finale = () => {
     if (draft === null) return;
     const result = await saveAttempt(draft);
     if ('error' in result) return;
-    const pathname = generatePath(ROUTES.SCENARIO_ATTEMPT, {
-      scenarioId: draft.scenarioId,
-      attemptId: draft.id,
-    });
-    const course = searchParams.get('course');
     // runLeft отработает при размонтировании плеера: сброс до перехода
     // на мгновение показал бы заставку
     await navigate(
-      course === null
-        ? pathname
-        : { pathname, search: createSearchParams({ course }).toString() }
+      attemptLink(draft.scenarioId, draft.id, searchParams.get('course'))
     );
   };
 

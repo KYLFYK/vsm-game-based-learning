@@ -4,6 +4,8 @@ import { ThemeProvider } from 'styled-components';
 
 import { ROUTES } from '@/constants/routes';
 import { AppLayout } from '@/containers/layout/app-layout';
+import { CoursePage } from '@/pages/course';
+import { CoursesPage } from '@/pages/courses';
 import { HomePage } from '@/pages/home';
 import { ScenarioPage } from '@/pages/scenario';
 import { ScenarioAttemptPage } from '@/pages/scenario-attempt';
@@ -17,6 +19,8 @@ export const App = () => (
       <Routes>
         <Route path={ROUTES.HOME} element={<AppLayout />}>
           <Route index element={<HomePage />} />
+          <Route path={ROUTES.COURSES} element={<CoursesPage />} />
+          <Route path={ROUTES.COURSE} element={<CoursePage />} />
           <Route
             path={ROUTES.SCENARIO_ATTEMPT}
             element={<ScenarioAttemptPage />}

@@ -25,7 +25,7 @@
 | `constants/` | Реестры `CHARACTERS`, `BACKGROUNDS`, `TOPICS` — типизированные `id`, на них ссылается контент |
 | `content/` | JSON сценариев и курсов; `load-scenarios.ts` валидирует каждый сценарий через `validateScenario` (вызывается из `index.ts` при импорте бандла) и бросает исключение при ошибке — несовместимый контент не должен запускать dev-сервер или тесты |
 | `store/slices/scenario-run/` | Слайс `scenarioRun`: состояние попытки, редьюсеры, селекторы |
-| `utils/scenario-engine/` | Чистые функции без React и без состояния попытки: `validateScenario`, `compareAttempts`, `buildReport`, `recommendScenarios` |
+| `utils/scenario-engine/` | Чистые функции без React и без состояния попытки: `validateScenario`, `compareAttempts`, `bestAttempt`, `scenarioStatus`, `courseProgress`, `buildReport`, `recommendScenarios` |
 
 Роль каждого файла `store/slices/scenario-run/` — карта `src/` в
 [README.md](README.md). Полное состояние, алгоритмы узла и разрешения
@@ -107,8 +107,16 @@ creators подставляют его через `prepare` (по умолчан
 — компаратор для `Array.prototype.sort`, лучшая попытка первой; порядок
 правил сравнения — [../specs/scenario-engine/report.md](../specs/scenario-engine/report.md#лучшая-попытка).
 
-Выбор лучшей попытки среди списка (`bestAttempt`) и статус сценария по
-списку попыток — селектор этапа 6.1, ещё не реализован.
+`bestAttempt(attempts)` и `scenarioStatus(attempts)` в
+[`best-attempt.ts`](../../src/utils/scenario-engine/best-attempt.ts)
+выбирают лучшую попытку и статус сценария (`Course.ScenarioStatus`) по
+тому же компаратору; `courseProgress(course, attempts)` в
+[`course-progress.ts`](../../src/utils/scenario-engine/course-progress.ts)
+считает статусы сценариев курса и признак «курс пройден». Это чистые
+функции над ответом `useGetAttemptsQuery`, а не селекторы store: попытки
+живут в кеше RTK Query, «лучшая» — вычисляемое поле. Правила —
+[report.md](../specs/scenario-engine/report.md#лучшая-попытка), экраны —
+[features/courses.md](features/courses.md).
 
 ## Отчёт
 

@@ -3,8 +3,8 @@ import { styled } from 'styled-components';
 import { ButtonLink, ButtonSize, ButtonVariant } from '@/components/button';
 import { TOPICS } from '@/constants/topics';
 import type { Report } from '@/types';
+import { scenarioLink } from '@/utils';
 
-import { scenarioLink } from './scenario-link';
 import {
   cardStyles,
   List,
