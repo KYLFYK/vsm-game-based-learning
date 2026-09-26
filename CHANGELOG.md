@@ -1,5 +1,11 @@
 # vsm-game-based-learning
 
+## 0.4.0
+
+### Minor Changes
+
+- [#7](https://github.com/KYLFYK/vsm-game-based-learning/pull/7) [`e2cca42`](https://github.com/KYLFYK/vsm-game-based-learning/commit/e2cca42b066a0a66fd49d834b947d06429274312) Thanks [@KYLFYK](https://github.com/KYLFYK)! - Отчёт о попытке: итог со штампом, баллом и временем, шкалы с графиком по решениям, разбор каждого решения с подсказкой «Лучше было бы», сильные и слабые темы, до трёх рекомендованных сценариев, кнопки «Пройти ещё раз» и «Следующий сценарий».
+
 ## 0.3.0
 
 ### Minor Changes
