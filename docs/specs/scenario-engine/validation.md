@@ -45,7 +45,7 @@ enum `Validation.Code` — в [types-runtime.md](types-runtime.md). Коды в
 | `ref.background` | Фон не в реестре |
 | `ref.topic` | Тема из `topics` или `review.topic` варианта не в реестре |
 | `ref.meter` | Шкала из `effects`, условия, `passCriteria`, `outcomes` не в `meters` |
-| `meter.range` | `min >= max`, `initial` вне `[min, max]`, порог `passCriteria` вне `[min, max]` |
+| `meter.range` | `min >= max`, `initial` вне `(min, max]`, порог `passCriteria` вне `[min, max]` |
 | `outcome.timeoutMissing` | Есть `timeLimitSec` у сценария или любого узла, а `outcomes.timeout` нет |
 | `outcome.depletedMissing` | Для шкалы нет `outcomes.meterDepleted[id]` |
 | `time.nodeOverScenario` | `timeLimitSec` узла больше `timeLimitSec` сценария |

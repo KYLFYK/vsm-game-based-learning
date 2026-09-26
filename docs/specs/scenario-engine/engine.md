@@ -91,6 +91,11 @@ Action creators с `prepare`: второй аргумент `now` необяза
 | `expired` | `Running` | `checkDeadlines` |
 | `runLeft` | любой | `initialState` |
 
+Проверка истощения смотрит на `meters[id] <= min` уже после первого
+хода: `validateScenario` требует `initial > min`
+([validation.md](validation.md)), поэтому нетронутая шкала не может
+завершить попытку на первом же выборе.
+
 Экшены с невыполненным предусловием возвращают то же состояние (та же
 ссылка). Таймаутный `Ending`: `kind: EndingKind.Timeout`,
 `line = outcomes.timeout`, `status: Failed`, `reason: Reason.Timeout`.

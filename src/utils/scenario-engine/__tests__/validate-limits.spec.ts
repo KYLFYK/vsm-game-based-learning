@@ -13,6 +13,12 @@ describe(validateScenario.name, () => {
       { label: 'Доверие', initial: 5, min: 10, max: 20 },
       15,
     ],
+    ['meters.trust.initial', { label: 'Доверие', initial: 0 }, 40],
+    [
+      'meters.trust.initial',
+      { label: 'Доверие', initial: 10, min: 10, max: 20 },
+      15,
+    ],
     ['passCriteria.meters.trust', { label: 'Доверие', initial: 50 }, 120],
     [
       'passCriteria.meters.trust',
@@ -31,6 +37,24 @@ describe(validateScenario.name, () => {
       ]);
     }
   );
+
+  test('accepts initial one above the default min', () => {
+    const scenario = createScenario();
+    scenario.meters = { trust: { label: 'Доверие', initial: 1 } };
+    scenario.passCriteria!.meters = { trust: 40 };
+
+    expect(errorsOf(scenario)).toEqual([]);
+  });
+
+  test('accepts initial one above an explicit min', () => {
+    const scenario = createScenario();
+    scenario.meters = {
+      trust: { label: 'Доверие', initial: 11, min: 10, max: 20 },
+    };
+    scenario.passCriteria!.meters = { trust: 15 };
+
+    expect(errorsOf(scenario)).toEqual([]);
+  });
 
   test(`reports ${Validation.Code.OutcomeTimeoutMissing} for a scenario timer`, () => {
     const scenario = createScenario();

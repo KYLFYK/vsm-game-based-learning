@@ -19,12 +19,13 @@ const checkMeterRanges = (scenario: Scenario.Definition): Validation.Issue[] =>
     }
     const outside = (value: number): boolean => value < min || value > max;
     const issues: Validation.Issue[] = [];
-    if (outside(meter.initial)) {
+    // initial <= min провалил бы проверку истощения шкалы на первом же ходу
+    if (meter.initial <= min || meter.initial > max) {
       issues.push(
         issue(
           Validation.Code.MeterRange,
           key(path, 'initial'),
-          `initial ${meter.initial} вне [${min}, ${max}]`
+          `initial ${meter.initial} вне (${min}, ${max}]`
         )
       );
     }
