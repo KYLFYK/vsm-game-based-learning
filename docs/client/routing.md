@@ -11,8 +11,10 @@
 ```
 BrowserRouter
 └── Routes
-    └── /            → AppLayout (Header + Main)
-        └── index    → HomePage
+    ├── /                            → AppLayout (Header + Main)
+    │   ├── index                    → HomePage
+    │   └── /scenarios/:scenarioId/attempts/:attemptId → ScenarioAttemptPage
+    └── /scenarios/:scenarioId       → ScenarioPage (без AppLayout, во всё окно)
 ```
 
 `AppLayout` ([containers/layout/app-layout.tsx](../../src/containers/layout/app-layout.tsx))
@@ -25,19 +27,29 @@ BrowserRouter
 ```ts
 export const ROUTES = {
   HOME: '/',
+  SCENARIO: '/scenarios/:scenarioId',
+  SCENARIO_ATTEMPT: '/scenarios/:scenarioId/attempts/:attemptId',
 } as const;
 ```
 
-Никогда не пиши пути строками в компонентах — только `ROUTES.XXX`. Это
-нужно для безопасной правки путей и перекрёстных ссылок в `navigate` /
-`Link`.
+Никогда не пиши пути строками в компонентах — только `ROUTES.XXX`. Для
+параметризованных путей (`SCENARIO`, `SCENARIO_ATTEMPT`) подставляй
+значения через `generatePath` из `react-router`, а не шаблонной строкой.
+
+## Маршруты вне лейаута
+
+Экрану во весь экран (например, сценарию) не нужна шапка `AppLayout`:
+такой маршрут описывается соседним `<Route>` на верхнем уровне `Routes`,
+а не вложенным в `AppLayout`. Пример — `ROUTES.SCENARIO` → `ScenarioPage`
+в [app.tsx](../../src/app.tsx).
 
 ## Как добавить маршрут
 
 1. Ключ в `ROUTES`: `ORDERS: '/orders'`.
 2. Папка страницы в `pages/<name>/` с `index.ts`.
-3. Маршрут в `app.tsx` внутри `<Route path={ROUTES.HOME} element={<AppLayout />}>`:
-   `<Route path={ROUTES.ORDERS} element={<OrdersPage />} />`.
+3. Маршрут в `app.tsx` внутри `<Route path={ROUTES.HOME} element={<AppLayout />}>`,
+   `<Route path={ROUTES.ORDERS} element={<OrdersPage />} />`, или рядом с
+   ним, если экрану не нужна шапка.
 4. Пункт навигации в `AppLayout`, если он нужен.
 5. Обновить этот файл, карту в [README.md](README.md) и
    [features/](features/README.md), если фича пользовательская.
