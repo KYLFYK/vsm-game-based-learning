@@ -32,7 +32,7 @@ Routes
 |---------|----------|------------|--------|
 | `HOME` | `pages/home` | `scenario-catalog` | `AppLayout` |
 | `SCENARIO` | `pages/scenario` | `scenario-player` | нет |
-| `SCENARIO_ATTEMPT` | `pages/scenario-attempt` | `scenario-report` (этап 5; до него — заглушка) | `AppLayout` |
+| `SCENARIO_ATTEMPT` | `pages/scenario-attempt` | `scenario-report` ([ui-report.md](ui-report.md)) | `AppLayout` |
 | `COURSES` | `pages/courses` | `course-list` (этап 6) | `AppLayout` |
 | `COURSE` | `pages/course` | `course-view` (этап 6) | `AppLayout` |
 
@@ -171,14 +171,9 @@ Routes
 - Данные: `useGetCoursesQuery`, `useGetCourseQuery`,
   `useGetScenariosQuery`, `useGetAttemptsQuery({})`.
 
-## Контейнер `scenario-report` (этап 5)
+## Контейнер `scenario-report`
 
-Читает `useGetAttemptQuery`, `useGetScenarioQuery`,
-`useGetScenariosQuery`, `useGetAttemptsQuery({})`, строит `buildReport`
-([report.md](report.md)) в `useMemo` и рендерит блоки по порядку из
-плана. Кнопки: «Пройти ещё раз» → `SCENARIO` с тем же `course`;
-«К курсу» при `course`; «Следующий сценарий» при `Status.Passed` и наличии
-следующего в курсе.
+Экран отчёта — [ui-report.md](ui-report.md).
 
 ## Доступность
 
@@ -196,5 +191,6 @@ Routes
 ## См. также
 
 - [ui-visual.md](ui-visual.md) — визуальный язык и токены темы.
+- [ui-report.md](ui-report.md) — экран отчёта.
 - [../../plans/scenario-engine/ux.md](../../plans/scenario-engine/ux.md) — экраны и поведение.
 - [../../requirements/client.md](../../requirements/client.md) — слои и стили.

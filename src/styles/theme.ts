@@ -61,6 +61,10 @@ export const gameFontSizes = {
   chip: '13px',
   cardTitle: '17px',
   tag: '11px',
+  reportKicker: '12px',
+  reportTitle: 'clamp(24px, 3vw, 40px)',
+  reportSection: '15px',
+  reportScore: '40px',
 } as const;
 
 export const fontFamily =
@@ -168,6 +172,21 @@ export const stage = {
   stampTracking: '0.04em',
 } as const;
 
+/* Экран отчёта: ширина колонки и график шкалы; числа графика — единицы viewBox */
+export const report = {
+  contentWidth: '880px',
+  tileWidth: '260px',
+  chartWidth: 220,
+  chartHeight: 64,
+  chartPad: 8,
+  lineWidth: '2px',
+  thresholdWidth: '1.5px',
+  hairline: '1px',
+  dotRadius: 4,
+  dotRing: '2px',
+  hitRadius: 10,
+} as const;
+
 export const theme = {
   colors,
   spacing,
@@ -184,6 +203,7 @@ export const theme = {
   zIndices,
   durations,
   stage,
+  report,
 } as const;
 
 export type AppTheme = typeof theme;

@@ -1,0 +1,133 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`buildReport builds the whole report for a passed attempt 1`] = `
+{
+  "decisions": [
+    {
+      "better": {
+        "explanation": "Спокойствие — первое",
+        "text": "Успокою пассажиров",
+      },
+      "chosen": "Крикну «Всем стоять»",
+      "effects": [
+        {
+          "delta": -10,
+          "meter": "trust",
+        },
+      ],
+      "explanation": "Крик пугает",
+      "index": 0,
+      "question": "С чего начнёшь?",
+      "speaker": "anna",
+      "topic": "calm",
+      "verdict": "bad",
+    },
+    {
+      "chosen": "Успокою пассажиров",
+      "effects": [
+        {
+          "delta": 20,
+          "meter": "trust",
+        },
+      ],
+      "explanation": "Спокойствие — первое",
+      "index": 1,
+      "question": "С чего начнёшь?",
+      "speaker": "anna",
+      "topic": "calm",
+      "verdict": "best",
+    },
+    {
+      "chosen": "Показать выход",
+      "effects": [
+        {
+          "delta": 2,
+          "meter": "order",
+        },
+        {
+          "flag": "helped",
+          "value": true,
+        },
+      ],
+      "explanation": "Верно",
+      "index": 3,
+      "question": "Где выход?",
+      "speaker": "oleg",
+      "topic": "safety",
+      "verdict": "best",
+    },
+    {
+      "chosen": "Ждать",
+      "effects": [],
+      "explanation": "Терпимо",
+      "index": 4,
+      "question": "А мне что делать?",
+      "speaker": "oleg",
+      "topic": "safety",
+      "verdict": "ok",
+    },
+  ],
+  "meters": [
+    {
+      "final": 60,
+      "id": "trust",
+      "label": "Доверие",
+      "max": 100,
+      "met": true,
+      "min": 0,
+      "series": [
+        50,
+        40,
+        60,
+        60,
+        60,
+        60,
+      ],
+      "threshold": 60,
+    },
+    {
+      "final": 8,
+      "id": "order",
+      "label": "Порядок",
+      "max": 10,
+      "met": true,
+      "min": 2,
+      "series": [
+        6,
+        6,
+        6,
+        6,
+        8,
+        8,
+      ],
+    },
+  ],
+  "nextScenarioId": "fire",
+  "outcome": {
+    "reason": "completed",
+    "status": "passed",
+    "text": "Сценарий пройден",
+  },
+  "recommendations": [],
+  "score": 63,
+  "topics": [
+    {
+      "bad": 1,
+      "best": 1,
+      "id": "calm",
+      "label": "Спокойствие",
+      "ok": 0,
+      "weak": true,
+    },
+    {
+      "bad": 0,
+      "best": 1,
+      "id": "safety",
+      "label": "Безопасность",
+      "ok": 1,
+      "weak": false,
+    },
+  ],
+  "versionMismatch": false,
+}
+`;
