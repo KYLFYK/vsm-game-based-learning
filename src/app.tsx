@@ -4,6 +4,7 @@ import { ThemeProvider } from 'styled-components';
 
 import { ROUTES } from '@/constants/routes';
 import { AppLayout } from '@/containers/layout/app-layout';
+import { AchievementsPage } from '@/pages/achievements';
 import { CoursePage } from '@/pages/course';
 import { CoursesPage } from '@/pages/courses';
 import { HomePage } from '@/pages/home';
@@ -25,6 +26,7 @@ export const App = () => (
             path={ROUTES.SCENARIO_ATTEMPT}
             element={<ScenarioAttemptPage />}
           />
+          <Route path={ROUTES.ACHIEVEMENTS} element={<AchievementsPage />} />
         </Route>
         <Route path={ROUTES.SCENARIO} element={<ScenarioPage />} />
       </Routes>

@@ -9,6 +9,7 @@
 |------|---------|----------|
 | Прохождение сценария | /scenarios/:scenarioId | [scenario-run.md](scenario-run.md) |
 | Курсы и результаты | /courses, /courses/:courseId | [courses.md](courses.md) |
+| Достижения | /achievements | [achievements.md](achievements.md) |
 
 ## Шаблон для новой фичи
 

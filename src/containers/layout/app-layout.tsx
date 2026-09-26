@@ -65,6 +65,7 @@ export const AppLayout = () => (
           Главная
         </NavItem>
         <NavItem to={ROUTES.COURSES}>Курсы</NavItem>
+        <NavItem to={ROUTES.ACHIEVEMENTS}>Достижения</NavItem>
       </Nav>
       <Version>v{__APP_VERSION__}</Version>
     </Header>

@@ -11,10 +11,12 @@ describe('store', () => {
 
   test('registers exactly the endpoints injected by store/apis', () => {
     expect(Object.keys(api.endpoints).sort()).toEqual([
+      'getAchievements',
       'getAttempt',
       'getAttempts',
       'getCourse',
       'getCourses',
+      'getMyAchievements',
       'getScenario',
       'getScenarios',
       'saveAttempt',

@@ -6,6 +6,7 @@ React 19 SPA на Vite 8. Точка входа — [src/index.tsx](../../src/in
 ## Разделы
 
 - [Архитектура](architecture.md) — слои, назначение папок, как расширять.
+- [Контейнеры](containers.md) — карта `containers/`: файлы каждой папки.
 - [Маршрутизация](routing.md) — `ROUTES`, дерево маршрутов, как добавить.
 - [Состояние](state.md) — `configureStore`, типизированные хуки, барель.
 - [API-слой](api.md) — RTK Query, `injectEndpoints`, теги, `VITE_API_URL`.
@@ -24,6 +25,8 @@ src/
 ├── vite-env.d.ts              # типы Vite, __APP_VERSION__, ImportMetaEnv
 ├── styled.d.ts                # DefaultTheme styled-components = AppTheme
 ├── components/                # папка на компонент: <name>.tsx, enum/стили рядом, index.ts; импорт @/components/<name>
+│   ├── achievement-card/       # AchievementCard — квадратная картинка, название, дата или «Не получено», «Как получить»,
+│   │                             описание в подсказке при наведении и фокусе; AchievementGrid
 │   ├── button/                 # Button, ButtonLink; button.enums.ts (ButtonVariant, ButtonSize), button.styles.ts (buttonStyles)
 │   ├── catalog-card/           # CatalogGrid, CatalogCard — карточка курса или сценария в сетке; CardTitle
 │   ├── character-portrait/     # CharacterPortrait — портрет персонажа, зеркалится и притушивается
@@ -37,6 +40,7 @@ src/
 │   ├── page/                   # Page, PageHeader (плашка + h1), PageTitle, PageList, PageActions — страница курса и отчёта
 │   ├── speech-bubble/          # SpeechBubble — реплика персонажа или автора; speech-bubble.enums.ts (BubbleSide)
 │   ├── stamp/                  # Stamp — штамп итога, aria-hidden; stamp.enums.ts (STAMP_LABELS)
+│   ├── tabs/                   # Tabs — табы WAI-ARIA и панель активного; next-tab-index.ts (стрелки, Home, End)
 │   ├── tag/                    # Tag, Badge, TagList — метки; tag.enums.ts (TagTone), tag.styles.ts (toneStyles)
 │   └── visually-hidden/        # VisuallyHidden — текст только для скринридеров
 ├── config/
@@ -45,7 +49,7 @@ src/
 │   ├── __mocks__/env.ts       # подстановка для Jest (moduleNameMapper)
 │   └── __tests__/             # read-env.spec.ts
 ├── constants/
-│   ├── routes.ts              # ROUTES — единственный источник путей; COURSE_SEARCH_PARAM (routing.md)
+│   ├── routes.ts              # ROUTES — единственный источник путей; COURSE_SEARCH_PARAM, ACHIEVEMENT_TAB_SEARCH_PARAM (routing.md)
 │   ├── app.ts                 # APP_NAME
 │   ├── characters.ts          # CHARACTERS — реестр персонажей сценариев
 │   ├── backgrounds.ts         # BACKGROUNDS — реестр фонов сцены
@@ -53,52 +57,21 @@ src/
 ├── content/
 │   ├── scenarios/smoke-next-car.json  # первый сценарий по format.md
 │   ├── courses.json           # курсы: { id, title, description, scenarioIds }
+│   ├── achievements.json      # каталог достижений: { id, title, description, howTo, image }
+│   ├── earned-achievements.mock.ts # EARNED_ACHIEVEMENTS_MOCK — заглушка полученных до API
 │   ├── load-scenarios.ts      # loadScenarios — validateScenario на импорте, throw при ошибке
 │   ├── assert-courses.ts      # assertCourses — courses ссылаются только на загруженные сценарии
 │   ├── to-summary.ts          # toSummary — Definition → Scenario.Summary
-│   ├── index.ts               # барель: SCENARIOS, COURSES, CONTENT_WARNINGS, toSummary
+│   ├── index.ts               # барель: SCENARIOS, COURSES, ACHIEVEMENTS, EARNED_ACHIEVEMENTS_MOCK, CONTENT_WARNINGS, toSummary
 │   └── __tests__/             # index.spec.ts — загрузка, ошибки, snapshot предупреждений
-├── containers/
-│   ├── layout/app-layout.tsx  # AppLayout — Header (имя, навигация «Главная» / «Курсы», версия) + Main с <Outlet/>
-│   ├── course-list/           # CourseList — карточки курсов с прогрессом «Зачтено N из M», «Открыть»
-│   ├── course-view/           # CourseView — курс: сценарии по порядку, статус, лучшая попытка, история
-│   │   ├── course-view.tsx     # данные, courseProgress, загрузка и «Курс не найден», список
-│   │   ├── course-scenario.tsx # CourseScenario — карточка сценария: метка статуса, лучшая попытка, «Играть»
-│   │   ├── attempt-history.tsx # AttemptHistory — таблица попыток в <details>, ссылки на отчёт
-│   │   ├── course-view-model.ts # SCENARIO_STATUS_LABELS, SCENARIO_STATUS_TONES, playLabel, nextToPlay
-│   │   ├── course-view.styles.ts # Progress, карточка сценария, StatusBadge
-│   │   └── __tests__/          # course-view-model.spec.ts
-│   ├── scenario-catalog/      # ScenarioCatalog — карточки сценариев на главной, «Играть»
-│   ├── scenario-report/       # ScenarioReport — отчёт о попытке (specs/…/ui-report.md)
-│   │   ├── scenario-report.tsx # данные, buildReport, загрузка и «не найдено», порядок блоков
-│   │   ├── index.ts            # барель: ScenarioReport
-│   │   ├── scenario-report.styles.ts # Section, SectionTitle
-│   │   ├── outcome-section.tsx # Итог: штамп, причина, балл, время
-│   │   ├── meters-section.tsx  # Шкалы: плитки с итогом и порогом
-│   │   ├── meter-chart.tsx     # MeterChart — SVG-график шкалы по решениям
-│   │   ├── decisions-section.tsx # Разбор решений и «Лучше было бы»
-│   │   ├── topics-section.tsx  # Темы: счётчики оценок, слабые и сильные
-│   │   ├── recommendations-section.tsx # Рекомендации: до трёх сценариев
-│   │   ├── report-actions.tsx  # «Пройти ещё раз», «Следующий сценарий», «К курсу» или «К сценариям»
-│   │   ├── report-view.ts      # VERDICT_LABELS, VERDICT_TONES, isRetryPrimary, meterEffectLabels, speakerName
-│   │   ├── sparkline.ts        # sparklinePoints, sparklineY — координаты графика
-│   │   └── __tests__/          # sparkline.spec.ts, report-view.spec.ts
-│   └── scenario-player/
-│       ├── scenario-player.tsx # ScenarioPlayer — экран сценария, сброс попытки при уходе (routing.md)
-│       ├── index.ts            # барель: ScenarioPlayer
-│       ├── scenario-player.styles.ts # Screen, Zone, слоты и якоря реплики, вариантов, штампа, действий
-│       ├── intro.tsx          # Intro — заставка: тема, название, описание, чипы лимита и порогов, «Начать»
-│       ├── scene.tsx          # Scene — фон, слоты, реплика, варианты, «Далее»; children — внутри зоны 16:9
-│       ├── hud.tsx            # Hud — «Выйти», название, шкалы, таймер сценария, «Во весь экран»
-│       ├── finale.tsx         # Finale — штамп, «К отчёту»: saveAttempt и переход к SCENARIO_ATTEMPT
-│       ├── use-run-timers.ts  # useRunTimers — остаток времени сценария/узла, тик 250 мс, expired() (scenario-engine.md)
-│       ├── speaker-layout.ts  # speakerLayout — слот и сторона реплики для говорящего
-│       ├── meter-thresholds.ts # meterThresholds — пороги зачёта шкал с подписями
-│       ├── use-player-keys.ts # usePlayerKeys — клавиатура сцены: Enter/Space далее, 1–4 вариант
-│       ├── use-fullscreen.ts  # useFullscreen — полноэкранный режим документа
-│       └── __tests__/          # use-run-timers.spec.ts — renderHook с моком @/store, jest.useFakeTimers;
-│                                 speaker-layout.spec.ts, meter-thresholds.spec.ts,
-│                                 use-player-keys.spec.ts, use-fullscreen.spec.ts
+├── containers/              # по папке на раздел; файлы каждой папки — containers.md
+│   ├── layout/                # AppLayout — шапка с навигацией и <Outlet/>
+│   ├── achievement-list/      # AchievementList — достижения: табы «Мои» / «Все», сетка карточек
+│   ├── course-list/           # CourseList — карточки курсов с прогрессом
+│   ├── course-view/           # CourseView — курс: сценарии, статус, лучшая попытка, история
+│   ├── scenario-catalog/      # ScenarioCatalog — карточки сценариев на главной
+│   ├── scenario-report/       # ScenarioReport — отчёт о попытке
+│   └── scenario-player/       # ScenarioPlayer — экран сценария
 ├── hooks/
 │   ├── index.ts               # барель
 │   ├── use-course-param.ts    # useCourseParam — курс из search-параметра COURSE_SEARCH_PARAM или null
@@ -110,12 +83,14 @@ src/
 │   ├── courses/               # CoursesPage — /courses, список курсов
 │   ├── course/                # CoursePage — /courses/:courseId, курс
 │   ├── scenario/              # ScenarioPage — /scenarios/:scenarioId, вне лейаута
-│   └── scenario-attempt/      # ScenarioAttemptPage — отчёт о попытке, в лейауте
+│   ├── scenario-attempt/      # ScenarioAttemptPage — отчёт о попытке, в лейауте
+│   └── achievements/          # AchievementsPage — /achievements, достижения
 ├── store/
 │   ├── api.ts                 # createApi + fetchBaseQuery(env.apiUrl), tagTypes (api.md)
 │   ├── store.ts               # configureStore, RootState, AppDispatch, useAppDispatch/Selector (state.md)
 │   ├── index.ts               # барель: store, api, хуки apis/*, типы, экшены scenarioRun
 │   ├── apis/
+│   │   ├── achievements-api.ts # getAchievements, getMyAchievements — queryFn поверх @/content (заглушка)
 │   │   ├── scenarios-api.ts   # getScenarios, getScenario — queryFn поверх @/content (api.md)
 │   │   ├── courses-api.ts     # getCourses, getCourse — queryFn поверх @/content
 │   │   ├── attempts-api.ts    # getAttempts, getAttempt, saveAttempt — queryFn поверх localStorage
@@ -140,6 +115,7 @@ src/
 │   └── mixins.ts              # css-миксины: listReset, cardStyles, pressableStyles (styling.md#миксины)
 ├── types/
 │   ├── index.ts               # барель: re-export всех namespace
+│   ├── achievement.ts         # namespace Achievement — достижение, полученное, View (только типы)
 │   ├── character.ts           # namespace Character — персонажи сценариев
 │   ├── scenario.ts            # namespace Scenario — формат сценария
 │   ├── course.ts              # namespace Course — курс из сценариев
@@ -151,7 +127,8 @@ src/
 └── utils/
     ├── index.ts                # барель: formatting, route-links, scenario-engine
     ├── format-*.ts             # formatRemaining (мм:сс), formatTimeLimit (секунды → мм:сс), formatDelta (+/−),
-    │                             formatDateTime (`дд.мм.гггг, чч:мм`), formatEstimate (`~N мин`)
+    │                             formatDate (`дд.мм.гггг`), formatDateTime (`дд.мм.гггг, чч:мм`),
+    │                             formatEstimate (`~N мин`)
     ├── meter-percent.ts        # meterPercent — нормализация значения в проценты [0, 100]
     ├── route-links.ts          # scenarioLink, attemptLink (search-параметр course), courseLink, backLink
     ├── is-awaiting-data.ts     # isAwaitingData — запрос грузится без currentData («Загрузка…»)

@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`achievementViews keeps catalog order and attaches earned dates 1`] = `
+[
+  {
+    "description": "Описание a",
+    "earnedAt": 100,
+    "howTo": "Условие a",
+    "id": "a",
+    "image": "/a.svg",
+    "title": "A",
+  },
+  {
+    "description": "Описание b",
+    "earnedAt": null,
+    "howTo": "Условие b",
+    "id": "b",
+    "image": "/b.svg",
+    "title": "B",
+  },
+  {
+    "description": "Описание c",
+    "earnedAt": 200,
+    "howTo": "Условие c",
+    "id": "c",
+    "image": "/c.svg",
+    "title": "C",
+  },
+]
+`;
