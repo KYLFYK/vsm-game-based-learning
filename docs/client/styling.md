@@ -8,7 +8,7 @@ UI-кита нет: компоненты пишутся на styled-components �
 Единственный источник токенов — [src/styles/theme.ts](../../src/styles/theme.ts):
 `colors`, `spacing`, `fontSizes`, `gameFontSizes`, `fontFamily`,
 `fontFamilyDisplay`, `radii`, `borders`, `shadows`, `tilts`, `filters`,
-`offsets`, `zIndices`, `durations` (мс), `stage`, собранные в объект
+`offsets`, `zIndices`, `durations` (мс), `stage`, `report`, собранные в объект
 `theme`. Тип `AppTheme` расширяет `DefaultTheme` styled-components через
 [src/styled.d.ts](../../src/styled.d.ts), поэтому проп `theme` типизирован:
 опечатка в имени токена — ошибка `tsc`.
@@ -17,7 +17,7 @@ UI-кита нет: компоненты пишутся на styled-components �
 Палитра приложения нейтральная светлая (один акцент `primary`, серые фоны
 и текст); игровые экраны сценария используют отдельную игровую палитру.
 Значения игровых токенов (`gameFontSizes`, `borders`, `shadows`, `tilts`,
-`filters`, `offsets`, `zIndices`, `durations`, `stage` и часть `colors`)
+`filters`, `offsets`, `zIndices`, `durations`, `stage`, `report` и часть `colors`)
 описаны в [specs/scenario-engine/ui-visual.md](../specs/scenario-engine/ui-visual.md),
 здесь не дублируются.
 
