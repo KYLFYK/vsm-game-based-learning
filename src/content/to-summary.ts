@@ -1,4 +1,5 @@
 import type { Scenario } from '@/types';
+import { hasMeters } from '@/utils';
 
 /** Definition без деталей прохождения: карточка и рекомендации */
 export const toSummary = (
@@ -13,5 +14,5 @@ export const toSummary = (
   ...(definition.timeLimitSec === undefined
     ? {}
     : { timeLimitSec: definition.timeLimitSec }),
-  hasMeters: Object.keys(definition.meters ?? {}).length > 0,
+  hasMeters: hasMeters(definition),
 });

@@ -9,6 +9,12 @@ export const lineOf = (node: Scenario.Node): Scenario.Line => ({
   text: node.text,
 });
 
+/** Момент истечения лимита `limitSec` от `now`; без лимита — `null` */
+export const deadlineAt = (
+  now: number,
+  limitSec: number | undefined
+): number | null => (limitSec === undefined ? null : now + limitSec * 1000);
+
 export const finish = (
   state: ScenarioRunState,
   ending: ScenarioRun.Ending,
@@ -46,8 +52,8 @@ export const enterNode = (
   if (node === undefined) return;
   mergeStage(state.stage, node.stage);
   state.nodeDeadlineAt =
-    node.type === Scenario.NodeType.Choice && node.timeLimitSec !== undefined
-      ? now + node.timeLimitSec * 1000
+    node.type === Scenario.NodeType.Choice
+      ? deadlineAt(now, node.timeLimitSec)
       : null;
   if (node.type === Scenario.NodeType.End) {
     finish(

@@ -7,9 +7,10 @@ import {
   ButtonVariant,
 } from '@/components/button';
 import { BackdropVariant, ComicBackdrop } from '@/components/comic-backdrop';
-import { TOPICS } from '@/constants/topics';
+import { listReset } from '@/styles/mixins';
 import type { Scenario } from '@/types';
-import { formatRemaining } from '@/utils';
+import { formatTimeLimit, topicLabel } from '@/utils';
+import type { BackLink } from '@/utils';
 
 import { meterThresholds } from './meter-thresholds';
 import { Screen } from './scenario-player.styles';
@@ -67,12 +68,10 @@ const Description = styled.p`
 `;
 
 const Chips = styled.ul`
+  ${listReset}
   display: flex;
   flex-wrap: wrap;
   gap: ${({ theme }) => theme.spacing.md};
-  margin: 0;
-  padding: 0;
-  list-style: none;
 `;
 
 const Chip = styled.li`
@@ -93,7 +92,7 @@ const Chip = styled.li`
 interface IntroProps {
   scenario: Scenario.Definition;
   /** Куда ведёт «назад»: курс из `course` или каталог на главной */
-  back: { to: string; label: string };
+  back: BackLink;
   onStart: () => void;
 }
 
@@ -114,14 +113,14 @@ export const Intro = ({ scenario, back, onStart }: IntroProps) => {
         </ButtonLink>
       </Back>
       <Content>
-        {topic !== undefined && <Kicker>{TOPICS[topic].label}</Kicker>}
+        {topic !== undefined && <Kicker>{topicLabel(topic)}</Kicker>}
         <Title>{scenario.title}</Title>
         <Description>{scenario.description}</Description>
         {(scenario.timeLimitSec !== undefined || thresholds.length > 0) && (
           <Chips>
             {scenario.timeLimitSec !== undefined && (
               <Chip>
-                Лимит <b>{formatRemaining(scenario.timeLimitSec * 1000)}</b>
+                Лимит <b>{formatTimeLimit(scenario.timeLimitSec)}</b>
               </Chip>
             )}
             {thresholds.map((threshold) => (

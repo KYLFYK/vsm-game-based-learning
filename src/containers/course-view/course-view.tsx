@@ -1,7 +1,10 @@
 import { useMemo } from 'react';
 import { useParams } from 'react-router';
 
-import { ButtonLink, ButtonSize, ButtonVariant } from '@/components/button';
+import { ButtonLink, ButtonVariant } from '@/components/button';
+import { LoadingText, MutedText } from '@/components/muted-text';
+import { NotFound } from '@/components/not-found';
+import { Page, PageActions, PageHeader, PageList } from '@/components/page';
 import { ROUTES } from '@/constants/routes';
 import { useDocumentTitle } from '@/hooks';
 import {
@@ -9,20 +12,11 @@ import {
   useGetCourseQuery,
   useGetScenariosQuery,
 } from '@/store';
-import { attemptsOf, courseProgress } from '@/utils';
+import { attemptsOf, courseProgress, isAwaitingData } from '@/utils';
 
 import { CourseScenario } from './course-scenario';
 import { nextToPlay } from './course-view-model';
-import {
-  Actions,
-  Header,
-  Kicker,
-  List,
-  Muted,
-  Progress,
-  Root,
-  Title,
-} from './course-view.styles';
+import { Progress } from './course-view.styles';
 
 export const CourseView = () => {
   const { courseId = '' } = useParams();
@@ -46,26 +40,16 @@ export const CourseView = () => {
 
   useDocumentTitle(course === undefined ? 'Курс' : `Курс: ${course.title}`);
 
-  const isLoading = [courseQuery, scenariosQuery, attemptsQuery].some(
-    (query) => query.isFetching && query.currentData === undefined
-  );
-
-  if (isLoading) return <Muted>Загрузка…</Muted>;
+  if (isAwaitingData([courseQuery, scenariosQuery, attemptsQuery])) {
+    return <LoadingText />;
+  }
 
   if (course === undefined || progress === null) {
     return (
-      <Root>
-        <Title>Курс не найден</Title>
-        <Actions>
-          <ButtonLink
-            to={ROUTES.COURSES}
-            variant={ButtonVariant.Secondary}
-            size={ButtonSize.Md}
-          >
-            К курсам
-          </ButtonLink>
-        </Actions>
-      </Root>
+      <NotFound
+        title="Курс не найден"
+        back={{ to: ROUTES.COURSES, label: 'К курсам' }}
+      />
     );
   }
 
@@ -75,18 +59,16 @@ export const CourseView = () => {
   const next = nextToPlay(course.scenarioIds, progress.statuses);
 
   return (
-    <Root>
-      <Header>
-        <Kicker>Курс</Kicker>
-        <Title>{course.title}</Title>
-        <Muted>{course.description}</Muted>
-      </Header>
+    <Page>
+      <PageHeader kicker="Курс" title={course.title}>
+        <MutedText>{course.description}</MutedText>
+      </PageHeader>
       <Progress>
         {progress.completed
           ? 'Курс пройден: все сценарии зачтены'
           : `Зачтено ${progress.passed} из ${progress.total}`}
       </Progress>
-      <List aria-label="Сценарии курса">
+      <PageList aria-label="Сценарии курса">
         {course.scenarioIds.map((scenarioId, index) => {
           const scenario = summaries.get(scenarioId);
           if (scenario === undefined) return null;
@@ -102,16 +84,12 @@ export const CourseView = () => {
             />
           );
         })}
-      </List>
-      <Actions>
-        <ButtonLink
-          to={ROUTES.COURSES}
-          variant={ButtonVariant.Secondary}
-          size={ButtonSize.Md}
-        >
+      </PageList>
+      <PageActions>
+        <ButtonLink to={ROUTES.COURSES} variant={ButtonVariant.Secondary}>
           ◂ К курсам
         </ButtonLink>
-      </Actions>
-    </Root>
+      </PageActions>
+    </Page>
   );
 };

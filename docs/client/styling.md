@@ -44,6 +44,21 @@ UI-кита нет: компоненты пишутся на styled-components �
   [global-style.ts](../../src/styles/global-style.ts): отключает
   анимации и переходы для всего приложения.
 
+### Миксины
+
+Повторяющиеся наборы правил — `css`-миксины в
+[src/styles/mixins.ts](../../src/styles/mixins.ts), подставляются в начало
+styled-компонента (`${listReset}`):
+
+| Миксин | Что задаёт | Где |
+|--------|------------|-----|
+| `listReset` | `ul`/`ol` без маркеров, `margin` и `padding` | Сетки, списки карточек и меток |
+| `cardStyles` | Карточка страницы: `bgBase`, рамка `ink`, тень `navyMd`, отступ `lg` | Карточки курса, отчёта, каталога |
+| `pressableStyles` | Подъём при наведении, вдавливание, фокус-рамка, переходы `press` | `Button`, варианты `ChoiceList`, «Далее» |
+
+`pressableStyles` ставится **после** теней наведения элемента: его
+`:active:not(:disabled)` гасит тень и поверх `:hover`.
+
 ## Основной паттерн
 
 Styled-компоненты объявляются в файле компонента **до** React-компонента:
@@ -87,6 +102,11 @@ export const MyBlock = () => <Wrapper>…</Wrapper>;
 | Тёмная тема | Второй объект темы того же типа `AppTheme` и переключение в `ThemeProvider` |
 | Анимация | keyframes в `styles/animations.ts`, длительность из `theme.durations` |
 | Текст только для скринридеров | `VisuallyHidden` из `@/components/visually-hidden` (sr-only; единственное место с литералами `1px`/`-1px`/`0`) |
+| Метка, статус, тег темы | `Tag` / `Badge` / `TagList` из `@/components/tag`, цвет — `TagTone` |
+| Страница в лейауте (курс, отчёт) | `Page`, `PageHeader`, `PageList`, `PageActions` из `@/components/page`; «не найдено» — `NotFound` |
+| Второстепенный текст, «Загрузка…» | `MutedText`, `LoadingText` из `@/components/muted-text` |
+| Карточка в каталоге | `CatalogGrid` + `CatalogCard` из `@/components/catalog-card` |
+| Повтор набора правил в нескольких компонентах | Миксин в `styles/mixins.ts` |
 
 ## См. также
 

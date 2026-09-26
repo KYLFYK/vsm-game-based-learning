@@ -1,18 +1,14 @@
 import { styled } from 'styled-components';
 
-import { ButtonLink, ButtonSize, ButtonVariant } from '@/components/button';
-import { TOPICS } from '@/constants/topics';
+import { ButtonLink, ButtonVariant } from '@/components/button';
+import { CardTitle } from '@/components/catalog-card';
+import { PageList } from '@/components/page';
+import { TagList } from '@/components/tag';
+import { cardStyles } from '@/styles/mixins';
 import type { Report } from '@/types';
-import { scenarioLink } from '@/utils';
+import { scenarioLink, topicLabel } from '@/utils';
 
-import {
-  cardStyles,
-  List,
-  Section,
-  SectionTitle,
-  Tag,
-  Tags,
-} from './scenario-report.styles';
+import { Section, SectionTitle } from './scenario-report.styles';
 
 const Item = styled.li`
   ${cardStyles}
@@ -29,14 +25,6 @@ const Body = styled.div`
   gap: ${({ theme }) => theme.spacing.sm};
 `;
 
-const Title = styled.h3`
-  margin: 0;
-  font-family: ${({ theme }) => theme.fontFamilyDisplay};
-  font-size: ${({ theme }) => theme.gameFontSizes.cardTitle};
-  font-weight: 800;
-  text-transform: uppercase;
-`;
-
 interface RecommendationsSectionProps {
   recommendations: Report.Recommendation[];
 }
@@ -49,27 +37,22 @@ export const RecommendationsSection = ({
   return (
     <Section aria-labelledby="report-recommendations">
       <SectionTitle id="report-recommendations">Рекомендации</SectionTitle>
-      <List>
+      <PageList>
         {recommendations.map((item) => (
           <Item key={item.scenarioId}>
             <Body>
-              <Title>{item.title}</Title>
-              <Tags aria-label="Темы">
-                {item.topics.map((topic) => (
-                  <Tag key={topic}>{TOPICS[topic]?.label ?? topic}</Tag>
-                ))}
-              </Tags>
+              <CardTitle as="h3">{item.title}</CardTitle>
+              <TagList tags={item.topics.map(topicLabel)} aria-label="Темы" />
             </Body>
             <ButtonLink
               to={scenarioLink(item.scenarioId)}
               variant={ButtonVariant.Secondary}
-              size={ButtonSize.Md}
             >
               Играть
             </ButtonLink>
           </Item>
         ))}
-      </List>
+      </PageList>
     </Section>
   );
 };

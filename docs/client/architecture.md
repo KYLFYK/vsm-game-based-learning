@@ -33,10 +33,10 @@ index.tsx → <Provider store> → <App>
 | `content/` | JSON-сценарии и курсы в бандле, будущий контракт API | `scenarios/*.json`, `courses.json`, загрузчик с валидацией на импорте |
 | `components/` | Общий чистый UI без данных | Папка на компонент `<name>/` с барелем `index.ts`; импорт `@/components/<name>`, корневого бареля нет |
 | `containers/` | Бизнес-логика и layout | `AppLayout`, контейнеры разделов, их хуки `use-*.ts` |
-| `hooks/` | Хуки для нескольких разделов | `useDocumentTitle`. Ре-экспорт через `index.ts` |
+| `hooks/` | Хуки для нескольких разделов | `useDocumentTitle`, `useCourseParam`. Ре-экспорт через `index.ts` |
 | `pages/` | Страницы, на которые ссылается роутер | Одна папка = одна страница с `index.ts` |
 | `store/` | Redux-слой | `api.ts`, `store.ts`, `apis/`, `slices/`, барель |
-| `styles/` | Тема и глобальные стили | `theme.ts`, `global-style.ts` |
+| `styles/` | Тема и глобальные стили | `theme.ts`, `global-style.ts`, `animations.ts`, `mixins.ts` |
 | `types/` | Сущности и контракты API | Namespace на сущность ([requirements/types.md](../requirements/types.md)) |
 | `utils/` | Чистые функции без React | Форматирование, вычисления. Ре-экспорт через `index.ts` |
 

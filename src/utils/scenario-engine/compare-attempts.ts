@@ -8,7 +8,8 @@ const compareScore = (a: number | null, b: number | null): number => {
   return b - a;
 };
 
-const duration = (attempt: Attempt.Item): number =>
+/** Длительность попытки, мс */
+export const attemptDuration = (attempt: Attempt.Item): number =>
   attempt.finishedAt - attempt.startedAt;
 
 /** Компаратор «лучшая попытка первой» для `Array.prototype.sort`: отрицательное значение — `a` лучше */
@@ -18,7 +19,7 @@ export const compareAttempts = (a: Attempt.Item, b: Attempt.Item): number => {
   }
   const scoreDiff = compareScore(a.score, b.score);
   if (scoreDiff !== 0) return scoreDiff;
-  const durationDiff = duration(a) - duration(b);
+  const durationDiff = attemptDuration(a) - attemptDuration(b);
   if (durationDiff !== 0) return durationDiff;
   return b.finishedAt - a.finishedAt;
 };

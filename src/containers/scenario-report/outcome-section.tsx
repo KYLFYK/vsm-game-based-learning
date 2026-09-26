@@ -1,13 +1,16 @@
 import { styled } from 'styled-components';
 
+import { MutedText } from '@/components/muted-text';
 import { Stamp, STAMP_LABELS } from '@/components/stamp';
 import { VisuallyHidden } from '@/components/visually-hidden';
+import { cardStyles } from '@/styles/mixins';
 import type { Attempt, Report } from '@/types';
-import { formatRemaining } from '@/utils';
+import { attemptDuration, formatRemaining } from '@/utils';
 
-import { Card, Muted, Section, SectionTitle } from './scenario-report.styles';
+import { Section, SectionTitle } from './scenario-report.styles';
 
-const Body = styled(Card)`
+const Body = styled.div`
+  ${cardStyles}
   display: flex;
   flex-wrap: wrap;
   gap: ${({ theme }) => theme.spacing.xl};
@@ -77,15 +80,15 @@ export const OutcomeSection = ({ report, attempt }: OutcomeSectionProps) => (
           <Figure>
             <FigureLabel>Время</FigureLabel>
             <FigureValue>
-              {formatRemaining(attempt.finishedAt - attempt.startedAt)}
+              {formatRemaining(attemptDuration(attempt))}
             </FigureValue>
           </Figure>
         </Figures>
         {report.versionMismatch && (
-          <Muted>
+          <MutedText>
             Сценарий обновился после этой попытки, поэтому разбор решений
             недоступен. Итог и шкалы показаны как были.
-          </Muted>
+          </MutedText>
         )}
       </Summary>
     </Body>

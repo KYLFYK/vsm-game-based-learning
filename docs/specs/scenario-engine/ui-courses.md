@@ -29,12 +29,12 @@
 | `course-view.tsx` | Данные, `courseProgress` в `useMemo`, загрузка, «Курс не найден», заголовок вкладки «Курс: <название>» |
 | `course-scenario.tsx` | Карточка сценария: «N. Название», `Badge` статуса, описание, `~мин`, лучшая попытка, кнопка |
 | `attempt-history.tsx` | История попыток сценария |
-| `course-view-model.ts` | `SCENARIO_STATUS_LABELS`, `playLabel`, `nextToPlay` |
-| `course-view.styles.ts` | Колонка `report.contentWidth`, плашка «Курс», карточки, `Badge` по статусу |
+| `course-view-model.ts` | `SCENARIO_STATUS_LABELS`, `SCENARIO_STATUS_TONES`, `playLabel`, `nextToPlay` |
+| `course-view.styles.ts` | Прогресс, карточка сценария, `StatusBadge`; колонка и плашка «Курс» — `Page`, `PageHeader` из `@/components/page` |
 
 - Данные: `useGetCourseQuery(courseId)`, `useGetScenariosQuery()`,
   `useGetAttemptsQuery({})`; берётся `currentData`.
-- Курс не найден — «Курс не найден» и `ButtonLink` «К курсам».
+- Курс не найден — `NotFound` «Курс не найден» с кнопкой «К курсам».
 - Прогресс над списком: «Зачтено N из M» или «Курс пройден: все сценарии
   зачтены».
 - Метка статуса: `Passed` — «Зачтено» (`accentNavy`), `Failed` —

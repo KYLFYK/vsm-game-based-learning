@@ -1,20 +1,20 @@
 import { styled } from 'styled-components';
 
+import { Tag, TagTone } from '@/components/tag';
+import { cardStyles, listReset } from '@/styles/mixins';
 import type { Report } from '@/types';
 
 import { MeterChart } from './meter-chart';
-import { cardStyles, Section, SectionTitle } from './scenario-report.styles';
+import { Section, SectionTitle } from './scenario-report.styles';
 
 const Grid = styled.ul`
+  ${listReset}
   display: grid;
   grid-template-columns: repeat(
     auto-fill,
     minmax(${({ theme }) => theme.report.tileWidth}, 1fr)
   );
   gap: ${({ theme }) => theme.spacing.lg};
-  margin: 0;
-  padding: 0;
-  list-style: none;
 `;
 
 const Tile = styled.li`
@@ -38,15 +38,8 @@ const Value = styled.span`
   line-height: 1;
 `;
 
-const Verdict = styled.span<{ $met: boolean }>`
+const Verdict = styled(Tag)`
   align-self: flex-start;
-  padding: 0 ${({ theme }) => theme.spacing.sm};
-  font-size: ${({ theme }) => theme.gameFontSizes.tag};
-  font-weight: 700;
-  color: ${({ theme }) => theme.colors.onAccent};
-  background: ${({ $met, theme }) =>
-    $met ? theme.colors.accentNavy : theme.colors.accentRed};
-  border: ${({ theme }) => theme.borders.inkThin};
 `;
 
 export const MetersSection = ({ meters }: { meters: Report.Meter[] }) => {
@@ -60,7 +53,7 @@ export const MetersSection = ({ meters }: { meters: Report.Meter[] }) => {
             <Label>{meter.label}</Label>
             <Value>{meter.final}</Value>
             {meter.threshold !== undefined && (
-              <Verdict $met={meter.met}>
+              <Verdict $tone={meter.met ? TagTone.Navy : TagTone.Red}>
                 {meter.met ? '✓' : '✗'} Порог {meter.threshold}:{' '}
                 {meter.met ? 'выполнен' : 'не выполнен'}
               </Verdict>

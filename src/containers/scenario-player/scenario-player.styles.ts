@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
 
+import { pressableStyles } from '@/styles/mixins';
 import { Character } from '@/types';
 
 /** Корень игрового экрана: всё окно, без лейаута приложения */
@@ -114,25 +115,12 @@ export const Hint = styled.button`
   border: ${({ theme }) => theme.borders.ink};
   border-radius: 0;
   box-shadow: ${({ theme }) => theme.shadows.redSm};
-  cursor: pointer;
-  transition:
-    transform ${({ theme }) => theme.durations.press}ms,
-    box-shadow ${({ theme }) => theme.durations.press}ms;
 
   &:hover {
     box-shadow: ${({ theme }) => theme.shadows.redMd};
-    transform: ${({ theme }) => theme.offsets.lift};
   }
 
-  &:active {
-    box-shadow: none;
-    transform: ${({ theme }) => theme.offsets.press};
-  }
-
-  &:focus-visible {
-    outline: ${({ theme }) => theme.borders.focus};
-    outline-offset: ${({ theme }) => theme.offsets.focus};
-  }
+  ${pressableStyles}
 `;
 
 export const StampAnchor = styled.div`
