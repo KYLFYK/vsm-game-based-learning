@@ -1,6 +1,6 @@
 import { Attempt } from '@/types';
 
-import { compareAttempts } from '../compare-attempts';
+import { attemptDuration, compareAttempts } from '../compare-attempts';
 
 const attempt = (patch: Partial<Attempt.Item> = {}): Attempt.Item => ({
   id: 'a',
@@ -108,5 +108,13 @@ describe(compareAttempts.name, () => {
       'no-score',
       'failed',
     ]);
+  });
+});
+
+describe(attemptDuration.name, () => {
+  test('is the time from start to finish', () => {
+    expect(attemptDuration(attempt({ startedAt: 500, finishedAt: 2000 }))).toBe(
+      1500
+    );
   });
 });

@@ -2,7 +2,7 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import type { Attempt } from '@/types';
 import { Scenario, ScenarioRun } from '@/types';
-import { meterBounds } from '@/utils';
+import { hasMeters, meterBounds } from '@/utils';
 
 import { holds } from './conditions';
 
@@ -51,12 +51,9 @@ const EMPTY_METER_VIEWS: ScenarioRun.MeterView[] = [];
 export const selectMeterViews = createSelector(
   [selectRunScenario, (state: RootState) => state.scenarioRun.meters],
   (scenario, meters): ScenarioRun.MeterView[] => {
-    const definitions = scenario?.meters;
-    if (definitions === undefined || Object.keys(definitions).length === 0) {
-      return EMPTY_METER_VIEWS;
-    }
-    const thresholds = scenario?.passCriteria?.meters;
-    return Object.entries(definitions).map(([id, meter]) => {
+    if (scenario === null || !hasMeters(scenario)) return EMPTY_METER_VIEWS;
+    const thresholds = scenario.passCriteria?.meters;
+    return Object.entries(scenario.meters ?? {}).map(([id, meter]) => {
       const { min, max } = meterBounds(meter);
       const threshold = thresholds?.[id];
       return {
@@ -73,8 +70,7 @@ export const selectMeterViews = createSelector(
 
 export const selectMetersVisible = createSelector(
   [selectRunScenario, selectStage],
-  (scenario, stage): boolean =>
-    Object.keys(scenario?.meters ?? {}).length > 0 && stage.metersVisible
+  (scenario, stage): boolean => hasMeters(scenario) && stage.metersVisible
 );
 
 export interface Deadlines {

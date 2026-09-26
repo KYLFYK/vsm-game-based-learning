@@ -1,19 +1,19 @@
 import { styled } from 'styled-components';
 
-import { TOPICS } from '@/constants/topics';
-import { Scenario } from '@/types';
+import { MutedText } from '@/components/muted-text';
+import { PageList } from '@/components/page';
+import { Badge, TagList } from '@/components/tag';
+import { cardStyles } from '@/styles/mixins';
 import type { Report } from '@/types';
+import { topicLabel } from '@/utils';
 
-import { meterEffectLabels, speakerName, VERDICT_LABELS } from './report-view';
 import {
-  cardStyles,
-  List,
-  Muted,
-  Section,
-  SectionTitle,
-  Tag,
-  Tags,
-} from './scenario-report.styles';
+  meterEffectLabels,
+  speakerName,
+  VERDICT_LABELS,
+  VERDICT_TONES,
+} from './report-view';
+import { Section, SectionTitle } from './scenario-report.styles';
 
 const Item = styled.li`
   ${cardStyles}
@@ -36,23 +36,7 @@ const Index = styled.span`
   text-transform: uppercase;
 `;
 
-const Badge = styled.span<{ $verdict: Scenario.Verdict }>`
-  padding: 0 ${({ theme }) => theme.spacing.sm};
-  font-family: ${({ theme }) => theme.fontFamilyDisplay};
-  font-size: ${({ theme }) => theme.gameFontSizes.tag};
-  font-weight: 800;
-  text-transform: uppercase;
-  color: ${({ $verdict, theme }) =>
-    $verdict === Scenario.Verdict.Ok
-      ? theme.colors.ink
-      : theme.colors.onAccent};
-  background: ${({ $verdict, theme }) =>
-    ({
-      [Scenario.Verdict.Best]: theme.colors.accentNavy,
-      [Scenario.Verdict.Ok]: theme.colors.chipBg,
-      [Scenario.Verdict.Bad]: theme.colors.accentRed,
-    })[$verdict]};
-  border: ${({ theme }) => theme.borders.inkThin};
+const VerdictBadge = styled(Badge)`
   transform: rotate(-${({ theme }) => theme.tilts.sm});
 `;
 
@@ -100,46 +84,41 @@ export const DecisionsSection = ({
   return (
     <Section aria-labelledby="report-decisions">
       <SectionTitle id="report-decisions">Разбор решений</SectionTitle>
-      <List>
+      <PageList>
         {decisions.map((decision) => {
-          const effects = meterEffectLabels(decision.effects, meterLabels);
+          const tags = meterEffectLabels(decision.effects, meterLabels);
+          if (decision.topic !== undefined)
+            tags.push(topicLabel(decision.topic));
           const speaker = speakerName(decision.speaker);
           return (
             <Item key={decision.index}>
               <Head>
                 <Index>Решение {decision.index + 1}</Index>
-                <Badge $verdict={decision.verdict}>
+                <VerdictBadge $tone={VERDICT_TONES[decision.verdict]}>
                   {VERDICT_LABELS[decision.verdict]}
-                </Badge>
+                </VerdictBadge>
               </Head>
               <Question>
                 {speaker === null ? '' : `${speaker}: `}
                 {decision.question}
               </Question>
               <Chosen>Ваш ответ: {decision.chosen}</Chosen>
-              <Muted>{decision.explanation}</Muted>
-              {(effects.length > 0 || decision.topic !== undefined) && (
-                <Tags aria-label="Изменения шкал и тема">
-                  {effects.map((effect, index) => (
-                    <Tag key={index}>{effect}</Tag>
-                  ))}
-                  {decision.topic !== undefined && (
-                    <Tag>{TOPICS[decision.topic]?.label ?? decision.topic}</Tag>
-                  )}
-                </Tags>
+              <MutedText>{decision.explanation}</MutedText>
+              {tags.length > 0 && (
+                <TagList tags={tags} aria-label="Изменения шкал и тема" />
               )}
               {decision.better !== undefined && (
                 <Better>
                   <BetterTitle>
                     Лучше было бы: {decision.better.text}
                   </BetterTitle>
-                  <Muted>{decision.better.explanation}</Muted>
+                  <MutedText>{decision.better.explanation}</MutedText>
                 </Better>
               )}
             </Item>
           );
         })}
-      </List>
+      </PageList>
     </Section>
   );
 };

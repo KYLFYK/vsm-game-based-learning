@@ -2,11 +2,11 @@ import { Api } from '@/types';
 import type { Attempt, Scenario } from '@/types';
 
 import { api } from '../api';
-import { apiError } from './api-error';
+import { apiError, orNotFound } from './api-error';
+
+import type { Outcome } from './api-error';
 
 const STORAGE_KEY = 'vsm.attempts.v1';
-
-type Outcome<T> = { data: T } | { error: Api.Error };
 
 // без своего предиката пришлось бы сужать через `as`: Array.isArray() из
 // lib.es5 даёт `arg is any[]`, а `any[] as Attempt.Item[]` — небезопасное
@@ -66,10 +66,7 @@ export const attemptsApi = api.injectEndpoints({
       queryFn: (id) => {
         const attempts = readAttempts();
         if ('error' in attempts) return attempts;
-        const attempt = attempts.data.find((item) => item.id === id);
-        return attempt
-          ? { data: attempt }
-          : { error: apiError(Api.ErrorCode.NotFound) };
+        return orNotFound(attempts.data.find((item) => item.id === id));
       },
       providesTags: (_result, _error, id) => [{ type: 'Attempts', id }],
     }),

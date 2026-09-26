@@ -1,10 +1,9 @@
 import { ButtonLink, ButtonSize, ButtonVariant } from '@/components/button';
-import { ROUTES } from '@/constants/routes';
+import { PageActions } from '@/components/page';
 import type { Course, Report, Scenario } from '@/types';
-import { courseLink, scenarioLink } from '@/utils';
+import { backLink, scenarioLink } from '@/utils';
 
 import { isRetryPrimary } from './report-view';
-import { Actions } from './scenario-report.styles';
 
 interface ReportActionsProps {
   report: Report.Item;
@@ -43,16 +42,18 @@ export const ReportActions = ({
       </ButtonLink>
     );
 
+  const back = backLink(course?.id);
+
   return (
-    <Actions>
+    <PageActions>
       {retryFirst ? [retry, next] : [next, retry]}
       <ButtonLink
-        to={course === undefined ? ROUTES.HOME : courseLink(course.id)}
+        to={back.to}
         variant={ButtonVariant.Secondary}
         size={ButtonSize.Lg}
       >
-        {course === undefined ? 'К сценариям' : 'К курсу'}
+        {back.label}
       </ButtonLink>
-    </Actions>
+    </PageActions>
   );
 };

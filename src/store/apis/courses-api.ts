@@ -1,9 +1,8 @@
 import { COURSES } from '@/content';
-import { Api } from '@/types';
 import type { Course } from '@/types';
 
 import { api } from '../api';
-import { apiError } from './api-error';
+import { orNotFound } from './api-error';
 
 export const coursesApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -12,12 +11,7 @@ export const coursesApi = api.injectEndpoints({
       providesTags: ['Courses'],
     }),
     getCourse: builder.query<Course.Definition, Course.Id>({
-      queryFn: (id) => {
-        const course = COURSES.find((item) => item.id === id);
-        return course
-          ? { data: course }
-          : { error: apiError(Api.ErrorCode.NotFound) };
-      },
+      queryFn: (id) => orNotFound(COURSES.find((item) => item.id === id)),
       providesTags: (_result, _error, id) => [{ type: 'Courses', id }],
     }),
   }),

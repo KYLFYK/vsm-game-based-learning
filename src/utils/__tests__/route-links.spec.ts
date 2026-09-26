@@ -1,4 +1,9 @@
-import { attemptLink, courseLink, scenarioLink } from '../route-links';
+import {
+  attemptLink,
+  backLink,
+  courseLink,
+  scenarioLink,
+} from '../route-links';
 
 describe(scenarioLink.name, () => {
   test('links to the scenario without a course', () => {
@@ -36,5 +41,19 @@ describe(attemptLink.name, () => {
 describe(courseLink.name, () => {
   test('links to the course page', () => {
     expect(courseLink('basics')).toBe('/courses/basics');
+  });
+});
+
+describe(backLink.name, () => {
+  test('leads to the scenarios without a course', () => {
+    expect(backLink()).toEqual({ to: '/', label: 'К сценариям' });
+    expect(backLink(null)).toEqual({ to: '/', label: 'К сценариям' });
+  });
+
+  test('leads back to the course when it is known', () => {
+    expect(backLink('basics')).toEqual({
+      to: '/courses/basics',
+      label: 'К курсу',
+    });
   });
 });

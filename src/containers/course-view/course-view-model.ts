@@ -1,10 +1,18 @@
-import { Course } from '@/types';
+import { STAMP_LABELS } from '@/components/stamp';
+import { TagTone } from '@/components/tag';
+import { Attempt, Course } from '@/types';
 import type { Scenario } from '@/types';
 
 export const SCENARIO_STATUS_LABELS: Record<Course.ScenarioStatus, string> = {
   [Course.ScenarioStatus.NotStarted]: 'Не начат',
-  [Course.ScenarioStatus.Passed]: 'Зачтено',
-  [Course.ScenarioStatus.Failed]: 'Не зачтено',
+  [Course.ScenarioStatus.Passed]: STAMP_LABELS[Attempt.Status.Passed],
+  [Course.ScenarioStatus.Failed]: STAMP_LABELS[Attempt.Status.Failed],
+};
+
+export const SCENARIO_STATUS_TONES: Record<Course.ScenarioStatus, TagTone> = {
+  [Course.ScenarioStatus.NotStarted]: TagTone.Neutral,
+  [Course.ScenarioStatus.Passed]: TagTone.Navy,
+  [Course.ScenarioStatus.Failed]: TagTone.Red,
 };
 
 export const playLabel = (status: Course.ScenarioStatus): string =>

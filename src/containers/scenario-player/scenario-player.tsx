@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
-import { useNavigate, useParams, useSearchParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 import { ButtonLink, ButtonSize, ButtonVariant } from '@/components/button';
 import { BackdropVariant, ComicBackdrop } from '@/components/comic-backdrop';
-import { ROUTES } from '@/constants/routes';
-import { useDocumentTitle } from '@/hooks';
+import { useCourseParam, useDocumentTitle } from '@/hooks';
 import {
   runLeft,
   runStarted,
@@ -14,7 +13,7 @@ import {
   useGetScenarioQuery,
 } from '@/store';
 import { ScenarioRun } from '@/types';
-import { courseLink } from '@/utils';
+import { backLink, isAwaitingData } from '@/utils';
 
 import { Finale } from './finale';
 import { Hud } from './hud';
@@ -27,19 +26,16 @@ const EXIT_CONFIRM = 'Попытка не сохранится. Выйти?';
 
 export const ScenarioPlayer = () => {
   const { scenarioId = '' } = useParams();
-  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const status = useAppSelector(selectRunStatus);
   // currentData, а не data: при смене scenarioId data держит прошлый сценарий
-  const { currentData: scenario, isFetching } = useGetScenarioQuery(scenarioId);
-  const isLoading = scenario === undefined && isFetching;
+  const scenarioQuery = useGetScenarioQuery(scenarioId);
+  const scenario = scenarioQuery.currentData;
+  const isLoading = isAwaitingData([scenarioQuery]);
   const { scenarioRemainingMs, nodeRemainingMs } = useRunTimers();
-  const courseId = searchParams.get('course');
-  const back =
-    courseId === null
-      ? { to: ROUTES.HOME, label: 'К сценариям' }
-      : { to: courseLink(courseId), label: 'К курсу' };
+  const courseId = useCourseParam();
+  const back = backLink(courseId);
 
   useDocumentTitle(scenario?.title ?? 'Сценарий');
 
@@ -52,6 +48,7 @@ export const ScenarioPlayer = () => {
   );
 
   if (isLoading || scenario === undefined) {
+    const home = backLink();
     return (
       <Screen>
         <ComicBackdrop variant={BackdropVariant.Intro} />
@@ -62,11 +59,11 @@ export const ScenarioPlayer = () => {
             <>
               Сценарий не найден
               <ButtonLink
-                to={ROUTES.HOME}
+                to={home.to}
                 variant={ButtonVariant.Secondary}
                 size={ButtonSize.Md}
               >
-                К сценариям
+                {home.label}
               </ButtonLink>
             </>
           )}

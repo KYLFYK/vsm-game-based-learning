@@ -1,9 +1,9 @@
 import { SCENARIOS, toSummary } from '@/content';
-import { Api } from '@/types';
 import type { Scenario } from '@/types';
+import { ownValue } from '@/utils';
 
 import { api } from '../api';
-import { apiError } from './api-error';
+import { orNotFound } from './api-error';
 
 export const scenariosApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -12,15 +12,8 @@ export const scenariosApi = api.injectEndpoints({
       providesTags: ['Scenarios'],
     }),
     getScenario: builder.query<Scenario.Definition, Scenario.Id>({
-      queryFn: (id) => {
-        // Object.hasOwn — id вроде `constructor` не должен находиться через прототип
-        const scenario = Object.hasOwn(SCENARIOS, id)
-          ? SCENARIOS[id]
-          : undefined;
-        return scenario
-          ? { data: scenario }
-          : { error: apiError(Api.ErrorCode.NotFound) };
-      },
+      // id вроде `constructor` не должен находиться через прототип
+      queryFn: (id) => orNotFound(ownValue(SCENARIOS, id)),
       // Тег только на успех: RTK Query индексирует `draft.tags[type][id]` как
       // обычный объект, и `id` вроде `constructor` иначе резолвится через
       // прототип и ломает инвалидацию

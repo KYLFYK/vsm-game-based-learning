@@ -1,7 +1,8 @@
-import { TOPICS } from '@/constants/topics';
 import { Attempt, Scenario } from '@/types';
 import type { Course, Report } from '@/types';
 
+import { ownValue } from '../own-value';
+import { topicLabel } from '../topic-label';
 import { meterBounds } from './meter-bounds';
 import { recommendScenarios } from './recommend';
 
@@ -86,10 +87,8 @@ const choiceNode = (
   scenario: Scenario.Definition,
   id: Scenario.NodeId
 ): Scenario.ChoiceNode | undefined => {
-  // Object.hasOwn — nodeId из хранилища не должен находиться через прототип
-  const node = Object.hasOwn(scenario.nodes, id)
-    ? scenario.nodes[id]
-    : undefined;
+  // nodeId из хранилища не должен находиться через прототип
+  const node = ownValue(scenario.nodes, id);
   return node?.type === Scenario.NodeType.Choice ? node : undefined;
 };
 
@@ -151,7 +150,7 @@ const buildTopics = (decisions: Report.Decision[]): Report.Topic[] => {
   return [...counts]
     .map(([id, { best, ok, bad }]) => ({
       id,
-      label: Object.hasOwn(TOPICS, id) ? TOPICS[id].label : id,
+      label: topicLabel(id),
       best,
       ok,
       bad,
