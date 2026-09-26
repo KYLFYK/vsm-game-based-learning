@@ -27,6 +27,13 @@ describe('content', () => {
     });
   });
 
+  test('earned achievements mock references only catalog achievements', () => {
+    const ids = new Set(content.ACHIEVEMENTS.map(({ id }) => id));
+    content.EARNED_ACHIEVEMENTS_MOCK.forEach(({ achievementId }) => {
+      expect(ids.has(achievementId)).toBe(true);
+    });
+  });
+
   test('validator warnings for all bundled content', () => {
     expect(content.CONTENT_WARNINGS).toMatchSnapshot();
   });

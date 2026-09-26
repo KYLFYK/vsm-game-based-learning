@@ -1,3 +1,4 @@
+export type { Achievement } from './achievement';
 export { Api } from './api';
 export { Attempt } from './attempt';
 export { Character } from './character';

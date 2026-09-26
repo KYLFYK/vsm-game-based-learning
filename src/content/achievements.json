@@ -1,0 +1,58 @@
+[
+  {
+    "id": "first-trip",
+    "title": "Первый рейс",
+    "description": "Начало пути проводника ВСМ: первая ситуация пройдена до конца.",
+    "howTo": "Пройдите любой сценарий до финала.",
+    "image": "/achievements/placeholder.svg"
+  },
+  {
+    "id": "calm-voice",
+    "title": "Спокойный голос",
+    "description": "Пассажиры доверяют вам даже тогда, когда вокруг паника.",
+    "howTo": "Завершите сценарий с лояльностью пассажиров не ниже 80.",
+    "image": "/achievements/placeholder.svg"
+  },
+  {
+    "id": "safety-first",
+    "title": "Безопасность прежде всего",
+    "description": "Ни одного решения, которое поставило бы под угрозу людей в поезде.",
+    "howTo": "Зачтите сценарий без единой ошибки по теме «Безопасность».",
+    "image": "/achievements/placeholder.svg"
+  },
+  {
+    "id": "no-delay",
+    "title": "Без промедления",
+    "description": "В нештатной ситуации вы действуете быстро и точно.",
+    "howTo": "Зачтите сценарий, уложившись в половину лимита времени.",
+    "image": "/achievements/placeholder.svg"
+  },
+  {
+    "id": "persistence",
+    "title": "Упорство",
+    "description": "Вы возвращаетесь к сложной ситуации, пока не разберётесь в ней.",
+    "howTo": "Сделайте пять попыток одного сценария.",
+    "image": "/achievements/placeholder.svg"
+  },
+  {
+    "id": "top-score",
+    "title": "Отличник",
+    "description": "Безупречное прохождение: каждое решение — лучшее из возможных.",
+    "howTo": "Наберите 100 баллов в любом сценарии.",
+    "image": "/achievements/placeholder.svg"
+  },
+  {
+    "id": "course-graduate",
+    "title": "Выпускник курса",
+    "description": "Курс освоен целиком, от первого сценария до последнего.",
+    "howTo": "Зачтите все сценарии любого курса.",
+    "image": "/achievements/placeholder.svg"
+  },
+  {
+    "id": "mentor-choice",
+    "title": "Выбор наставника",
+    "description": "Наставники узнают в ваших решениях свою школу.",
+    "howTo": "Примите десять решений, которые наставник оценил как лучшие.",
+    "image": "/achievements/placeholder.svg"
+  }
+]
