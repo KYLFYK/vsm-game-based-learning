@@ -62,7 +62,13 @@ src/
 │       ├── scenario-player.tsx # ScenarioPlayer — экран сценария, сброс попытки при уходе (routing.md)
 │       ├── index.ts            # барель: ScenarioPlayer
 │       ├── use-run-timers.ts  # useRunTimers — остаток времени сценария/узла, тик 250 мс, expired() (scenario-engine.md)
-│       └── __tests__/          # use-run-timers.spec.ts — renderHook с моком @/store, jest.useFakeTimers
+│       ├── speaker-layout.ts  # speakerLayout — слот и сторона реплики для говорящего
+│       ├── meter-thresholds.ts # meterThresholds — пороги зачёта шкал с подписями
+│       ├── use-player-keys.ts # usePlayerKeys — клавиатура сцены: Enter/Space далее, 1–4 вариант
+│       ├── use-fullscreen.ts  # useFullscreen — полноэкранный режим документа
+│       └── __tests__/          # use-run-timers.spec.ts — renderHook с моком @/store, jest.useFakeTimers;
+│                                 speaker-layout.spec.ts, meter-thresholds.spec.ts,
+│                                 use-player-keys.spec.ts, use-fullscreen.spec.ts
 ├── hooks/
 │   ├── index.ts               # барель
 │   ├── use-document-title.ts  # useDocumentTitle — заголовок вкладки на время жизни компонента
