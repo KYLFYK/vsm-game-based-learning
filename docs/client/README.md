@@ -44,6 +44,8 @@ src/
 ├── containers/
 │   ├── layout/app-layout.tsx  # AppLayout — Header (имя + версия) + Main с <Outlet/>
 │   └── scenario-player/
+│       ├── scenario-player.tsx # ScenarioPlayer — экран сценария, сброс попытки при уходе (routing.md)
+│       ├── index.ts            # барель: ScenarioPlayer
 │       ├── use-run-timers.ts  # useRunTimers — остаток времени сценария/узла, тик 250 мс, expired() (scenario-engine.md)
 │       └── __tests__/          # use-run-timers.spec.ts — renderHook с моком @/store, jest.useFakeTimers
 ├── hooks/
@@ -51,7 +53,9 @@ src/
 │   ├── use-document-title.ts  # useDocumentTitle — заголовок вкладки на время жизни компонента
 │   └── __tests__/             # use-document-title.spec.ts — пример теста хука
 ├── pages/
-│   └── home/                  # HomePage — единственная страница, маршрут /
+│   ├── home/                  # HomePage — главная, маршрут /
+│   ├── scenario/              # ScenarioPage — /scenarios/:scenarioId, вне лейаута
+│   └── scenario-attempt/      # ScenarioAttemptPage — заглушка отчёта о попытке
 ├── store/
 │   ├── api.ts                 # createApi + fetchBaseQuery(env.apiUrl), tagTypes (api.md)
 │   ├── store.ts               # configureStore, RootState, AppDispatch, useAppDispatch/Selector (state.md)

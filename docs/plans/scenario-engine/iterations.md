@@ -50,7 +50,7 @@
 
 ## Этап 4 — Экран сценария
 
-- [ ] **4.1 Маршруты**: `ROUTES.SCENARIO` вне `AppLayout`,
+- [x] **4.1 Маршруты**: `ROUTES.SCENARIO` вне `AppLayout`,
   `ROUTES.SCENARIO_ATTEMPT` в лейауте, страницы-заглушки.
   Docs: client/routing.md, карта в client/README.md.
 - [ ] **4.2 Тема и компоненты**: токены и шрифт Unbounded по
