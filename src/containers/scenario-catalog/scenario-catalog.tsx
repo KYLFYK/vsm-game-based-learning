@@ -2,7 +2,7 @@ import { generatePath } from 'react-router';
 
 import { styled } from 'styled-components';
 
-import { ButtonLink } from '@/components';
+import { ButtonLink } from '@/components/button';
 import { ROUTES } from '@/constants/routes';
 import { TOPICS } from '@/constants/topics';
 import { useGetScenariosQuery } from '@/store';

@@ -3,7 +3,7 @@ import { styled } from 'styled-components';
 import { popIn } from '@/styles/animations';
 
 import { BubbleSide } from './speech-bubble.enums';
-import { VisuallyHidden } from './visually-hidden';
+import { VisuallyHidden } from '@/components/visually-hidden';
 
 type CharacterSide = BubbleSide.Left | BubbleSide.Right;
 

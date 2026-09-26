@@ -2,16 +2,10 @@ import type { MouseEvent } from 'react';
 
 import { styled } from 'styled-components';
 
-import {
-  Button,
-  ButtonSize,
-  ButtonVariant,
-  Countdown,
-  CountdownSize,
-  FullscreenEnterIcon,
-  FullscreenExitIcon,
-  MeterBar,
-} from '@/components';
+import { Button, ButtonSize, ButtonVariant } from '@/components/button';
+import { Countdown, CountdownSize } from '@/components/countdown';
+import { FullscreenEnterIcon, FullscreenExitIcon } from '@/components/icons';
+import { MeterBar } from '@/components/meter-bar';
 import {
   selectMeterViews,
   selectMetersVisible,

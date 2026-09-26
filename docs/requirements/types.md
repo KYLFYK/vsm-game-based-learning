@@ -31,8 +31,8 @@ src/types/
    ```
 
    Enum сущности живёт в её namespace в `src/types`; enum пропсов
-   компонента живёт в `<component>.enums.ts` рядом с компонентом и
-   реэкспортируется через `components/index.ts` — `.tsx` экспортирует
+   компонента живёт в `<component>.enums.ts` в папке компонента и
+   реэкспортируется через её `index.ts` — `.tsx` экспортирует
    только компоненты (`react/only-export-components`). `const enum`
    запрещён: не работает с `verbatimModuleSyntax` и изолированной
    трансформацией.

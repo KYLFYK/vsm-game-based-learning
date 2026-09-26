@@ -1,4 +1,4 @@
-import { BubbleSide } from '@/components';
+import { BubbleSide } from '@/components/speech-bubble';
 import { Character } from '@/types';
 import type { ScenarioRun } from '@/types';
 

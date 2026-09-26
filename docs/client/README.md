@@ -22,24 +22,17 @@ src/
 ├── app.tsx                    # ThemeProvider + GlobalStyle + BrowserRouter + Routes
 ├── vite-env.d.ts              # типы Vite, __APP_VERSION__, ImportMetaEnv
 ├── styled.d.ts                # DefaultTheme styled-components = AppTheme
-├── components/
-│   ├── button.enums.ts         # ButtonVariant, ButtonSize
-│   ├── button.styles.ts        # buttonStyles — общая CSS размеров и вариантов кнопки
-│   ├── button.tsx              # Button, ButtonLink
-│   ├── character-portrait.tsx  # CharacterPortrait — портрет персонажа, зеркалится и притушивается
-│   ├── choice-list.tsx         # ChoiceList — пронумерованные варианты и таймер узла
-│   ├── comic-backdrop.enums.ts # BackdropVariant
-│   ├── comic-backdrop.tsx      # ComicBackdrop — декоративный слой лучей и полутона
-│   ├── countdown.enums.ts      # CountdownSize
-│   ├── countdown.tsx           # Countdown — мм:сс, «горящее» состояние
-│   ├── icons.tsx               # FullscreenEnterIcon, FullscreenExitIcon — SVG-иконки HUD
-│   ├── index.ts                # барель: компоненты и их enum пропсов
-│   ├── meter-bar.tsx           # MeterBar — шкала, риска порога, всплывающая дельта (useValueDelta)
-│   ├── speech-bubble.enums.ts  # BubbleSide
-│   ├── speech-bubble.tsx       # SpeechBubble — реплика персонажа или автора
-│   ├── stamp.enums.ts          # STAMP_LABELS — подписи штампа по Attempt.Status
-│   ├── stamp.tsx               # Stamp — штамп «Зачтено» / «Не зачтено», aria-hidden
-│   └── visually-hidden.tsx     # VisuallyHidden — текст только для скринридеров
+├── components/                # папка на компонент: <name>.tsx, enum/стили рядом, index.ts; импорт @/components/<name>
+│   ├── button/                 # Button, ButtonLink; button.enums.ts (ButtonVariant, ButtonSize), button.styles.ts (buttonStyles)
+│   ├── character-portrait/     # CharacterPortrait — портрет персонажа, зеркалится и притушивается
+│   ├── choice-list/            # ChoiceList — пронумерованные варианты и таймер узла
+│   ├── comic-backdrop/         # ComicBackdrop — лучи и полутон; comic-backdrop.enums.ts (BackdropVariant)
+│   ├── countdown/              # Countdown — мм:сс, «горящее» состояние; countdown.enums.ts (CountdownSize)
+│   ├── icons/                  # FullscreenEnterIcon, FullscreenExitIcon — SVG-иконки HUD
+│   ├── meter-bar/              # MeterBar — шкала, риска порога, всплывающая дельта (useValueDelta)
+│   ├── speech-bubble/          # SpeechBubble — реплика персонажа или автора; speech-bubble.enums.ts (BubbleSide)
+│   ├── stamp/                  # Stamp — штамп итога, aria-hidden; stamp.enums.ts (STAMP_LABELS)
+│   └── visually-hidden/        # VisuallyHidden — текст только для скринридеров
 ├── config/
 │   ├── env.ts                 # env = readEnv(import.meta.env) — единственная точка чтения env
 │   ├── read-env.ts            # readEnv: типизация и проверка обязательных переменных

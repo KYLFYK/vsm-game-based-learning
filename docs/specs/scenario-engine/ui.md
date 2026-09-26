@@ -61,9 +61,9 @@ Routes
 | `FullscreenEnterIcon`, `FullscreenExitIcon` | — | SVG-иконки кнопки «Во весь экран», `aria-hidden` |
 | `ComicBackdrop` | `variant: BackdropVariant` | Декоративный слой: лучи и полутон; `enum BackdropVariant { Intro, Scene }` |
 
-Компоненты не знают про store и типы сценария глубже пропсов. Enum
-пропсов компонента живёт в `<component>.enums.ts` рядом с компонентом и
-реэкспортируется через `components/index.ts`. `MeterBar` через
+Компоненты не знают про store и типы сценария глубже пропсов. Папка на
+компонент `components/<name>/`, enum пропсов — в `<name>.enums.ts`,
+барель — её `index.ts`, импорт `@/components/<name>`. `MeterBar` через
 `useValueDelta` показывает разницу с предыдущим `value`.
 Клавиш 1–4 хватает на любой `choice`: валидатор гарантирует не больше
 `MAX_CHOICE_OPTIONS` вариантов ([validation.md](validation.md)).

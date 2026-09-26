@@ -1,7 +1,6 @@
 import { styled } from 'styled-components';
 
-import { Countdown } from './countdown';
-import { CountdownSize } from './countdown.enums';
+import { Countdown, CountdownSize } from '@/components/countdown';
 
 const Root = styled.div`
   display: flex;

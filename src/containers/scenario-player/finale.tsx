@@ -7,7 +7,8 @@ import {
 
 import { styled } from 'styled-components';
 
-import { Button, ButtonSize, Stamp } from '@/components';
+import { Button, ButtonSize } from '@/components/button';
+import { Stamp } from '@/components/stamp';
 import { ROUTES } from '@/constants/routes';
 import {
   selectAttemptDraft,
