@@ -12,10 +12,12 @@
 |------|------------|
 | [types.md](types.md) | Namespace `Character`, `Scenario` |
 | [types-runtime.md](types-runtime.md) | Namespace `Course`, `Attempt`, `ScenarioRun`, `Api`, `Validation`; реестры |
+| [types-report.md](types-report.md) | Namespace `Report` — отчёт о попытке |
 | [engine.md](engine.md) | Слайс `scenarioRun`: состояние, экшены, алгоритмы редьюсеров, селекторы, хук таймеров |
 | [data.md](data.md) | Контент в бандле, RTK Query endpoints, `localStorage`, теги |
 | [validation.md](validation.md) | `validateScenario`: фазы, коды ошибок и предупреждений |
 | [ui.md](ui.md) | Маршруты, страницы, контейнеры, компоненты, раскладка, клавиатура, полноэкранный режим |
+| [ui-report.md](ui-report.md) | Экран отчёта: контейнер `scenario-report`, блоки, действия, график шкалы |
 | [ui-visual.md](ui-visual.md) | Визуальный язык: комиксный стиль, токены темы, шрифт, элементы, движение |
 | [report.md](report.md) | Результат, балл, лучшая попытка, `buildReport`, рекомендации |
 

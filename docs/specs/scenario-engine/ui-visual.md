@@ -11,6 +11,7 @@
 |-------|-------|
 | Заставка, сцена, HUD, финал (`scenario-player`) | Полностью |
 | Карточки каталога на главной | Карточка и кнопка в стиле, `AppLayout` без изменений |
+| Отчёт о попытке (`scenario-report`) | Карточки, заголовки, плашки и штамп в стиле, `AppLayout` без изменений ([ui-report.md](ui-report.md)) |
 | Остальное приложение | Не меняется |
 
 Фоны и портреты — текущие заглушки из `public/`; их перерисовка — шаг 7.2.
@@ -36,7 +37,7 @@
 | | `halftone` | белый с альфой 0.14 — полутон на заставке |
 | `filters` | `dimmed` | `brightness(.55) saturate(.6)` — неактивный портрет |
 | `fontFamilyDisplay` | | `'Unbounded', <fontFamily>` |
-| `gameFontSizes` | `hudTitle`, `hudLabel`, `hudValue`, `delta`, `timerHud`, `timerInline`, `buttonSm`, `buttonMd`, `buttonLg`, `text`, `name`, `choiceNumber`, `stamp`, `introKicker`, `introTitle`, `introText`, `chip`, `cardTitle`, `tag` | Размеры внутри игровой зоны; часть — `clamp()` в `cqw`/`vw`, масштабируются со сценой |
+| `gameFontSizes` | `hudTitle`, `hudLabel`, `hudValue`, `delta`, `timerHud`, `timerInline`, `buttonSm`, `buttonMd`, `buttonLg`, `text`, `name`, `choiceNumber`, `stamp`, `introKicker`, `introTitle`, `introText`, `chip`, `cardTitle`, `tag`, `reportKicker`, `reportTitle`, `reportSection`, `reportScore` | Размеры внутри игровой зоны; часть — `clamp()` в `cqw`/`vw`, масштабируются со сценой |
 | `radii` | `bubble`, `bubbleCorner` | `22px`, `4px` — скругление облака реплики и острый угол |
 | `borders` | `ink` | `3px solid ink` |
 | | `inkThin` | `2.5px solid ink` — бейджи, чипы |
@@ -50,6 +51,7 @@
 | `offsets` | `lift`, `press`, `focus` | `translate(-2px, -2px)`, `translate(3px, 3px)`, `3px` |
 | `zIndices` | `backdrop`, `slots`, `bubble`, `choices`, `hud`, `stamp` | Порядок слоёв сцены |
 | `durations` | `press`, `pop`, `meter`, `delta`, `stamp`, `pulse` | Числа, мс: `80`, `150`, `400`, `1000`, `250`, `1000` |
+| `report` | `contentWidth`, `tileWidth`; график шкалы: `chartWidth`, `chartHeight`, `chartPad`, `dotRadius`, `hitRadius` (единицы `viewBox`), `lineWidth`, `thresholdWidth`, `hairline`, `dotRing` | Экран отчёта, см. `theme.ts` |
 | `stage` | геометрия зоны 16:9 и слотов, отступы HUD, размеры шкалы и карточек | Значения в `vw`/`vh`/`dvh`/`cqw`/`cqh`/`px`, см. `theme.ts` |
 
 Тени у облака реплики задаются `filter: drop-shadow`, а не `box-shadow`,

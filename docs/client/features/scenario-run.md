@@ -3,7 +3,7 @@
 ## Что делает
 
 Прохождение сценария во всё окно: каталог → заставка → сцена → финал →
-отчёт.
+отчёт с разбором решений и рекомендациями.
 
 ## Маршруты
 
@@ -11,7 +11,8 @@
 - `/scenarios/:scenarioId` → `ScenarioPage` (`scenario-player`, без
   `AppLayout`).
 - `/scenarios/:scenarioId/attempts/:attemptId` → `ScenarioAttemptPage`
-  (заглушка до этапа 5).
+  (`scenario-report`, в `AppLayout`); search-параметр `course` — контекст
+  курса.
 
 ## Файлы
 
@@ -27,10 +28,17 @@
   - `finale.tsx` — штамп и «К отчёту» с сохранением попытки;
   - `use-run-timers.ts`, `use-player-keys.ts`, `use-fullscreen.ts`,
     `speaker-layout.ts`, `meter-thresholds.ts` — хуки и расчёты сцены.
+- `containers/scenario-report/` — `ScenarioReport`: итог, шкалы с
+  графиком, разбор решений, темы, рекомендации, действия
+  ([ui-report.md](../../specs/scenario-engine/ui-report.md)).
+- `utils/scenario-engine/build-report.ts`, `recommend.ts` — отчёт и
+  рекомендации.
 - `components/*` — `Button`, `ChoiceList`, `SpeechBubble`, `Stamp` и
   другие примитивы сцены.
 - `store/apis/scenarios-api.ts` — `getScenarios`, `getScenario`.
-- `store/apis/attempts-api.ts` — `saveAttempt`.
+- `store/apis/attempts-api.ts` — `saveAttempt`, `getAttempt`,
+  `getAttempts`.
+- `store/apis/courses-api.ts` — `getCourse` для «Следующего сценария».
 - `store/slices/scenario-run/` — слайс попытки.
 
 ## Поток (step-by-step)
@@ -40,7 +48,10 @@
 3. Реплики: клик по сцене, «Далее», `Enter` / `Space` → `advanced`.
 4. Выбор: клик или `1`–`4` → `optionChosen`.
 5. Финал: штамп, «К отчёту» → `saveAttempt` → `SCENARIO_ATTEMPT`.
-6. «Выйти» → `confirm` → главная; уход со страницы → `runLeft`.
+6. Отчёт: `buildReport` из попытки, сценария, каталога и всех попыток;
+   «Пройти ещё раз» и «Следующий сценарий» ведут на `SCENARIO` с тем же
+   `course`, рекомендации — без него.
+7. «Выйти» → `confirm` → главная; уход со страницы → `runLeft`.
 
 ## API
 
@@ -60,6 +71,9 @@ HTTP-запросов нет: `queryFn` поверх бандла сценари
 - `window.confirm` на «Выйти» блокирует страницу, а игровое время идёт:
   попытка может истечь сразу после отмены диалога — так задумано правилом
   реального времени.
+- Отчёт по попытке старой версии сценария показывает только итог и
+  шкалы: тексты узлов могли измениться.
+- «К курсу» в отчёте появится вместе со страницами курсов (этап 6).
 - Таймеры сценария и узла — из `useRunTimers`
   ([../scenario-engine.md](../scenario-engine.md)).
 

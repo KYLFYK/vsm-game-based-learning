@@ -55,6 +55,21 @@ src/
 ├── containers/
 │   ├── layout/app-layout.tsx  # AppLayout — Header (имя + версия) + Main с <Outlet/>
 │   ├── scenario-catalog/      # ScenarioCatalog — карточки сценариев на главной, «Играть»
+│   ├── scenario-report/       # ScenarioReport — отчёт о попытке (specs/…/ui-report.md)
+│   │   ├── scenario-report.tsx # данные, buildReport, загрузка и «не найдено», порядок блоков
+│   │   ├── index.ts            # барель: ScenarioReport
+│   │   ├── scenario-report.styles.ts # Root, заголовки, cardStyles, списки, теги, Actions
+│   │   ├── outcome-section.tsx # Итог: штамп, причина, балл, время
+│   │   ├── meters-section.tsx  # Шкалы: плитки с итогом и порогом
+│   │   ├── meter-chart.tsx     # MeterChart — SVG-график шкалы по решениям
+│   │   ├── decisions-section.tsx # Разбор решений и «Лучше было бы»
+│   │   ├── topics-section.tsx  # Темы: счётчики оценок, слабые и сильные
+│   │   ├── recommendations-section.tsx # Рекомендации: до трёх сценариев
+│   │   ├── report-actions.tsx  # «Пройти ещё раз», «Следующий сценарий», «К сценариям»
+│   │   ├── report-view.ts      # VERDICT_LABELS, isRetryPrimary, meterEffectLabels, speakerName
+│   │   ├── scenario-link.ts    # scenarioLink — SCENARIO с search-параметром course
+│   │   ├── sparkline.ts        # sparklinePoints, sparklineY — координаты графика
+│   │   └── __tests__/          # sparkline.spec.ts, report-view.spec.ts, scenario-link.spec.ts
 │   └── scenario-player/
 │       ├── scenario-player.tsx # ScenarioPlayer — экран сценария, сброс попытки при уходе (routing.md)
 │       ├── index.ts            # барель: ScenarioPlayer
@@ -79,7 +94,7 @@ src/
 ├── pages/
 │   ├── home/                  # HomePage — главная, маршрут /, каталог сценариев
 │   ├── scenario/              # ScenarioPage — /scenarios/:scenarioId, вне лейаута
-│   └── scenario-attempt/      # ScenarioAttemptPage — заглушка отчёта о попытке
+│   └── scenario-attempt/      # ScenarioAttemptPage — отчёт о попытке, в лейауте
 ├── store/
 │   ├── api.ts                 # createApi + fetchBaseQuery(env.apiUrl), tagTypes (api.md)
 │   ├── store.ts               # configureStore, RootState, AppDispatch, useAppDispatch/Selector (state.md)
@@ -112,6 +127,7 @@ src/
 │   ├── scenario.ts            # namespace Scenario — формат сценария
 │   ├── course.ts              # namespace Course — курс из сценариев
 │   ├── attempt.ts             # namespace Attempt — сохранённая попытка
+│   ├── report.ts              # namespace Report — отчёт о попытке (только типы, export type)
 │   ├── scenario-run.ts        # namespace ScenarioRun — состояние прохождения
 │   ├── api.ts                 # namespace Api — коды ошибок RTK Query
 │   └── validation.ts          # namespace Validation — Code, Issue, Result, Registries
@@ -121,7 +137,9 @@ src/
     ├── format-delta.ts         # formatDelta — дельта со знаком (+ или −)
     ├── meter-percent.ts        # meterPercent — нормализация значения в проценты [0, 100]
     ├── scenario-engine/
-    │   ├── index.ts             # барель: validateScenario, compareAttempts, meterBounds
+    │   ├── index.ts             # барель: validateScenario, compareAttempts, buildReport, meterBounds
+    │   ├── build-report.ts      # buildReport — отчёт о попытке (specs/…/report.md)
+    │   ├── recommend.ts         # recommendScenarios, MAX_RECOMMENDATIONS — рекомендации по слабым темам
     │   ├── validate.ts          # validateScenario — фаза 1, фаза 2, предупреждения (specs/…/validation.md)
     │   ├── compare-attempts.ts  # compareAttempts — правило лучшей попытки (scenario-engine.md)
     │   ├── validate-shape.ts    # фаза 1: схема Scenario.Definition, коды shape.*
@@ -133,7 +151,8 @@ src/
     │   ├── walk.ts              # обход сценария: узлы, варианты, next, условия, эффекты, персонажи с путями
     │   ├── meter-bounds.ts      # meterBounds(meter) — границы шкалы по умолчанию (0/100)
     │   ├── issue.ts             # issue(), построение путей
-    │   └── __tests__/           # fixtures.ts + validate*.spec.ts, compare-attempts.spec.ts, meter-bounds.spec.ts
+    │   └── __tests__/           # fixtures.ts + validate*.spec.ts, compare-attempts.spec.ts, meter-bounds.spec.ts;
+    │                              report-fixture.ts + build-report*.spec.ts, recommend.spec.ts
     └── __tests__/               # format-remaining.spec.ts, format-delta.spec.ts, meter-percent.spec.ts
 ```
 

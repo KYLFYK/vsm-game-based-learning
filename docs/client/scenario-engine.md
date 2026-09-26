@@ -25,7 +25,7 @@
 | `constants/` | Реестры `CHARACTERS`, `BACKGROUNDS`, `TOPICS` — типизированные `id`, на них ссылается контент |
 | `content/` | JSON сценариев и курсов; `load-scenarios.ts` валидирует каждый сценарий через `validateScenario` (вызывается из `index.ts` при импорте бандла) и бросает исключение при ошибке — несовместимый контент не должен запускать dev-сервер или тесты |
 | `store/slices/scenario-run/` | Слайс `scenarioRun`: состояние попытки, редьюсеры, селекторы |
-| `utils/scenario-engine/` | Чистые функции без React и без состояния попытки: `validateScenario`, `compareAttempts` |
+| `utils/scenario-engine/` | Чистые функции без React и без состояния попытки: `validateScenario`, `compareAttempts`, `buildReport`, `recommendScenarios` |
 
 Роль каждого файла `store/slices/scenario-run/` — карта `src/` в
 [README.md](README.md). Полное состояние, алгоритмы узла и разрешения
@@ -109,6 +109,19 @@ creators подставляют его через `prepare` (по умолчан
 
 Выбор лучшей попытки среди списка (`bestAttempt`) и статус сценария по
 списку попыток — селектор этапа 6.1, ещё не реализован.
+
+## Отчёт
+
+`buildReport({ scenario, attempt, catalog, attempts, course? })` в
+[`utils/scenario-engine/build-report.ts`](../../src/utils/scenario-engine/build-report.ts)
+строит `Report.Item` из сохранённой попытки и сценария, а не из
+состояния слайса: отчёт открывается повторно из истории. Описывает только
+пройденный путь: итог, шкалы с рядом значений, разбор решений с `review`,
+темы и до трёх рекомендаций из `recommendScenarios`. Если
+`scenarioVersion` попытки не совпадает с версией сценария, разбора и тем
+нет — тексты узлов могли измениться. Правила —
+[../specs/scenario-engine/report.md](../specs/scenario-engine/report.md#buildreport),
+экран — [features/scenario-run.md](features/scenario-run.md).
 
 ## См. также
 

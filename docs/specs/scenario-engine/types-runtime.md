@@ -188,4 +188,5 @@ export namespace Validation {
 ## См. также
 
 - [types.md](types.md) — `Character`, `Scenario`.
+- [types-report.md](types-report.md) — `Report`, отчёт о попытке.
 - [data.md](data.md) — где реестры и попытки используются.
