@@ -51,6 +51,9 @@
 - Force-push в опубликованную ветку запрещён.
 - Перед `push` локально зелёные `yarn lint`, `yarn format:check`,
   `yarn test`, `yarn build`.
+- После релиза коммит `chore(release)` из `main` back-merge'ится в
+  `develop` ([../versioning.md](../versioning.md#после-релиза-back-merge-в-develop));
+  выпущенные changeset-файлы не редактируются.
 - `release/*` и `hotfix/*` после merge в `main` back-merge'атся в `develop`
   в той же задаче.
 - Ветка удаляется после merge — локально и в `origin`.

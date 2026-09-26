@@ -88,7 +88,9 @@ git checkout develop && git merge --no-ff release/0.3.0   # back-merge обяз�
 ```
 
 Версию руками не поднимают: при merge в `main` CI применяет changeset-файлы,
-коммитит bump и ставит тег `vX.Y.Z` ([versioning.md](versioning.md)).
+коммитит bump и ставит тег `vX.Y.Z` ([versioning.md](versioning.md)). Этот
+коммит есть только в `main` — после релиза он back-merge'ится в `develop`
+([versioning.md](versioning.md#после-релиза-back-merge-в-develop)).
 
 ## Хотфикс
 

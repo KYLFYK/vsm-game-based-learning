@@ -68,6 +68,18 @@ Job `Version` ([ci.md](ci.md)) после зелёных `Lint`/`Test`/`Build`:
 
 Если changeset-файлов нет, версия не меняется и коммита не будет.
 
+## После релиза: back-merge в `develop`
+
+Коммит `chore(release): vX.Y.Z` появляется только в `main`: он удаляет
+выпущенные changeset-файлы и поднимает версию. Пока его нет в `develop`,
+правка уже выпущенного changeset в `develop` даёт конфликт
+«modify/delete» в следующем PR в `main`.
+
+- После каждого релиза — ветка `fix/back-merge-release-vX-Y-Z` от
+  `develop`, в неё `git merge --no-ff origin/main`, PR в `develop`.
+- Выпущенный changeset не редактируют: новая работа — новый файл
+  `.changeset/<name>.md`.
+
 ## Как «перескочить» версию
 
 В обычном PR выставить нужную версию в `package.json` и добавить changeset —
